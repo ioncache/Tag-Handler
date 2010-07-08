@@ -72,6 +72,7 @@
     className: class to add to all tags - default: 'tagHandler'
     debug: turns debugging on and off - default: false
     delimiter: extra delimiter to use to separate tags - default: ''
+               Note: enter and comma are always allowed
     sortTags: indicates whether to sort tag names alphabetically - default: true
 
     ----------------------------------------------------------------------------
@@ -111,7 +112,7 @@
             if (!$(this).is('ul')) {
                 next;
             }
-            
+
             // adds an id to the tagContainer in case it doesn't have one
             if (!this.id) {
                 var d = new Date();
@@ -134,8 +135,8 @@
             tags['originalTags'] = new Array();
             tags['assignedTags'] = new Array();
 
-            // initializes the tags lists
-            // tag list will be pulled from a URL, or a passed list of tags
+            // initializes the tag lists
+            // tag lists will be pulled from a URL, or passed lists of tags
             if (opts.getURL != '') {
                 $.ajax({
                     url: opts.getURL,
@@ -160,7 +161,9 @@
                                 tags['availableTags'] = removeTagFromList(tags['assignedTags'][x], tags['availableTags']);
                             }
                         }
-                        if (opts.autocomplete && opts.allowEdit) { $(inputField).autocomplete("option", "source", tags['availableTags']); }
+                        if (opts.autocomplete && opts.allowEdit) {
+                            $(inputField).autocomplete("option", "source", tags['availableTags']);
+                        }
                     },
                     error: function(xhr, text, error) {
                         alert("There was an error getting the tag list.");
@@ -184,7 +187,9 @@
                         tags['availableTags'] = removeTagFromList(tags['assignedTags'][x], tags['availableTags']);
                     }
                 }
-                if (opts.autocomplete && opts.allowEdit) { $(inputField).autocomplete("option", "source", tags['availableTags']); }
+                if (opts.autocomplete && opts.allowEdit) {
+                    $(inputField).autocomplete("option", "source", tags['availableTags']);
+                }
             }
 
             // all tag editing functionality only activated if set in options
@@ -194,16 +199,18 @@
                 $(tagContainer).delegate("#" + this.id + " li.tagItem", "click",
                 function() {
                     tags = removeTag($(this), tags, opts.sortTags);
-                    if (opts.autocomplete) { $(inputField).autocomplete("option", "source", tags['availableTags']); }
+                    if (opts.autocomplete) {
+                        $(inputField).autocomplete("option", "source", tags['availableTags']);
+                    }
                 });
-    
+
                 // sets the focus to the input field whenever the user clicks
                 // anywhere on the tagContainer -- since the input field by default
                 // has no border it isn't obvious where to click to access it
                 $(tagContainer).click(function() {
                     $(inputField).focus();
                 });
-    
+
                 // checks the keypress event for enter or comma, and adds a new tag
                 // when either of those keys are pressed
                 $(inputField).keypress(function(e) {
@@ -211,27 +218,31 @@
                         e.preventDefault();
                         if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags['assignedTags'])) {
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
-                            if (opts.autocomplete) { $(inputField).autocomplete("option", "source", tags['availableTags']); }
+                            if (opts.autocomplete) {
+                                $(inputField).autocomplete("option", "source", tags['availableTags']);
+                            }
                             $(this).val("");
                             $(this).focus();
                         }
                     }
                 });
-    
+
                 // checks the keydown event for the backspace key as checking the
                 // keypress event doesn't work in IE
                 $(inputField).keydown(function(e) {
                     if (e.which == 8 && $(this).val() == "") {
                         tags = removeTag($(tagContainer).find(".tagItem:last"), tags, opts.sortTags);
-                        if (opts.autocomplete) { $(inputField).autocomplete("option", "source", tags['availableTags']); }
+                        if (opts.autocomplete) {
+                            $(inputField).autocomplete("option", "source", tags['availableTags']);
+                        }
                         $(this).focus();
                     }
                 });
-    
+
                 // adds autocomplete functionality for the tag names
-                if(opts.autocomplete) {
+                if (opts.autocomplete) {
                     $(inputField).autocomplete({
-                        source: tags.availableTags,
+                        source: tags['availableTags'],
                         select: function(event, ui) {
                             if (!checkTag($.trim(ui.item.value), tags['assignedTags'])) {
                                 tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
@@ -288,17 +299,19 @@
         return tags;
     }
 
-    // adds a tag to the tag box and the tag list
+    // adds a tag to the tag box and the assignedTags list
     function addTag(tagField, value, tags, sort) {
         tags['assignedTags'].push(value);
         tags['availableTags'] = removeTagFromList(value, tags['availableTags']);
         $("<li />").addClass("tagItem").html(value).insertBefore($(tagField));
 
-        if (sort) { tags = sortTags(tags); }
+        if (sort) {
+            tags = sortTags(tags);
+        }
         return tags;
     }
 
-    // removes a tag from the tag box and the assigned tag list
+    // removes a tag from the tag box and the assignedTags list
     function removeTag(tag, tags, sort) {
         var value = $(tag).html();
         tags['assignedTags'] = removeTagFromList(value, tags['assignedTags']);
@@ -307,7 +320,9 @@
         }
         $(tag).remove();
 
-        if (sort) { tags = sortTags(tags); }
+        if (sort) {
+            tags = sortTags(tags);
+        }
         return tags;
     }
 
@@ -321,9 +336,9 @@
     }
 
     // some debugging information
-    function tagDebug(obj, options) {
+    function tagDebug(tagContainer, options) {
         if (window.console && window.console.log && options.debug) {
-            window.console.log(obj);
+            window.console.log(tagContainer);
             window.console.log(options);
             window.console.log($.fn.tagHandler.defaults);
         }

@@ -71,6 +71,7 @@ autocomplete: requires jqueryui autocomplete plugin - default: true
 className: class to add to all tags - default: 'tagHandler'
 debug: turns debugging on and off - default: false
 delimiter: extra delimiter to use to separate tags - default: ''
+           Note: enter and comma are always allowed
 sortTags: indicates whether to sort tag names alphabetically - default: true
 
 ----------------------------------------------------------------------------
