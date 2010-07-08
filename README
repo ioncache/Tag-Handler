@@ -1,0 +1,96 @@
+jQuery Tag Handler v1.0
+Copyright (C) 2010 Mark Jubenville
+Mark Jubenville - ioncache@gmail.com
+
+Based heavily on:
+Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
+http://github.com/levycarneiro/tag-it
+http://levycarneiro.com/projects/tag-it/example.html
+http://plugins.jquery.com/project/tag-it
+
+----------------------------------------------------------------------------
+Description
+----------------------------------------------------------------------------
+
+Tag Handler is a jquery plugin used for managing tag-type metadata.
+
+Tag Handler must be attached to one or more <ul> tags in your HTML.
+
+Tag Handler may recieve a list of tags when initialized or by pulling data
+via ajax from a supplied URL. It may also post back a list of tags to a
+separately specified URL.
+
+If tags are retrieved with the by URL, the server must supply a JSON
+formatted string with an array titled 'availableTags' and optionally an
+array titled 'assignedTags'. The 'availableTags' array will populate the
+autocomplete list for the tag input field, and the list of 'assignedTags'
+will be added as tags to the tag container.
+
+A sample CSS file is included that can be used to help with formatting tags.
+
+----------------------------------------------------------------------------
+Examples
+----------------------------------------------------------------------------
+
+Basic: tagHandler will be initialized with no options, and no default tags.
+
+    $("#tag_container").tagHandler();
+
+Supplying tags via options: list of preset tags are supplied via arrays
+
+    $("#tag_container").tagHandler({
+       availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ], 
+       assignedTags: [ 'Perl' ] 
+    });
+
+Get tags via ajax: tagHandler will be initialized with a getURL for pulling
+tag lists, along with some specific data passed to the get request. Any data
+the user wishes may be used in the data field.
+
+    $("#tag_container").tagHandler({
+        getData: { 'id': user_id, 'type': 'user' },
+        getURL: '/get_record_tags'
+    });
+
+----------------------------------------------------------------------------
+Plugin Options
+----------------------------------------------------------------------------
+
+Tag data options:
+assignedTags: optional array to use for assignedTags: default: []
+availableTags: optional array to use for availableTags: default: []
+getData: data field with info for getURL - default: ''
+getURL: URL to get tag list via ajax - default: ''
+updatetData: data field with info for updateURL - default: ''
+updateURL: URL to update tag list via ajax - default: ''
+
+Misc options:
+allowEdit: indicates whether the tag list should be editable - default: true
+autocomplete: requires jqueryui autocomplete plugin - default: true
+className: class to add to all tags - default: 'tagHandler'
+debug: turns debugging on and off - default: false
+delimiter: extra delimiter to use to separate tags - default: ''
+sortTags: indicates whether to sort tag names alphabetically - default: true
+
+----------------------------------------------------------------------------
+Notes
+----------------------------------------------------------------------------
+
+Updating tags via ajax not yet implemented.    
+
+----------------------------------------------------------------------------
+License
+----------------------------------------------------------------------------
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
