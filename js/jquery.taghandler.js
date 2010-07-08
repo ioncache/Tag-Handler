@@ -6,6 +6,7 @@
 
     Based heavily on:
     Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
+    http://levycarneiro.com/projects/tag-it/example.html
     http://github.com/levycarneiro/tag-it
     http://plugins.jquery.com/project/tag-it
 
