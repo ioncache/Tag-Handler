@@ -1,16 +1,15 @@
 ul.tagHandler {
     padding: 1px 5px;
-    border-style: solid;
-    border-width: 1px;
-    border-color: #DFDFDF;
+    border: 1px solid #DFDFDF;
     overflow: auto;
     min-height: 24px;
     line-height: 24px;
     cursor: text;
 }
 ul.tagHandler li {
-    -moz-border-radius: 15px;
     -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
     display: block;
     float: left;
     margin: 2px 5px 2px 0;
@@ -32,11 +31,12 @@ ul.tagHandler li.tagInput {
     padding: 2px 4px;
 }
 ul.tagHandler input[type="text"] {
+    -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+    box-sizing: border-box;
     border: none;
     padding: 2px 0px;
     width: inherit;
-    border-color: #DFDFDF;
     background-color: #FFFFFF;
     color: #666666;
     font-size: 14px;
