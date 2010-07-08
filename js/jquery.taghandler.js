@@ -10,6 +10,10 @@
     http://levycarneiro.com/projects/tag-it/example.html
     http://plugins.jquery.com/project/tag-it
 
+    Icons used:
+    Fromt the famfamfam.com Silk icon set:
+    http://www.famfamfam.com/lab/icons/silk/
+
     ----------------------------------------------------------------------------
     Description 
     ----------------------------------------------------------------------------
@@ -59,24 +63,24 @@
     ----------------------------------------------------------------------------
 
     Tag data options:
-    assignedTags: optional array to use for assignedTags: default: []
+    assignedTags:  optional array to use for assignedTags: default: []
     availableTags: optional array to use for availableTags: default: []
-    getData: data field with info for getURL - default: ''
-    getURL: URL to get tag list via ajax - default: ''
-    updatetData: data field with info for updateURL - default: ''
-    updateURL: URL to update tag list via ajax - default: ''
-
+    getData:       data field with info for getURL - default: ''
+    getURL:        URL to get tag list via ajax - default: ''
+    updatetData:   data field with info for updateURL - default: ''
+    updateURL:     URL to update tag list via ajax - default: ''
+    
     Misc options:
-    allowEdit: indicates whether the tag list should be editable - default: true
-    autocomplete: requires jqueryui autocomplete plugin - default: true
-    autoUpdate: indicates whether updating should occur autonatically whenever
-                a tag is added/deleted. If set to true, the update button will
-                not be shown - default: false
-    className: class to add to all tags - default: 'tagHandler'
-    debug: turns debugging on and off - default: false
-    delimiter: extra delimiter to use to separate tags - default: ''
-               Note: enter and comma are always allowed
-    sortTags: indicates whether to sort tag names alphabetically - default: true
+    allowEdit:     indicates whether the tag list is editable - default: true
+    autocomplete:  requires jqueryui autocomplete plugin - default: true
+    autoUpdate:    indicates whether updating occurs automatically whenever
+                   a tag is added/deleted. If set true, the save button will
+                   not be shown - default: false
+    className:     class to add to all tags - default: 'tagHandler'
+    debug:         turns debugging on and off - default: false
+    delimiter:     extra delimiter to use to separate tags - default: ''
+                   Note: enter and comma are always allowed
+    sortTags:      sets sorting of tag names alphabetically - default: true
 
     ----------------------------------------------------------------------------
     Notes
@@ -99,7 +103,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
 */
 
