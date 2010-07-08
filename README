@@ -1,6 +1,7 @@
 jQuery Tag Handler v1.0
 Copyright (C) 2010 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
+http://github.com/ioncache/Tag-Handler
 
 Based heavily on:
 Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
@@ -20,7 +21,7 @@ Tag Handler may recieve a list of tags when initialized or by pulling data
 via ajax from a supplied URL. It may also post back a list of tags to a
 separately specified URL.
 
-If tags are retrieved with the by URL, the server must supply a JSON
+If tags are retrieved with the a URL, the server must supply a JSON
 formatted string with an array titled 'availableTags' and optionally an
 array titled 'assignedTags'. The 'availableTags' array will populate the
 autocomplete list for the tag input field, and the list of 'assignedTags'
