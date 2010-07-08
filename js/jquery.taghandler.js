@@ -69,6 +69,9 @@
     Misc options:
     allowEdit: indicates whether the tag list should be editable - default: true
     autocomplete: requires jqueryui autocomplete plugin - default: true
+    autoUpdate: indicates whether updating should occur autonatically whenever
+                a tag is added/deleted. If set to true, the update button will
+                not be shown - default: false
     className: class to add to all tags - default: 'tagHandler'
     debug: turns debugging on and off - default: false
     delimiter: extra delimiter to use to separate tags - default: ''
@@ -269,6 +272,7 @@
         updateURL: '',
         allowEdit: true,
         autocomplete: true,
+        autoUpdate: false,
         className: 'tagHandler',
         debug: false,
         delimiter: '',

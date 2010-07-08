@@ -9,6 +9,10 @@ http://github.com/levycarneiro/tag-it
 http://levycarneiro.com/projects/tag-it/example.html
 http://plugins.jquery.com/project/tag-it
 
+Icons used:
+Fromt the famfamfam.com Silk icon set:
+http://www.famfamfam.com/lab/icons/silk/
+
 ----------------------------------------------------------------------------
 Description 
 ----------------------------------------------------------------------------
@@ -68,6 +72,9 @@ updateURL: URL to update tag list via ajax - default: ''
 Misc options:
 allowEdit: indicates whether the tag list should be editable - default: true
 autocomplete: requires jqueryui autocomplete plugin - default: true
+autoUpdate: indicates whether updating should occur autonatically whenever
+            a tag is added/deleted. If set to true, the update button will
+            not be shown - default: false
 className: class to add to all tags - default: 'tagHandler'
 debug: turns debugging on and off - default: false
 delimiter: extra delimiter to use to separate tags - default: ''
@@ -95,4 +102,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see < http://www.gnu.org/licenses/ >.
