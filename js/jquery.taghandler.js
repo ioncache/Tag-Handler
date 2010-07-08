@@ -11,7 +11,7 @@
     http://plugins.jquery.com/project/tag-it
 
     ----------------------------------------------------------------------------
-    Description
+    Description 
     ----------------------------------------------------------------------------
 
     Tag Handler is a jquery plugin used for managing tag-type metadata.
