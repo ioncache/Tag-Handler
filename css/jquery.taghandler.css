@@ -1,54 +1,53 @@
 ul.tagHandler {
-    padding:1px 5px;
-    border-style:solid;
-    border-width:1px;
-    border-color:#DFDFDF;
-    overflow:auto;
-    min-height: 35px;
-    line-height: 35px;
+    padding: 1px 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #DFDFDF;
+    overflow: auto;
+    min-height: 24px;
+    line-height: 24px;
     cursor: text;
 }
 ul.tagHandler li {
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
     display: block;
     float: left;
     margin: 2px 5px 2px 0;
 }
 ul.tagHandler li.tagItem {
+    height: 14px;
+    line-height: 14px;
     background-color: #415F74;
     border: 1px solid #2C414F;
     color: #FFF;
-    padding: 2px 4px 3px;
-    line-height: 24px;
-    cursor: url('/images/tag_blue_delete.png'), pointer;
+    padding: 2px 8px;
+    font-size: 12px;
+    cursor: url('/images/tag_remove.cur'), pointer;
 }
 ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
 }
 ul.tagHandler li.tagInput {
-    padding: 2px 4px 3px;
-    padding: 2px 4px 1px;
-    padding: 2px 4px 1px 0;
-}
-
-ul.tagHandler li.tagItem a.close {
-    color: #777777;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: bold;
-    outline: medium none;
-    padding: 2px 0 2px 3px;
-    text-decoration: none;
+    padding: 2px 4px;
 }
 ul.tagHandler input[type="text"] {
     -moz-box-sizing: border-box;
     border: none;
-    margin: 2px 0px;
     padding: 2px 0px;
     width: inherit;
     border-color: #DFDFDF;
     background-color: #FFFFFF;
     color: #666666;
     font-size: 14px;
+}
+ul.tagHandler li.tagLoader {
+    background: url('/images/loader.gif') center center no-repeat;
+    width: 16px;
+    height: 18px;
+}
+ul.tagHandler li.tagUpdate {
+    background: url('/images/tag_remove.png') center center no-repeat;
+    width: 16px;
+    height: 16px;
 }

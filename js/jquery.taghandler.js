@@ -10,12 +10,12 @@
     http://github.com/levycarneiro/tag-it
     http://plugins.jquery.com/project/tag-it
 
-    Icons used:
+    Tag icons/cursors converted from:
     From the famfamfam.com Silk icon set:
     http://www.famfamfam.com/lab/icons/silk/
     
-    Loader used:
-    From Preloaders.net
+    Loader image created at:
+    Preloaders.net
     http://preloaders.net/
 
     ----------------------------------------------------------------------------
