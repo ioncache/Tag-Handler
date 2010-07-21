@@ -263,6 +263,9 @@
                 // sets the focus to the input field whenever the user clicks
                 // anywhere on the tagContainer -- since the input field by default
                 // has no border it isn't obvious where to click to access it
+                // also initiates a an autocompelte search on an empty string in
+                // the case of no value in the input field to force the
+                // autocomplete drop-down to show
                 $(tagContainer).click(function() {
                     $(inputField).focus().blur().focus();
                     if ($(inputField).val() == "" && opts.autocomplete) {
