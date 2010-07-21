@@ -18,9 +18,8 @@ ul.tagHandler li.tagItem {
     height: 14px;
     line-height: 14px;
     background-color: #415F74;
-    border: 1px solid #2C414F;
     color: #FFF;
-    padding: 2px 8px;
+    padding: 3px 8px;
     font-size: 12px;
     cursor: url('/images/tag_remove.cur'), pointer;
 }
@@ -39,7 +38,7 @@ ul.tagHandler input[type="text"] {
     width: inherit;
     background-color: #FFFFFF;
     color: #666666;
-    font-size: 14px;
+    font-size: 12px;
 }
 ul.tagHandler li.tagLoader {
     background: url('/images/loader.gif') center center no-repeat;

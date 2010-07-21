@@ -215,13 +215,6 @@
                     }
                 });
 
-                // sets the focus to the input field whenever the user clicks
-                // anywhere on the tagContainer -- since the input field by default
-                // has no border it isn't obvious where to click to access it
-                $(tagContainer).click(function() {
-                    $(inputField).focus();
-                });
-
                 // checks the keypress event for enter or comma, and adds a new tag
                 // when either of those keys are pressed
                 $(inputField).keypress(function(e) {
@@ -266,6 +259,16 @@
                         minLength: 0
                     });
                 }
+
+                // sets the focus to the input field whenever the user clicks
+                // anywhere on the tagContainer -- since the input field by default
+                // has no border it isn't obvious where to click to access it
+                $(tagContainer).click(function() {
+                    $(inputField).focus().blur().focus();
+                    if ($(inputField).val() == "" && opts.autocomplete) {
+                        $(inputField).autocomplete("search", "");
+                    }
+                });
             }
         });
     };
