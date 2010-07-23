@@ -19,7 +19,13 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#basic_tag_handler").tagHandler(); 
+                $("#basic_tag_handler").tagHandler();
+                
+                $("#array_tag_handler").tagHandler({
+                   assignedTags: [ 'Perl' ],
+                   availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                   autocomplete: true,
+                });
             });
         </script>
 
@@ -67,9 +73,18 @@
         </p>
 
         <h2>Examples</h2>
-        <p>The Tag Handler will be initialized with no options and no default tags.</p>
+
+        <p>The Tag Handler will be initialized with no options and no default tags:</p>
         <pre class="code">$("#basic_tag_handler").tagHandler();</pre>
         <ul id="basic_tag_handler"></ul>
+
+        <p>The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
+        <pre class="code">$("#array_tag_handler").tagHandler({
+                   assignedTags: [ 'Perl' ],
+                   availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                   autocomplete: true,
+                });</pre>
+        <ul id="array_tag_handler"></ul>
 
         <div class="footer">
           get the source code on GitHub : <a href="http://github.com/ioncache/Tag-Handler">ioncache/Tag-Handler</a>
