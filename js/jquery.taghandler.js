@@ -404,6 +404,7 @@
             type: 'POST',
             url: opts.updateURL,
             cache: false,
+            data: { tags: tags.assignedTags },
             dataType: 'json',
             beforeSend: function() {
                 if ($(saveButton)) {
