@@ -30,6 +30,11 @@
     Tag Handler is a jquery plugin used for managing tag-type metadata.
     
     Tag Handler must be attached to one or more <ul> tags in your HTML.
+
+    To add a tag, click on the tag box, type in a name, and hit enter or comma.
+
+    Tags may be removed from the tag box by hitting backspace or clicking on
+    the tag.
     
     Tag Handler may recieve a list of tags when initialized or by pulling data
     via ajax from a supplied URL. It may also post back a list of tags to a
@@ -44,9 +49,6 @@
     If tags are updated via ajax, then an array of tags will be sent back to
     the updateURL named 'tags'.  You may also specify any additional data to
     be sent with the updateData option.
-    
-    Tags may be removed from the tag box by hitting backspace or clicking on
-    the tag.
     
     A sample CSS file is included that can be used to help with formatting tags.
 
