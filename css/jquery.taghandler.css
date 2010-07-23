@@ -5,6 +5,7 @@ ul.tagHandler {
     min-height: 24px;
     line-height: 24px;
     cursor: text;
+    font-family: arial, helvetica, sans-serif;
 }
 ul.tagHandler li {
     -webkit-border-radius: 15px;
