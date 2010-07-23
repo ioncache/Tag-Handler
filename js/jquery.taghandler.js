@@ -419,6 +419,7 @@
             complete: function() {
                 console.log("completed");
                 if ($(saveButton)) {
+                    console.log("retoggling");
                     $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
                 }
             }
