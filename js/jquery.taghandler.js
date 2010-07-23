@@ -394,6 +394,7 @@
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts) {
+        console.log(this);
         $(this).toggleClass("tagUpdate").toggleClass("tagLoader");
     }
 
