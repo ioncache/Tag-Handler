@@ -45,6 +45,26 @@
                     Tag Handler is a jquery plugin used for managing tag-type metadata.
                 </div>
 
+                <p>Tag Handler must be attached to one or more &lt;ul&gt; tags in your HTML.</p>
+
+                <p>
+                    Tag Handler may recieve a list of tags when initialized or by pulling data
+                    via ajax from a supplied URL. It may also post back a list of tags to a
+                    separately specified URL.
+                </p>
+
+                <p>
+                    If tags are retrieved with the a URL, the server must supply a JSON
+                    formatted string with an array titled 'availableTags' and optionally an
+                    array titled 'assignedTags'. The 'availableTags' array will populate the
+                    autocomplete list for the tag input field, and the list of 'assignedTags'
+                    will be added as tags to the tag container.
+                </p>
+
+                <p>Tags may be removed from the tag box by hitting backspace or clicking on the tag.</p>
+
+                <p>A sample CSS file is included that can be used to help with formatting tags.</p>
+
                 <h2>Download</h2>
                 <p>
                     You can download this project in either
