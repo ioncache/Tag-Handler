@@ -40,6 +40,10 @@
     array titled 'assignedTags'. The 'availableTags' array will populate the
     autocomplete list for the tag input field, and the list of 'assignedTags'
     will be added as tags to the tag container.
+
+    If tags are updated via ajax, then an array of tags will be sent back to
+    the updateURL named 'tags'.  You may also specify any additional data to
+    be sent with the updateData option.
     
     Tags may be removed from the tag box by hitting backspace or clicking on
     the tag.
