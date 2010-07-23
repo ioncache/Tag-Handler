@@ -22,12 +22,12 @@
                 $.mockjax({
                     url: '/ajaxtest/get',
                     contentType: 'text/json',
-                    response: function(settings) {
-                        console.log(settings);
+                    response: function() {
+                        console.log(this);
                         this.responseText = { 
                             assignedTags: [ 'Administration', 'Human Resources'] ,
                             availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
-                        }
+                        };
                     }
                 });
 
