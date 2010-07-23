@@ -159,8 +159,9 @@
             var inputField = $(tagContainer).find(".tagInputField");
 
             // adds a save button to the tagContainer if needed
-            if (opts.updateURL != '' && !opts.updateData) {
-                $("<div />").addClass("tagUpdate").appendTo$(tagContainer);
+            if (opts.updateURL != '' && !opts.autoUpdate) {
+                console.log("save button creation");
+                $("<div />").addClass("tagUpdate").insertAfter$(tagContainer);
             }
 
             // master tag list, will contain 3 arrays of tags
