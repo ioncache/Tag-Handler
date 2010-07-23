@@ -41,7 +41,6 @@
                                 url: '/ajaxtest/update',
                                 contentType: 'text/json',
                                 response: function(sent) {
-                                    console.log(sent);
                                     var data = sent.data;
                                     if (data.id == 'user123') {
                                         this.responseText = { status: "ok" };
