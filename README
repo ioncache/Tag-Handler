@@ -52,27 +52,31 @@ be sent with the updateData option.
 A sample CSS file is included that can be used to help with formatting tags.
 
 ----------------------------------------------------------------------------
-Examples
+Plugin Examples
 ----------------------------------------------------------------------------
 
-Basic: tagHandler will be initialized with no options, and no default tags.
+Example 1: The Tag Handler will be initialized with no options and no
+           default tags:
 
     $("#tag_container").tagHandler();
 
-Supplying tags via options: list of preset tags are supplied via arrays
+Example 2: The Tag Handler will be initialized with preset tags from the
+           assignedTags and availableTags arrays, and autocomplete witll
+           be turned on:
 
     $("#tag_container").tagHandler({
-       availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ], 
-       assignedTags: [ 'Perl' ] 
+       assignedTags: [ 'Perl' ] ,
+       availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+       autocomplete: true
     });
 
-Get tags via ajax: tagHandler will be initialized with a getURL for pulling
-tag lists, along with some specific data passed to the get request. Any data
-the user wishes may be used in the data field.
+Example 3: The Tag Handler will be initialized and pull data via ajax,
+           also sending some data to the server:
 
     $("#tag_container").tagHandler({
         getData: { 'id': user_id, 'type': 'user' },
-        getURL: '/get_record_tags'
+        getURL: '/get_record_tags',
+        autocomplete: true
     });
 
 ----------------------------------------------------------------------------
