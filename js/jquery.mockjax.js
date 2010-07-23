@@ -208,7 +208,7 @@
 										// We have an executable function, call it to give 
 										// the mock a chance to update it's data
 										if ( $.isFunction(m.response) ) {
-											m.response(m);
+											m.response(s);
 										}
 										// Copy over our mock to our xhr object before passing control back to 
 										// jQuery's onreadystatechange callback
