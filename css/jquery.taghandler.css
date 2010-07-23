@@ -22,7 +22,7 @@ ul.tagHandler li.tagItem {
     padding: 3px 8px;
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
-    margin: 10px 5px 2px 0;    
+    margin: 4px 5px 4px 0;    
 }
 ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
