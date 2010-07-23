@@ -62,7 +62,7 @@
                     getData: { id: 'user123', type: 'user' },
                     getURL: '/ajaxtest/get',
                     updateData: { id: 'user123', type: 'user' },
-                    updateURL: '/akaxtest/update',
+                    updateURL: '/ajaxtest/update',
                     autocomplete: true,
                 });
 
@@ -155,7 +155,9 @@ $("#ajaxget_tag_handler").tagHandler({
 $("#ajaxupdate_tag_handler").tagHandler({
     getData: { id: 'user123', type: 'user' },
     getURL: '/ajaxtest/get',
-    autocomplete: true
+    updateData: { id: 'user123', type: 'user' },
+    updateURL: '/ajaxtest/update',
+    autocomplete: true,
 });</pre>
                 <ul id="ajaxupdate_tag_handler"></ul>
 
