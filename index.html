@@ -23,11 +23,13 @@
                     url: '/ajaxtest/get',
                     contentType: 'text/json',
                     response: function(xhr) {
-                        console.log(xhr.data);
-                        this.responseText = { 
-                            assignedTags: [ 'Administration', 'Human Resources'] ,
-                            availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
-                        };
+                        var data = xhr.data;
+                        if (data.id == 'user123') {
+                            this.responseText = { 
+                                assignedTags: [ 'Administration', 'Human Resources'] ,
+                                availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
+                            };
+                        }
                     }
                 });
 
@@ -109,9 +111,10 @@ $("#array_tag_handler").tagHandler({
  });</pre>
                 <ul id="array_tag_handler"></ul>
 
-                <p>The Tag Handler will be initialized and pull data via ajax:</p>
+                <p>The Tag Handler will be initialized and pull data via ajax, also sending some data to the server:</p>
                 <pre class="code">
 $("#ajaxget_tag_handler").tagHandler({
+    getData: { id: 'user123', type: 'user' },
     getURL: '/ajaxtest/get',
     autocomplete: true,
  });</pre>
