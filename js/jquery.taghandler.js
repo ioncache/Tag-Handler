@@ -41,6 +41,9 @@
     autocomplete list for the tag input field, and the list of 'assignedTags'
     will be added as tags to the tag container.
     
+    Tags may be removed from the tag box by hitting backspace or clicking on
+    the tag.
+    
     A sample CSS file is included that can be used to help with formatting tags.
 
     ----------------------------------------------------------------------------
