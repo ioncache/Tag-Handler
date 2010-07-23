@@ -32,7 +32,7 @@ pre {
     padding: 15px;
 }
 
-pre .code {
+.code pre {
     background: #BBB;
     border: 1px solid #666;
     color: #000;
