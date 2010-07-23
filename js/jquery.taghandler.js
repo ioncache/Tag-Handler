@@ -162,17 +162,17 @@
             }
             var inputField = $(tagContainer).find(".tagInputField");
 
-            // adds a save button to the tagContainer if needed
-            if (opts.updateURL != '' && !opts.autoUpdate) {
-                console.log("save button creation");
-                $("<div />").addClass("tagUpdate").appendTo($(tagContainer).parent());
-            }
-
             // master tag list, will contain 3 arrays of tags
             var tags = new Array();
             tags['availableTags'] = new Array();
             tags['originalTags'] = new Array();
             tags['assignedTags'] = new Array();
+
+            // adds a save button to the tagContainer if needed
+            if (opts.updateURL != '' && !opts.autoUpdate) {
+                console.log("save button creation");
+                $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts); }).appendTo($(tagContainer).parent());
+            }
 
             // initializes the tag lists
             // tag lists will be pulled from a URL, or passed lists of tags
@@ -395,7 +395,7 @@
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts) {
-        
+        console.log("Saving tags.");
     }
 
     // some debugging information
