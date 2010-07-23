@@ -152,7 +152,7 @@
 
             // wraps the <ul> element in a div mainly for use in positioning
             // the save button and loader image.
-            $(tagContainer).wrap('<div class="tagHandlerContainer');
+            $(tagContainer).wrap('<div class="tagHandlerContainer" />');
 
             // adds the the tag class to the tagContainer and creates the tag
             // input field
