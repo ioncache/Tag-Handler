@@ -154,9 +154,9 @@
             // input field
             $(tagContainer).addClass(opts.className);
             if (opts.allowEdit) {
-                $(tagContainer).html('<li id="' + tagContainer.id + '_input_field" class="tagInput"><input class="tagInputField" type="text" /></li>');
+                $(tagContainer).html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
             }
-            var inputField = $("#" + tagContainer.id + "_input_field");
+            var inputField = $(tagContainer).find(".tagInputField");
 
             // adds a save button to the tagContainer if needed
             if (opts.updateURL != '' && !opts.updateData) {
@@ -188,7 +188,7 @@
                             // adds any already assigned tags to the tag box
                             for (var x = 0; x < tags['assignedTags'].length; x++) {
                                 if (opts.allowEdit) {
-                                    $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField));
+                                    $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField).parent());
                                 } else {
                                     $("<li />").addClass("tagItem").css("cursor", "default").html(tags['assignedTags'][x]).appendTo($(tagContainer));
                                 }
@@ -214,7 +214,7 @@
                     // adds any already assigned tags to the tag box
                     for (var x = 0; x < tags['assignedTags'].length; x++) {
                         if (opts.allowEdit) {
-                            $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField));
+                            $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField).parent());
                         } else {
                             $("<li />").addClass("tagItem").css("cursor", "default").html(tags['assignedTags'][x]).appendTo($(tagContainer));
                         }
@@ -356,7 +356,7 @@
     function addTag(tagField, value, tags, sort) {
         tags['assignedTags'].push(value);
         tags['availableTags'] = removeTagFromList(value, tags['availableTags']);
-        $("<li />").addClass("tagItem").html(value).insertBefore($(tagField));
+        $("<li />").addClass("tagItem").html(value).insertBefore($(tagField).parent());
 
         if (sort) {
             tags = sortTags(tags);
