@@ -20,9 +20,9 @@ ul.tagHandler li.tagItem {
     background-color: #415F74;
     color: #FFF;
     padding: 3px 8px;
+    margin: 8px 5px 8px 0;    
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
-    margin: 4px 5px 4px 0;    
 }
 ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
