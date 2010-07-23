@@ -22,8 +22,10 @@
                 $.mockjax({
                     url: '/ajaxtest/get',
                     contentType: 'text/json',
-                    response: function(settings) {
-                        console.log(settings);
+                    response: function(a, b, c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
                         this.responseText = { 
                             assignedTags: [ 'Administration', 'Human Resources'] ,
                             availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
@@ -40,6 +42,7 @@
                 });
 
                 $("#ajaxget_tag_handler").tagHandler({
+                    getData: { id: 'user123', type: 'user' },
                     getURL: '/ajaxtest/get',
                     autocomplete: true,
                 });
