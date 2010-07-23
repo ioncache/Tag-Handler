@@ -86,8 +86,8 @@
 					}
 				}
 				if ( m ) {
-					if ( console && console.log ) {
-						console.log('MOCK GET: ' + s.url);
+					if ( window.console && window.console.log ) {
+						window.console.log('MOCK GET: ' + s.url);
 					}
 					mock = true;
 					
