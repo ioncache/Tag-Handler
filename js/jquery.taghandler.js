@@ -4,6 +4,11 @@
     Mark Jubenville - ioncache@gmail.com
     http://github.com/ioncache/Tag-Handler
 
+    Development time supported by:
+    Raybec Communicatiosn
+    http://www.raybec.com
+    http://www.mysaleslink.com
+
     Based heavily on:
     Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
     http://levycarneiro.com/projects/tag-it/example.html
@@ -76,7 +81,7 @@
     
     Misc options:
     allowEdit:     indicates whether the tag list is editable - default: true
-    autocomplete:  requires jqueryui autocomplete plugin - default: true
+    autocomplete:  requires jqueryui autocomplete plugin - default: false
     autoUpdate:    indicates whether updating occurs automatically whenever
                    a tag is added/deleted. If set true, the save button will
                    not be shown - default: false
@@ -278,19 +283,19 @@
 
     // plugin option defaults
     $.fn.tagHandler.defaults = {
-        assignedTags: [],
-        availableTags: [],
-        getData: '',
-        getURL: '',
-        updatetData: '',
-        updateURL: '',
         allowEdit: true,
-        autocomplete: true,
+        assignedTags: [],
+        autocomplete: false,
         autoUpdate: false,
+        availableTags: [],
         className: 'tagHandler',
         debug: false,
         delimiter: '',
-        sortTags: true
+        getData: '',
+        getURL: '',
+        sortTags: true,
+        updatetData: '',
+        updateURL: ''
     };
 
     // checks to to see if a tag is already found in a list of tags
