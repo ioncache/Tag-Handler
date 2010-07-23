@@ -38,7 +38,7 @@ h1 a { text-decoration: none }
 
 h2 { font-size: 17px;; color: #0066bd; }
 
-h3 { font-size: 15px;; color: #0066bd; }
+h3 { font-size: 15px;; color: #0066bd; margin-top: 30px; }
 
 a { color: #0066bd; }
 
@@ -50,6 +50,7 @@ pre {
     background: #000;
     color: #fff;
     padding: 15px;
+    margin-bottom: 15px;
 }
 
 pre.code {
