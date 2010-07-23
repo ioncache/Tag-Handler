@@ -22,8 +22,9 @@
                 $.mockjax({
                     url: '/ajaxtest/get',
                     contentType: 'text/json',
-                    response: function() {
+                    response: function(settings) {
                         console.log($(this));
+                        console.log(settings);
                         this.responseText = { 
                             assignedTags: [ 'Administration', 'Human Resources'] ,
                             availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
