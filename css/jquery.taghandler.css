@@ -21,7 +21,7 @@ ul.tagHandler li.tagItem {
     line-height: 14px;
     background-color: #415F74;
     color: #FFF;
-    padding: 3px 8px;
+    padding: 5px 8px;
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
 }
@@ -31,7 +31,7 @@ ul.tagHandler li.tagItem:hover {
 ul.tagHandler li.tagInput {
     padding: 2px 4px;
 }
-ul.tagHandler input[type="text"] {
+ul.tagHandler input.tagInputField {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
