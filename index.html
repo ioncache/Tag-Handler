@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    
+
         <title>ioncache/Tag-Handler @ GitHub</title>
-    
+
         <link rel="shortcut icon" href="/images/favicon.ico" />
         <link rel="stylesheet" type="text/css" media="all" href="css/taghandler.css" />
         <link rel="stylesheet" type="text/css" media="all" href="css/ui-lightness/jquery-ui-1.8.2.custom.css" />
@@ -33,6 +33,17 @@
                     }
                 });
 
+                $.mockjax({
+                    url: '/ajaxtest/update',
+                    contentType: 'text/json',
+                    response: function(xhr) {
+                        var data = xhr.data;
+                        if (data.id == 'user123') {
+                            this.responseText = "ok";
+                        }
+                    }
+                });
+
                 $("#basic_tag_handler").tagHandler();
                 
                 $("#array_tag_handler").tagHandler({
@@ -46,6 +57,15 @@
                     getURL: '/ajaxtest/get',
                     autocomplete: true,
                 });
+
+                $("#ajaxupdate_tag_handler").tagHandler({
+                    getData: { id: 'user123', type: 'user' },
+                    getURL: '/ajaxtest/get',
+                    updateData: { id: 'user123', type: 'user' },
+                    updateURL: '/akaxtest/update',
+                    autocomplete: true,
+                });
+
             });
         </script>
 
@@ -129,6 +149,15 @@ $("#ajaxget_tag_handler").tagHandler({
     autocomplete: true
 });</pre>
                 <ul id="ajaxget_tag_handler"></ul>
+
+                <p><strong>Example 4:</strong> Same as Example 3, but now will save the tags when clicking the save button:</p>
+                <pre class="code">
+$("#ajaxupdate_tag_handler").tagHandler({
+    getData: { id: 'user123', type: 'user' },
+    getURL: '/ajaxtest/get',
+    autocomplete: true
+});</pre>
+                <ul id="ajaxupdate_tag_handler"></ul>
 
                 <a name="options"><h2>Plugin Options</h2></a>
 <pre class="code">
