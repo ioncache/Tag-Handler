@@ -13,7 +13,6 @@ ul.tagHandler li {
     border-radius: 15px;
     display: block;
     float: left;
-    margin: 12px 5px 2px 0;
 }
 ul.tagHandler li.tagItem {
     height: 14px;
@@ -23,12 +22,14 @@ ul.tagHandler li.tagItem {
     padding: 3px 8px;
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
+    margin: 10px 5px 2px 0;    
 }
 ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
 }
 ul.tagHandler li.tagInput {
     padding: 2px 4px;
+    margin: 2px 5px 2px 0;
 }
 ul.tagHandler input.tagInputField {
     -webkit-box-sizing: border-box;
