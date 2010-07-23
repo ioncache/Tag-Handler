@@ -399,7 +399,9 @@
         }
         data = { tags: tags };
         $.extend(data, opts.updateData);
+        console.log(data);
         $.ajax({
+            type: 'post',
             url: opts.updateURL,
             cache: false,
             data: data,
