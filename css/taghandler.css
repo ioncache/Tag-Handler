@@ -10,15 +10,22 @@ body {
     width: 700px;
 }
 
+#sidebar {
+    width: 250px;
+    position: fixed:
+    top: 0px;
+    right: 0px;
+}
+
 h1 { font-size: 3.8em; color: #0066bd; margin-bottom: 3px; }
 
 h1 .small { font-size: 0.4em; }
 
 h1 a { text-decoration: none }
 
-h2 { font-size: 1.5em; color: #0066bd; }
+h2 { font-size: 15px;; color: #0066bd; }
 
-h3 { text-align: center; color: #0066bd; }
+h3 { font-size: 10px;; color: #0066bd; }
 
 a { color: #0066bd; }
 
