@@ -170,7 +170,7 @@
 
             // adds a save button to the tagContainer if needed
             if (opts.updateURL != '' && !opts.autoUpdate) {
-                $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts); }).appendTo($(tagContainer).parent());
+                $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts, this); }).appendTo($(tagContainer).parent());
             }
 
             // initializes the tag lists
@@ -393,9 +393,28 @@
     }
 
     // saves the tags to the server via ajax
-    function saveTags(tags, opts) {
-        console.log(this);
-        $(this).toggleClass("tagUpdate").toggleClass("tagLoader");
+    function saveTags(tags, opts, saveButton) {
+        if ($(saveButton)) {
+            $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
+        }
+        data = { tags: tags };
+        $.extend(data, opts.updateData);
+        $.ajax({
+            url: opts.updateURL,
+            cache: false,
+            data: data,
+            dataType: 'json',
+            beforeSend: function() {
+                if ($(saveButton)) {
+                    $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
+                }
+            },
+            complete: function() {
+                if ($(saveButton)) {
+                    $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
+                }
+            }
+        });
     }
 
     // some debugging information
