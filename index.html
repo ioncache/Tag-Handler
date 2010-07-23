@@ -19,32 +19,68 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $.mockjax({
-                    url: '/ajaxtest/get',
-                    contentType: 'text/json',
-                    response: function(sent) {
-                        var data = sent.data;
-                        if (data.id == 'user123') {
-                            this.responseText = { 
-                                assignedTags: [ 'Administration', 'Human Resources'] ,
-                                availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
-                            };
-                        }
-                    }
-                });
+                //$.mockjax({
+                //    url: '/ajaxtest/get',
+                //    contentType: 'text/json',
+                //    response: function(sent) {
+                //        var data = sent.data;
+                //        if (data.id == 'user123') {
+                //            this.responseText = { 
+                //                assignedTags: [ 'Administration', 'Human Resources'] ,
+                //                availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
+                //            };
+                //        }
+                //    }
+                //});
+                //
+                //$.mockjax({
+                //    url: '/ajaxtest/update',
+                //    contentType: 'text/json',
+                //    response: function(sent) {
+                //        console.log(sent);
+                //        var data = sent.data;
+                //        if (data.id == 'user123') {
+                //            this.responseText = "ok";
+                //        } else {
+                //            this.responseText = "not found";
+                //        }
+                //    }
+                //});
 
-                $.mockjax({
-                    url: '/ajaxtest/update',
-                    contentType: 'text/json',
-                    response: function(sent) {
-                        console.log(sent);
-                        var data = sent.data;
-                        if (data.id == 'user123') {
-                            this.responseText = "ok";
-                        } else {
-                            this.responseText = "not found";
+                $.mockjax(function(settings) {
+                    var service = settings.url.match(/\/ajaxtestl\/(.*)$/);
+                    if ( service ) {
+                        if (service[1] == 'get') {
+                            return {
+                                url: '/ajaxtest/get',
+                                contentType: 'text/json',
+                                response: function(sent) {
+                                    var data = sent.data;
+                                    if (data.id == 'user123') {
+                                        this.responseText = { 
+                                            assignedTags: [ 'Administration', 'Human Resources'] ,
+                                            availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
+                                        };
+                                    }
+                                }
+                            }
+                        } else if (service[1] == 'update') {
+                            return {
+                                url: '/ajaxtest/update',
+                                contentType: 'text/json',
+                                response: function(sent) {
+                                    console.log(sent);
+                                    var data = sent.data;
+                                    if (data.id == 'user123') {
+                                        this.responseText = "ok";
+                                    } else {
+                                        this.responseText = "not found";
+                                    }
+                                }
+                            }
                         }
                     }
+                    return;
                 });
 
                 $("#basic_tag_handler").tagHandler();
