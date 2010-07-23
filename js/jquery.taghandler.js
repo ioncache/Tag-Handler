@@ -5,7 +5,7 @@
     http://ioncache.github.com/Tag-Handler
 
     Development time supported by:
-    Raybec Communicatiosn
+    Raybec Communications
     http://www.raybec.com
     http://www.mysaleslink.com
 
