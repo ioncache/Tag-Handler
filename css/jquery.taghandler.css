@@ -22,7 +22,7 @@ ul.tagHandler li.tagItem {
     color: #FFF;
     padding: 3px 8px;
     font-size: 12px;
-    cursor: url('/images/tag_remove.cur'), pointer;
+    cursor: url('images/tag_remove.cur'), pointer;
 }
 ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
@@ -42,12 +42,12 @@ ul.tagHandler input[type="text"] {
     font-size: 12px;
 }
 ul.tagHandler li.tagLoader {
-    background: url('/images/loader.gif') center center no-repeat;
+    background: url('images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;
 }
 ul.tagHandler li.tagUpdate {
-    background: url('/images/tag_remove.png') center center no-repeat;
+    background: url('images/tag_remove.png') center center no-repeat;
     width: 16px;
     height: 16px;
 }
