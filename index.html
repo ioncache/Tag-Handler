@@ -22,8 +22,8 @@
                 $.mockjax({
                     url: '/ajaxtest/get',
                     contentType: 'text/json',
-                    response: function(xhr) {
-                        var data = xhr.data;
+                    response: function(sent) {
+                        var data = sent.data;
                         if (data.id == 'user123') {
                             this.responseText = { 
                                 assignedTags: [ 'Administration', 'Human Resources'] ,
@@ -36,8 +36,15 @@
                 $.mockjax({
                     url: '/ajaxtest/update',
                     contentType: 'text/json',
-                    response: "ok"
-                    
+                    response: function(sent) {
+                        console.log(sent);
+                        var data = sent.data;
+                        if (data.id == 'user123') {
+                            this.responseText = "ok";
+                        } else {
+                            this.responseText = "not found";
+                        }
+                    }
                 });
 
                 $("#basic_tag_handler").tagHandler();
