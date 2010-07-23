@@ -48,8 +48,8 @@
 }
 .tagHandlerContainer div.tagLoader {
     position: absolute;
-    right: -20px;
-    top: 10px;
+    right: -24px;
+    top: 12px;
     background: url('../images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;

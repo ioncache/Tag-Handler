@@ -170,7 +170,6 @@
 
             // adds a save button to the tagContainer if needed
             if (opts.updateURL != '' && !opts.autoUpdate) {
-                console.log("save button creation");
                 $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts); }).appendTo($(tagContainer).parent());
             }
 
@@ -395,7 +394,7 @@
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts) {
-        console.log("Saving tags.");
+        $(this).toggleClass("tagUpdate").toggleClass("tagLoader");
     }
 
     // some debugging information
