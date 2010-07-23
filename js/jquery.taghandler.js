@@ -165,7 +165,7 @@
             // adds a save button to the tagContainer if needed
             if (opts.updateURL != '' && !opts.autoUpdate) {
                 console.log("save button creation");
-                $("<li />").addClass("tagUpdate").appendTo($(tagContainer));
+                $("<div />").addClass("tagUpdate").appendTo($(tagContainer).parent());
             }
 
             // master tag list, will contain 3 arrays of tags
