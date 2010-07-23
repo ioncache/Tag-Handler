@@ -97,12 +97,14 @@
                 </p>
 
                 <h2>Examples</h2>
-        
-                <p>The Tag Handler will be initialized with no options and no default tags:</p>
+
+                <p>Note: the ajax examples are using mockjax (<a href="http://github.com/appendto/jquery-mockjax">http://github.com/appendto/jquery-mockjax</a>) as the backend rather than a live server.</p>
+
+                <p><strong>Example 1:</strong> The Tag Handler will be initialized with no options and no default tags:</p>
                 <pre class="code">$("#basic_tag_handler").tagHandler();</pre>
                 <ul id="basic_tag_handler"></ul>
         
-                <p>The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
+                <p><strong>Example 2:</strong> The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
                 <pre class="code">
 $("#array_tag_handler").tagHandler({
     assignedTags: [ 'Perl' ],
@@ -111,7 +113,7 @@ $("#array_tag_handler").tagHandler({
  });</pre>
                 <ul id="array_tag_handler"></ul>
 
-                <p>The Tag Handler will be initialized and pull data via ajax, also sending some data to the server:</p>
+                <p><strong>Example 3:</strong> The Tag Handler will be initialized and pull data via ajax, also sending some data to the server:</p>
                 <pre class="code">
 $("#ajaxget_tag_handler").tagHandler({
     getData: { id: 'user123', type: 'user' },
