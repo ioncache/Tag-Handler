@@ -14,14 +14,14 @@ ul.tagHandler li {
     border-radius: 15px;
     display: block;
     float: left;
-    margin: 2px 5px 2px 0;
+    margin: 4px 5px 2px 0;
 }
 ul.tagHandler li.tagItem {
     height: 14px;
     line-height: 14px;
     background-color: #415F74;
     color: #FFF;
-    padding: 5px 8px;
+    padding: 3px 8px;
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
 }
