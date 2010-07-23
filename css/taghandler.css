@@ -26,7 +26,7 @@ a { color: #0066bd; }
 
 .download { float: right; }
 
-pre {
+.regular pre {
     background: #000;
     color: #fff;
     padding: 15px;
