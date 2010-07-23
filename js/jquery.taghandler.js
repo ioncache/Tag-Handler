@@ -401,10 +401,9 @@
         $.extend(sendData, opts.updateData);
         console.log(sendData);
         $.ajax({
-            type: 'post',
+            type: 'POST',
             url: opts.updateURL,
             cache: false,
-            data: sendData,
             dataType: 'json',
             beforeSend: function() {
                 if ($(saveButton)) {
