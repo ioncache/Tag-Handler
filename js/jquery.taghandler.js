@@ -119,8 +119,8 @@
 (function($) {
 
     $.fn.tagHandler = function(options) {
-        var opts = $.extend($.fn.tagHandler.defaults, options);
-        tagDebug($(this), options);
+        var opts = $.extend({}, $.fn.tagHandler.defaults, options);
+        tagDebug($(this), opts);
 
         // processes each specified object and adds a tag handler to each
         return this.each(function() {
