@@ -159,7 +159,7 @@
             var inputField = $(tagContainer).find(".tagInputField");
 
             // adds a save button to the tagContainer if needed
-            if (opts.updateURL && opts.updateDate == '') {
+            if (opts.updateURL != '' && !opts.updateData) {
                 $("<div />").addClass("tagUpdate").appendTo$(tagContainer);
             }
 
@@ -233,7 +233,7 @@
                 $(tagContainer).delegate("#" + this.id + " li.tagItem", "click",
                 function() {
                     tags = removeTag($(this), tags, opts.sortTags);
-                    if (opts.updateURL && opts.autoUpdate) {
+                    if (opts.updateURL != '' && opts.autoUpdate) {
                         saveTags(tags, opts);
                     }
                     if (opts.autocomplete) {
@@ -248,7 +248,7 @@
                         e.preventDefault();
                         if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags['assignedTags'])) {
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
-                            if (opts.updateURL && opts.autoUpdate) {
+                            if (opts.updateURL != '' && opts.autoUpdate) {
                                 saveTags(tags, opts);
                             }
                             if (opts.autocomplete) {
@@ -265,7 +265,7 @@
                 $(inputField).keydown(function(e) {
                     if (e.which == 8 && $(this).val() == "") {
                         tags = removeTag($(tagContainer).find(".tagItem:last"), tags, opts.sortTags);
-                        if (opts.updateURL && opts.autoUpdate) {
+                        if (opts.updateURL != '' && opts.autoUpdate) {
                             saveTags(tags, opts);
                         }
                         if (opts.autocomplete) {
@@ -282,7 +282,7 @@
                         select: function(event, ui) {
                             if (!checkTag($.trim(ui.item.value), tags['assignedTags'])) {
                                 tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                if (opts.updateURL && opts.autoUpdate) {
+                                if (opts.updateURL != '' && opts.autoUpdate) {
                                     saveTags(tags, opts);
                                 }
                                 $(inputField).autocomplete("option", "source", tags['availableTags']);
