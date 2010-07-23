@@ -1,5 +1,4 @@
 ul.tagHandler {
-    position: relative;
     padding: 1px 5px;
     border: 1px solid #DFDFDF;
     overflow: auto;
@@ -14,7 +13,7 @@ ul.tagHandler li {
     border-radius: 15px;
     display: block;
     float: left;
-    margin: 8px 5px 8px 0;
+    margin: 12px 5px 2px 0;
 }
 ul.tagHandler li.tagItem {
     height: 14px;
@@ -43,15 +42,11 @@ ul.tagHandler input.tagInputField {
     font-size: 12px;
 }
 ul.tagHandler li.tagLoader {
-    position: absolute;
-    right: -20px;
     background: url('../images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;
 }
 ul.tagHandler li.tagUpdate {
-    position: absolute;
-    right: -20px;
     background: url('../images/tag_remove.png') center center no-repeat;
     width: 16px;
     height: 16px;
