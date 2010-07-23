@@ -19,34 +19,6 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                //$.mockjax({
-                //    url: '/ajaxtest/get',
-                //    contentType: 'text/json',
-                //    response: function(sent) {
-                //        var data = sent.data;
-                //        if (data.id == 'user123') {
-                //            this.responseText = { 
-                //                assignedTags: [ 'Administration', 'Human Resources'] ,
-                //                availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
-                //            };
-                //        }
-                //    }
-                //});
-                //
-                //$.mockjax({
-                //    url: '/ajaxtest/update',
-                //    contentType: 'text/json',
-                //    response: function(sent) {
-                //        console.log(sent);
-                //        var data = sent.data;
-                //        if (data.id == 'user123') {
-                //            this.responseText = "ok";
-                //        } else {
-                //            this.responseText = "not found";
-                //        }
-                //    }
-                //});
-
                 $.mockjax(function(settings) {
                     var service = settings.url.match(/\/ajaxtest\/(.*)$/);
                     if ( service ) {
@@ -72,9 +44,9 @@
                                     console.log(sent);
                                     var data = sent.data;
                                     if (data.id == 'user123') {
-                                        this.responseText = "ok";
+                                        this.responseText = { status: "ok" };
                                     } else {
-                                        this.responseText = "not found";
+                                        this.responseText = { status: "not found" };
                                     }
                                 }
                             }

@@ -33,7 +33,6 @@
 					m = mockHandlers[k](s);
 				} else {
 					m = mockHandlers[k];
-                    console.log("M:\n" + m);
 					// Inspect the URL of the request and check if the mock handler's url 
 					// matches the url for this ajax request
 					if ( $.isFunction(m.url.test) ) {
