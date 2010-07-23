@@ -1,5 +1,8 @@
-ul.tagHandler {
+.tagHandlerContainer {
+    width: 100%;
     position: relative;
+}
+.tagHandlerContainer ul.tagHandler {
     padding: 1px 5px;
     border: 1px solid #DFDFDF;
     overflow: auto;
@@ -8,14 +11,14 @@ ul.tagHandler {
     cursor: text;
     font-family: arial, helvetica, sans-serif;
 }
-ul.tagHandler li {
+.tagHandlerContainer ul.tagHandler li {
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
     border-radius: 15px;
     display: block;
     float: left;
 }
-ul.tagHandler li.tagItem {
+.tagHandlerContainer ul.tagHandler li.tagItem {
     height: 14px;
     line-height: 14px;
     background-color: #415F74;
@@ -25,14 +28,14 @@ ul.tagHandler li.tagItem {
     font-size: 12px;
     cursor: url('../images/tag_remove.cur'), pointer;
 }
-ul.tagHandler li.tagItem:hover {
+.tagHandlerContainer ul.tagHandler li.tagItem:hover {
     background-color: #5E829D;
 }
-ul.tagHandler li.tagInput {
+.tagHandlerContainer ul.tagHandler li.tagInput {
     padding: 2px 4px;
     margin: 2px 5px 2px 0;
 }
-ul.tagHandler input.tagInputField {
+.tagHandlerContainer ul.tagHandler input.tagInputField {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -43,20 +46,21 @@ ul.tagHandler input.tagInputField {
     color: #666666;
     font-size: 12px;
 }
-ul.tagHandler li.tagLoader {
+.tagHandlerContainer div.tagLoader {
     position: absolute;
     right: -20px;
-    display: block;
+    top: 10px;
     background: url('../images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;
+    cursor: default;
 }
-ul.tagHandler li.tagUpdate {
+.tagHandlerContainer div.tagUpdate {
     position: absolute;
     right: 20px;
-    top: 5px;
-    display: block;
+    top: 10px;
     background: url('../images/tag_remove.png') center center no-repeat;
     width: 16px;
     height: 16px;
+    cursor: pointerl
 }
