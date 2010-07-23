@@ -399,12 +399,11 @@
         }
         sendData = { tags: tags.assignedTags };
         $.extend(sendData, opts.updateData);
-        console.log(sendData);
         $.ajax({
             type: 'POST',
             url: opts.updateURL,
             cache: false,
-            data: { tags: tags.assignedTags },
+            data: sendData,
             dataType: 'json',
             beforeSend: function() {
                 if ($(saveButton)) {
