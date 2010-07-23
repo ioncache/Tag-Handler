@@ -154,9 +154,9 @@
             // input field
             $(tagContainer).addClass(opts.className);
             if (opts.allowEdit) {
-                $(tagContainer).html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
+                $(tagContainer).html('<li id="' + tagContainer.id + '_input_field" class="tagInput"><input class="tagInputField" type="text" /></li>');
             }
-            var inputField = $(tagContainer).find(".tagInputField");
+            var inputField = $("#" + tagContainer.id + "_input_field");
 
             // adds a save button to the tagContainer if needed
             if (opts.updateURL != '' && !opts.updateData) {
