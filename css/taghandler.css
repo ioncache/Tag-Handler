@@ -1,7 +1,7 @@
 body {
     margin-top: 1.0em;
     background-color: #FFF;
-    font-family: "Helvetica,Arial,FreeSans";
+    font-family: arial,helvetica, sans-serif;
     color: #000000;
 }
 
@@ -12,9 +12,18 @@ body {
 
 #sidebar {
     width: 250px;
-    position: fixed:
+    position: fixed;
     top: 0px;
     right: 0px;
+}
+
+#sidebar p {
+    font-size: 10px;
+}
+
+p {
+    font-size: 12px;
+    font-family: arial,helvetica, sans-serif
 }
 
 h1 { font-size: 3.8em; color: #0066bd; margin-bottom: 3px; }
@@ -25,7 +34,7 @@ h1 a { text-decoration: none }
 
 h2 { font-size: 15px;; color: #0066bd; }
 
-h3 { font-size: 10px;; color: #0066bd; }
+h3 { font-size: 12px;; color: #0066bd; }
 
 a { color: #0066bd; }
 
