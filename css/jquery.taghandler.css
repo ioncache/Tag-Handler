@@ -46,6 +46,7 @@ ul.tagHandler input.tagInputField {
 ul.tagHandler li.tagLoader {
     position: absolute;
     right: -20px;
+    display: block;
     background: url('../images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;
@@ -53,6 +54,7 @@ ul.tagHandler li.tagLoader {
 ul.tagHandler li.tagUpdate {
     position: absolute;
     right: -20px;
+    display: block;
     background: url('../images/tag_remove.png') center center no-repeat;
     width: 16px;
     height: 16px;
