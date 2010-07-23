@@ -57,8 +57,8 @@
 }
 .tagHandlerContainer div.tagUpdate {
     position: absolute;
-    right: -20px;
-    top: 10px;
+    right: -24px;
+    top: 14px;
     background: url('../images/tag_remove.png') center center no-repeat;
     width: 16px;
     height: 16px;
