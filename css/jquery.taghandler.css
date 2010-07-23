@@ -53,7 +53,8 @@ ul.tagHandler li.tagLoader {
 }
 ul.tagHandler li.tagUpdate {
     position: absolute;
-    right: -20px;
+    right: 20px;
+    top: 5px;
     display: block;
     background: url('../images/tag_remove.png') center center no-repeat;
     width: 16px;
