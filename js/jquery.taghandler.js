@@ -407,20 +407,12 @@
             dataType: 'json',
             beforeSend: function() {
                 if ($(saveButton)) {
-                    $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
+                    $(saveButton).removeClass("tagUpdate").addClass("tagLoader");
                 }
             },
-            success: function(data, text, xhr) {
-                console.log(data);
-            },
-            error: function(xhr, text, error) {
-                console.log(xhr);
-            },
             complete: function() {
-                console.log("completed");
                 if ($(saveButton)) {
-                    console.log("retoggling");
-                    $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
+                    $(saveButton).addClass("tagUpdate").removeClass("tagLoader");
                 }
             }
         });
