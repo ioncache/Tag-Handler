@@ -397,14 +397,14 @@
         if ($(saveButton)) {
             $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
         }
-        data = { tags: tags };
-        $.extend(data, opts.updateData);
-        console.log(data);
+        sendData = { tags: tags.assignedTags };
+        $.extend(sendData, opts.updateData);
+        console.log(sendData);
         $.ajax({
             type: 'post',
             url: opts.updateURL,
             cache: false,
-            data: data,
+            data: sendData,
             dataType: 'json',
             beforeSend: function() {
                 if ($(saveButton)) {
