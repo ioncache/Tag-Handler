@@ -36,12 +36,8 @@
                 $.mockjax({
                     url: '/ajaxtest/update',
                     contentType: 'text/json',
-                    response: function(xhr) {
-                        var data = xhr.data;
-                        if (data.id == 'user123') {
-                            this.responseText = "ok";
-                        }
-                    }
+                    response: "ok"
+                    
                 });
 
                 $("#basic_tag_handler").tagHandler();
