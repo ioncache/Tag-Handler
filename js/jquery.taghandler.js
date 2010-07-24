@@ -208,6 +208,9 @@
                         if (opts.autocomplete && opts.allowEdit) {
                             $(inputField).autocomplete("option", "source", tags['availableTags']);
                         }
+                        if (opts.sortTags) {
+                            tags = sortTags(tags);
+                        }
                     },
                     error: function(xhr, text, error) {
                         alert("There was an error getting the tag list.");
@@ -233,6 +236,9 @@
                 }
                 if (opts.autocomplete && opts.allowEdit) {
                     $(inputField).autocomplete("option", "source", tags['availableTags']);
+                }
+                if (opts.sortTags) {
+                    tags = sortTags(tags);
                 }
             }
 
