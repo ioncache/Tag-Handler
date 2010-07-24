@@ -34,13 +34,15 @@ h1 { font-size: 3.8em; color: #0066bd; margin-bottom: 3px; }
 
 h1 .small { font-size: 0.4em; }
 
-h1 a { text-decoration: none; #0066bd; }
+h1 a { text-decoration: none; color: #0066bd; }
 
 h2 { font-size: 17px;; color: #0066bd; margin-top: 30px; }
 
 h3 { font-size: 15px;; color: #0066bd; }
 
-a { color: #c68306; }
+a { color: #ce7d04; }
+
+a:hover { text-decoration: none; }
 
 .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
 
