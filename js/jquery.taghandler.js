@@ -152,11 +152,11 @@
 
             // wraps the <ul> element in a div mainly for use in positioning
             // the save button and loader image.
-            $(tagContainer).wrap('<div class="tagHandlerContainer" />');
+            $(tagContainer).wrap('<div class="' + opts.className + '" />');
 
             // adds the the tag class to the tagContainer and creates the tag
             // input field
-            $(tagContainer).addClass(opts.className);
+            $(tagContainer).addClass(opts.className + "Container");
             if (opts.allowEdit) {
                 $(tagContainer).html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
             }
