@@ -22,7 +22,7 @@
             $.beautyOfCode.init({
                 brushes: ['JScript'],
                 ready: function() {
-                    $("#pre.code").beautifyCode('javascript');
+                    $("pre.code").beautifyCode('javascript', {gutter:false});
                 }
             });
         
@@ -153,7 +153,7 @@
                 </p>
                 <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
                     by running:
-                    <pre>$ git clone git://github.com/ioncache/Tag-Handler</pre>
+                    <pre class="source">$ git clone git://github.com/ioncache/Tag-Handler</pre>
                 </p>
 
                 <a name="examples"><h2>Plugin Examples</h2></a>
@@ -161,52 +161,68 @@
                 <p>Note: the ajax examples are using mockjax (<a href="http://github.com/appendto/jquery-mockjax">http://github.com/appendto/jquery-mockjax</a>) as the backend rather than a live server.</p>
 
                 <p><strong>Example 1:</strong> The Tag Handler will be initialized with no options and no default tags:</p>
-                <pre class="code"><code>$("#basic_tag_handler").tagHandler();</code></pre>
+                <pre class="code">
+                    <code>
+                        $("#basic_tag_handler").tagHandler();
+                    </code>
+                </pre>
                 <ul id="basic_tag_handler"></ul>
         
                 <p><strong>Example 2:</strong> The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
-                <pre class="code"><code>
-$("#array_tag_handler").tagHandler({
-    assignedTags: [ 'Perl' ],
-    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
-    autocomplete: true
-});</code></pre>
+                <pre class="code">
+                    <code>
+                        $("#array_tag_handler").tagHandler({
+                            assignedTags: [ 'Perl' ],
+                            availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                            autocomplete: true
+                        });
+                    </code>
+                </pre>
                 <ul id="array_tag_handler"></ul>
 
                 <p><strong>Example 3:</strong> The Tag Handler will be initialized and pull data via ajax, also sending some data to the server:</p>
-                <pre class="code"><code>
-$("#ajaxget_tag_handler").tagHandler({
-    getData: { id: 'user123', type: 'user' },
-    getURL: '/ajaxtest/get',
-    autocomplete: true
-});</code></pre>
+                <pre class="code">
+                    <code>
+                        $("#ajaxget_tag_handler").tagHandler({
+                            getData: { id: 'user123', type: 'user' },
+                            getURL: '/ajaxtest/get',
+                            autocomplete: true
+                        });
+                    </code>
+                </pre>
                 <ul id="ajaxget_tag_handler"></ul>
 
                 <p><strong>Example 4:</strong> Same as Example 3, but a different user is set in the getData/UpdateData options and now the tags will save when clicking the save button:</p>
-                <pre class="code"><code class="html">
-$("#ajaxupdate_tag_handler").tagHandler({
-    getData: { id: 'user234', type: 'user' },
-    getURL: '/ajaxtest/get',
-    updateData: { id: 'user234', type: 'user' },
-    updateURL: '/ajaxtest/update',
-    autocomplete: true
-});</code></pre>
+                <pre class="code">
+                    <code>
+                        $("#ajaxupdate_tag_handler").tagHandler({
+                            getData: { id: 'user234', type: 'user' },
+                            getURL: '/ajaxtest/get',
+                            updateData: { id: 'user234', type: 'user' },
+                            updateURL: '/ajaxtest/update',
+                            autocomplete: true
+                        });
+                    </code>
+                </pre>
                 <ul id="ajaxupdate_tag_handler"></ul>
 
                 <p><strong>Example 5:</strong> Same as Example 4, but autoUpdate is true, tags will save automatically (no save button will be shown):</p>
-                <pre class="code"><code>
-$("#ajaxautoupdate_tag_handler").tagHandler({
-    getData: { id: 'user234', type: 'user' },
-    getURL: '/ajaxtest/get',
-    updateData: { id: 'user234', type: 'user' },
-    updateURL: '/ajaxtest/update',
-    autocomplete: true,
-    autoUpdate: true
-});</code></pre>
+                <pre class="code">
+                    <code>
+                        $("#ajaxautoupdate_tag_handler").tagHandler({
+                            getData: { id: 'user234', type: 'user' },
+                            getURL: '/ajaxtest/get',
+                            updateData: { id: 'user234', type: 'user' },
+                            updateURL: '/ajaxtest/update',
+                            autocomplete: true,
+                            autoUpdate: true
+                        });
+                    </code>
+                </pre>
                 <ul id="ajaxautoupdate_tag_handler"></ul>
 
                 <a name="options"><h2>Plugin Options</h2></a>
-<pre class="code">
+<pre class="options">
 Tag data options:
 assignedTags:  optional array to use for assignedTags: default: []
 availableTags: optional array to use for availableTags: default: []

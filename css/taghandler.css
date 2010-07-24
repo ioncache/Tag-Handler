@@ -48,13 +48,13 @@ a:hover { text-decoration: none; }
 
 .download { float: right; }
 
-pre {
+pre.source {
     background: #000;
     color: #fff;
     padding: 15px;
 }
 
-pre.code {
+pre.options {
     background: #DDD;
     border: 1px solid #666;
     color: #000;
