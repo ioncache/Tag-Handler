@@ -132,7 +132,8 @@
 (function($) {
 
     $.fn.tagHandler = function(options) {
-        var opts = $.extend({}, $.fn.tagHandler.defaults, options);
+        var opts = $.extend({},
+        $.fn.tagHandler.defaults, options);
         tagDebug($(this), opts);
 
         // processes each specified object and adds a tag handler to each
@@ -168,10 +169,12 @@
             tags['originalTags'] = new Array();
             tags['assignedTags'] = new Array();
 
-            // adds a save/loader button to the tagContainer if needed
+            // adds a save/loader divs to the tagContainer if needed
             if (opts.updateURL != '') {
                 if (!opts.autoUpdate) {
-                    $("<div />").attr("id", tagContainer.id + "_save").addClass("tagUpdate").click(function() { saveTags(tags, opts, tagContainer.id); }).appendTo($(tagContainer).parent());
+                    $("<div />").attr("id", tagContainer.id + "_save").addClass("tagUpdate").click(function() {
+                        saveTags(tags, opts, tagContainer.id);
+                    }).appendTo($(tagContainer).parent());
                 }
                 $("<div />").attr("id", tagContainer.id + "_loader").addClass("tagLoader").appendTo($(tagContainer).parent());
             }
@@ -397,7 +400,9 @@
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts, tcID) {
-        sendData = { tags: tags.assignedTags };
+        sendData = {
+            tags: tags.assignedTags
+        };
         $.extend(sendData, opts.updateData);
         $.ajax({
             type: 'POST',
@@ -407,15 +412,18 @@
             dataType: 'json',
             beforeSend: function() {
                 if ($("#" + tcID + "_save")) {
-                    $("#" + tcID + "_save").fadeOut(200, function() {
+                    $("#" + tcID + "_save").fadeOut(200,
+                    function() {
                         $("#" + tcID + "_loader").fadeIn(200);
                     });
                 } else {
-                     $("#" + tcID + "_loader").fadeIn(200);
+                    console.log("Here?");
+                    $("#" + tcID + "_loader").fadeIn(200);
                 }
             },
             complete: function() {
-                 $("#" + tcID + "_loader").fadeOut(200, function() {
+                $("#" + tcID + "_loader").fadeOut(200,
+                function() {
                     if ($("#" + tcID + "_save")) {
                         $("#" + tcID + "_save").fadeIn(200);
                     }
