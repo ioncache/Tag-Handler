@@ -397,7 +397,6 @@
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts, tcID) {
-        console.log(tagContainer.id);
         sendData = { tags: tags.assignedTags };
         $.extend(sendData, opts.updateData);
         $.ajax({
