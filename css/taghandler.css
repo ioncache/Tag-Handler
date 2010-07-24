@@ -69,6 +69,7 @@ td {
     font-size: 12px;
     border-bottom: 1px dotted #999;
     padding: 3px 5px;
+    vertical-align: top;
 }
 
 th {
@@ -79,6 +80,7 @@ th {
     border-bottom: 1px dotted #666;
     padding-bottom: 5px;
     margin-bottom: 10px;
+    vertical-align: top;
 }
 
 .table_title {
