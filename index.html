@@ -59,13 +59,13 @@
                 $("#array_tag_handler").tagHandler({
                     assignedTags: [ 'Perl' ],
                     availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
-                    autocomplete: true,
+                    autocomplete: true
                 });
 
                 $("#ajaxget_tag_handler").tagHandler({
                     getData: { id: 'user123', type: 'user' },
                     getURL: '/ajaxtest/get',
-                    autocomplete: true,
+                    autocomplete: true
                 });
 
                 $("#ajaxupdate_tag_handler").tagHandler({
@@ -73,7 +73,16 @@
                     getURL: '/ajaxtest/get',
                     updateData: { id: 'user123', type: 'user' },
                     updateURL: '/ajaxtest/update',
+                    autocomplete: true
+                });
+
+                $("#ajaxautoupdate_tag_handler").tagHandler({
+                    getData: { id: 'user123', type: 'user' },
+                    getURL: '/ajaxtest/get',
+                    updateData: { id: 'user123', type: 'user' },
+                    updateURL: '/ajaxtest/update',
                     autocomplete: true,
+                    autoUpdate: true
                 });
 
             });
@@ -167,7 +176,19 @@ $("#ajaxupdate_tag_handler").tagHandler({
     getURL: '/ajaxtest/get',
     updateData: { id: 'user123', type: 'user' },
     updateURL: '/ajaxtest/update',
+    autocomplete: true
+});</pre>
+                <ul id="ajaxupdate_tag_handler"></ul>
+
+                <p><strong>Example 5:</strong> Same as Example 4, but autoUpdate set to true, so tags will save automatically (no save button will be shown):</p>
+                <pre class="code">
+$("#ajaxautoupdate_tag_handler").tagHandler({
+    getData: { id: 'user123', type: 'user' },
+    getURL: '/ajaxtest/get',
+    updateData: { id: 'user123', type: 'user' },
+    updateURL: '/ajaxtest/update',
     autocomplete: true,
+    autoUpdate: true
 });</pre>
                 <ul id="ajaxupdate_tag_handler"></ul>
 
