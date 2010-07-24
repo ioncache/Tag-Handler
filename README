@@ -104,10 +104,10 @@ delimiter:     extra delimiter to use to separate tags - default: ''
 sortTags:      sets sorting of tag names alphabetically - default: true
 
 ----------------------------------------------------------------------------
-Notes
+To Do
 ----------------------------------------------------------------------------
 
-Updating tags via ajax not yet implemented.    
+Error checking of some sort should be added to the ajax methods.
 
 ----------------------------------------------------------------------------
 License
