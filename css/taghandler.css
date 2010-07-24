@@ -67,4 +67,5 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     font-family: arial, helvetica, sans-serif;
     font-size: 12px;
     line-height: 15px;
+    cursor: pointer;
 }
