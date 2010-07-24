@@ -33,6 +33,9 @@
                                             assignedTags: [ 'Administration', 'Human Resources'] ,
                                             availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
                                         };
+                                    } else if (data.id == 'user234') {
+                                            assignedTags: [ 'Management', 'IT Department', 'Administration' ] ,
+                                            availableTags: [ 'Marketing Group', 'Sales Team', 'Administration', 'Management', 'Human Resources', 'IT Department' ]
                                     }
                                 }
                             }
@@ -42,7 +45,7 @@
                                 contentType: 'text/json',
                                 response: function(sent) {
                                     var data = sent.data;
-                                    if (data.id == 'user123') {
+                                    if (data.id == 'user123' || data.id == 'user234') {
                                         this.responseText = { status: "ok" };
                                     } else {
                                         this.responseText = { status: "not found" };
@@ -69,17 +72,17 @@
                 });
 
                 $("#ajaxupdate_tag_handler").tagHandler({
-                    getData: { id: 'user123', type: 'user' },
+                    getData: { id: 'user234', type: 'user' },
                     getURL: '/ajaxtest/get',
-                    updateData: { id: 'user123', type: 'user' },
+                    updateData: { id: 'user234', type: 'user' },
                     updateURL: '/ajaxtest/update',
                     autocomplete: true
                 });
 
                 $("#ajaxautoupdate_tag_handler").tagHandler({
-                    getData: { id: 'user123', type: 'user' },
+                    getData: { id: 'user234', type: 'user' },
                     getURL: '/ajaxtest/get',
-                    updateData: { id: 'user123', type: 'user' },
+                    updateData: { id: 'user234', type: 'user' },
                     updateURL: '/ajaxtest/update',
                     autocomplete: true,
                     autoUpdate: true
@@ -169,12 +172,12 @@ $("#ajaxget_tag_handler").tagHandler({
 });</pre>
                 <ul id="ajaxget_tag_handler"></ul>
 
-                <p><strong>Example 4:</strong> Same as Example 3, but now will save the tags when clicking the save button:</p>
+                <p><strong>Example 4:</strong> Same as Example 3, but a different user is set in the getData/UpdateData options and now the tags will save when clicking the save button:</p>
                 <pre class="code">
 $("#ajaxupdate_tag_handler").tagHandler({
-    getData: { id: 'user123', type: 'user' },
+    getData: { id: 'user234', type: 'user' },
     getURL: '/ajaxtest/get',
-    updateData: { id: 'user123', type: 'user' },
+    updateData: { id: 'user234', type: 'user' },
     updateURL: '/ajaxtest/update',
     autocomplete: true
 });</pre>
@@ -183,9 +186,9 @@ $("#ajaxupdate_tag_handler").tagHandler({
                 <p><strong>Example 5:</strong> Same as Example 4, but autoUpdate is true, tags will save automatically (no save button will be shown):</p>
                 <pre class="code">
 $("#ajaxautoupdate_tag_handler").tagHandler({
-    getData: { id: 'user123', type: 'user' },
+    getData: { id: 'user234', type: 'user' },
     getURL: '/ajaxtest/get',
-    updateData: { id: 'user123', type: 'user' },
+    updateData: { id: 'user234', type: 'user' },
     updateURL: '/ajaxtest/update',
     autocomplete: true,
     autoUpdate: true
