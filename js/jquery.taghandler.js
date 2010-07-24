@@ -411,13 +411,13 @@
             data: sendData,
             dataType: 'json',
             beforeSend: function() {
+                console.log($("#" + tcID + "_save"));
                 if ($("#" + tcID + "_save")) {
                     $("#" + tcID + "_save").fadeOut(200,
                     function() {
                         $("#" + tcID + "_loader").fadeIn(200);
                     });
                 } else {
-                    console.log("Here?");
                     $("#" + tcID + "_loader").fadeIn(200);
                 }
             },
