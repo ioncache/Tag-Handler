@@ -63,6 +63,7 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 
 .footer { text-align:center; padding: 30px 0; font-style: italic; }
 
-.ui-autocomplete {
+.ui-widget .ui-autocomplete {
+    font-family: arial, helvetica, sans-serif;
     font-size: 12px;
 }
