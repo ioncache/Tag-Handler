@@ -68,6 +68,7 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
 td {
     font-size: 12px;
     border-bottom: 1px dotted #999;
+    padding: 3px 5px;
 }
 
 th {
