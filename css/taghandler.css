@@ -80,3 +80,10 @@ th {
     padding-bottom: 5px;
     margin-bottom: 10px;
 }
+
+.table_title {
+    font-weight: bold;
+    font-size: 12px;
+    font-family: arial, helvetica, sans-serif;
+    margin: 15px 0px 7px;
+}
