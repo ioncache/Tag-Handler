@@ -170,10 +170,10 @@
 
             // adds a save/loader button to the tagContainer if needed
             if (opts.updateURL != '') {
-                if(!opts.autoUpdate) {
-                    $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts, tagContainer); }).appendTo($(tagContainer).parent());
+                if (!opts.autoUpdate) {
+                    $("<div />").id(tagContainer.id + "_save").addClass("tagUpdate").click(function() { saveTags(tags, opts, tagContainer.id); }).appendTo($(tagContainer).parent());
                 }
-                $("<div />").addClass("tagLoader").appendTo($(tagContainer).parent());
+                $("<div />").id(tagContainer.id + "_loader").addClass("tagLoader").appendTo($(tagContainer).parent());
             }
 
             // initializes the tag lists
@@ -241,7 +241,7 @@
                 function() {
                     tags = removeTag($(this), tags, opts.sortTags);
                     if (opts.updateURL != '' && opts.autoUpdate) {
-                        saveTags(tags, opts, tagContainer);
+                        saveTags(tags, opts, tagContainer.id);
                     }
                     if (opts.autocomplete) {
                         $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -256,7 +256,7 @@
                         if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags['assignedTags'])) {
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
                             if (opts.updateURL != '' && opts.autoUpdate) {
-                                saveTags(tags, opts, tagContainer);
+                                saveTags(tags, opts, tagContainer.id);
                             }
                             if (opts.autocomplete) {
                                 $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -273,7 +273,7 @@
                     if (e.which == 8 && $(this).val() == "") {
                         tags = removeTag($(tagContainer).find(".tagItem:last"), tags, opts.sortTags);
                         if (opts.updateURL != '' && opts.autoUpdate) {
-                            saveTags(tags, opts, tagContainer);
+                            saveTags(tags, opts, tagContainer.id);
                         }
                         if (opts.autocomplete) {
                             $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -290,7 +290,7 @@
                             if (!checkTag($.trim(ui.item.value), tags['assignedTags'])) {
                                 tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                 if (opts.updateURL != '' && opts.autoUpdate) {
-                                    saveTags(tags, opts, tagContainer);
+                                    saveTags(tags, opts, tagContainer.id);
                                 }
                                 $(inputField).autocomplete("option", "source", tags['availableTags']);
                                 $(this).focus();
@@ -396,7 +396,7 @@
     }
 
     // saves the tags to the server via ajax
-    function saveTags(tags, opts, tagContainer) {
+    function saveTags(tags, opts, tcID) {
         console.log(tagContainer.id);
         sendData = { tags: tags.assignedTags };
         $.extend(sendData, opts.updateData);
@@ -407,18 +407,18 @@
             data: sendData,
             dataType: 'json',
             beforeSend: function() {
-                if ($("#" + tagContainer.id + ".tagUpdate")) {
-                    $("#" + tagContainer.id + ".tagUpdate").fadeOut(200, function() {
-                        $("#" + tagContainer.id + ".tagloader").fadeIn(200);
+                if ($("#" + tcID + "_save")) {
+                    $("#" + tcID + "_save").fadeOut(200, function() {
+                        $("#" + tcID + "_loader").fadeIn(200);
                     });
                 } else {
-                    $("#" + tagContainer.id + ".tagloader").fadeIn(200);
+                     $("#" + tcID + "_loader").fadeIn(200);
                 }
             },
             complete: function() {
-                $("#" + tagContainer.id + ".tagloader").fadeOut(200, function() {
-                    if ($("#" + tagContainer.id + ".tagUpdate")) {
-                        $("#" + tagContainer.id + ".tagUpdate").fadeOut(200);
+                 $("#" + tcID + "_loader").fadeOut(200, function() {
+                    if ($("#" + tcID + "_save")) {
+                        $("#" + tcID + "_save").fadeOut(200);
                     }
                 });
             }
