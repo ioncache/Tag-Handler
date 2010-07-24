@@ -411,8 +411,7 @@
             data: sendData,
             dataType: 'json',
             beforeSend: function() {
-                console.log($("#" + tcID + "_save"));
-                if ($("#" + tcID + "_save")) {
+                if ($("#" + tcID + "_save").length()) {
                     $("#" + tcID + "_save").fadeOut(200,
                     function() {
                         $("#" + tcID + "_loader").fadeIn(200);
@@ -424,7 +423,7 @@
             complete: function() {
                 $("#" + tcID + "_loader").fadeOut(200,
                 function() {
-                    if ($("#" + tcID + "_save")) {
+                    if ($("#" + tcID + "_save").length()) {
                         $("#" + tcID + "_save").fadeIn(200);
                     }
                 });
