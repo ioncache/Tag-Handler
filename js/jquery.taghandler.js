@@ -417,7 +417,7 @@
             complete: function() {
                  $("#" + tcID + "_loader").fadeOut(200, function() {
                     if ($("#" + tcID + "_save")) {
-                        $("#" + tcID + "_save").fadeOut(200);
+                        $("#" + tcID + "_save").fadeIn(200);
                     }
                 });
             }
