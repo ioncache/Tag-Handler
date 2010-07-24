@@ -406,18 +406,18 @@
             data: sendData,
             dataType: 'json',
             beforeSend: function() {
-                if ($(tagContainer).find("tagUpdate")) {
-                    $(tagContainer).find("tagUpdate").fadeOut(200, function() {
-                        $(tagContainer).find("tagloader").fadeIn(200);
+                if ($("#" + tagContainer.id + " .tagUpdate")) {
+                    $("#" + tagContainer.id + " .tagUpdate").fadeOut(200, function() {
+                        $("#" + tagContainer.id + "tagloader").fadeIn(200);
                     });
                 } else {
                     $(tagContainer).find("tagloader").fadeIn(200);
                 }
             },
             complete: function() {
-                $(tagContainer).find("tagloader").fadeOut(200, function() {
-                    if ($(tagContainer).find("tagUpdate")) {
-                        $(tagContainer).find("tagUpdate").fadeOut(200);
+                $("#" + tagContainer.id + ".tagloader").fadeOut(200, function() {
+                    if ($("#" + tagContainer.id + " .tagUpdate")) {
+                        $("#" + tagContainer.id + " .tagUpdate").fadeOut(200);
                     }
                 });
             }
