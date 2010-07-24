@@ -64,3 +64,19 @@ hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     line-height: 15px;
     cursor: pointer;
 }
+
+tr {
+    border-bottom: 1px dotted #999;
+}
+
+td {
+    font-size: 12px;
+}
+
+th {
+    font-size: 13px;
+    font-weight: bold;
+    color: #0066bd;
+    text-align: left;
+    margin-bottom: 5px;
+}
