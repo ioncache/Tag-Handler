@@ -168,9 +168,12 @@
             tags['originalTags'] = new Array();
             tags['assignedTags'] = new Array();
 
-            // adds a save button to the tagContainer if needed
-            if (opts.updateURL != '' && !opts.autoUpdate) {
-                $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts, this); }).appendTo($(tagContainer).parent());
+            // adds a save/loader button to the tagContainer if needed
+            if (opts.updateURL != '') {
+                if(!opts.autoUpdate) {
+                    $("<div />").addClass("tagUpdate").click(function() { saveTags(tags, opts, tagContainer); }).appendTo($(tagContainer).parent());
+                }
+                $("<div />").addClass("tagLoader").appendTo($(tagContainer).parent());
             }
 
             // initializes the tag lists
@@ -238,7 +241,7 @@
                 function() {
                     tags = removeTag($(this), tags, opts.sortTags);
                     if (opts.updateURL != '' && opts.autoUpdate) {
-                        saveTags(tags, opts);
+                        saveTags(tags, opts, tagContainer);
                     }
                     if (opts.autocomplete) {
                         $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -253,7 +256,7 @@
                         if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags['assignedTags'])) {
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
                             if (opts.updateURL != '' && opts.autoUpdate) {
-                                saveTags(tags, opts);
+                                saveTags(tags, opts, tagContainer);
                             }
                             if (opts.autocomplete) {
                                 $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -270,7 +273,7 @@
                     if (e.which == 8 && $(this).val() == "") {
                         tags = removeTag($(tagContainer).find(".tagItem:last"), tags, opts.sortTags);
                         if (opts.updateURL != '' && opts.autoUpdate) {
-                            saveTags(tags, opts);
+                            saveTags(tags, opts, tagContainer);
                         }
                         if (opts.autocomplete) {
                             $(inputField).autocomplete("option", "source", tags['availableTags']);
@@ -287,7 +290,7 @@
                             if (!checkTag($.trim(ui.item.value), tags['assignedTags'])) {
                                 tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                 if (opts.updateURL != '' && opts.autoUpdate) {
-                                    saveTags(tags, opts);
+                                    saveTags(tags, opts, tagContainer);
                                 }
                                 $(inputField).autocomplete("option", "source", tags['availableTags']);
                                 $(this).focus();
@@ -393,10 +396,7 @@
     }
 
     // saves the tags to the server via ajax
-    function saveTags(tags, opts, saveButton) {
-        if ($(saveButton)) {
-            $(saveButton).toggleClass("tagUpdate").toggleClass("tagLoader");
-        }
+    function saveTags(tags, opts, tagContainer) {
         sendData = { tags: tags.assignedTags };
         $.extend(sendData, opts.updateData);
         $.ajax({
@@ -406,14 +406,20 @@
             data: sendData,
             dataType: 'json',
             beforeSend: function() {
-                if ($(saveButton)) {
-                    $(saveButton).removeClass("tagUpdate").addClass("tagLoader");
+                if ($(tagContainer).find("tagUpdate")) {
+                    $(tagContainer).find("tagUpdate").fadeOut(200, function() {
+                        $(tagContainer).find("tagloader").fadeIn(200);
+                    });
+                } else {
+                    $(tagContainer).find("tagloader").fadeIn(200);
                 }
             },
             complete: function() {
-                if ($(saveButton)) {
-                    $(saveButton).addClass("tagUpdate").removeClass("tagLoader");
-                }
+                $(tagContainer).find("tagloader").fadeOut(200, function() {
+                    if ($(tagContainer).find("tagUpdate")) {
+                        $(tagContainer).find("tagUpdate").fadeOut(200);
+                    }
+                });
             }
         });
     }

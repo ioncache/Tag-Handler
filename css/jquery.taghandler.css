@@ -50,6 +50,7 @@
     position: absolute;
     right: -24px;
     top: 12px;
+    display: none;
     background: url('../images/loader.gif') center center no-repeat;
     width: 16px;
     height: 18px;
