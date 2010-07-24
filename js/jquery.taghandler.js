@@ -132,8 +132,7 @@
 (function($) {
 
     $.fn.tagHandler = function(options) {
-        var opts = $.extend({},
-        $.fn.tagHandler.defaults, options);
+        var opts = $.extend({}, $.fn.tagHandler.defaults, options);
         tagDebug($(this), opts);
 
         // processes each specified object and adds a tag handler to each
@@ -192,8 +191,15 @@
                             tags['availableTags'] = data.availableTags.slice();
                             tags['originalTags'] = tags['availableTags'].slice();
                         }
+                        if (opts.sortTags) {
+                            tags = sortTags(tags);
+                        }
                         if (data.assignedTags.length) {
                             tags['assignedTags'] = data.assignedTags.slice();
+                            if (opts.sortTags) {
+                                tags = sortTags(tags);
+                            }     
+
 
                             // adds any already assigned tags to the tag box
                             for (var x = 0; x < tags['assignedTags'].length; x++) {
@@ -208,9 +214,6 @@
                         if (opts.autocomplete && opts.allowEdit) {
                             $(inputField).autocomplete("option", "source", tags['availableTags']);
                         }
-                        if (opts.sortTags) {
-                            tags = sortTags(tags);
-                        }
                     },
                     error: function(xhr, text, error) {
                         alert("There was an error getting the tag list.");
@@ -221,8 +224,14 @@
                     tags['availableTags'] = opts.availableTags.slice();
                     tags['originalTags'] = tags.availableTags.slice();
                 }
+                if (opts.sortTags) {
+                    tags = sortTags(tags);
+                }  
                 if (opts.assignedTags.length) {
                     tags['assignedTags'] = opts.assignedTags.slice();
+                    if (opts.sortTags) {
+                        tags = sortTags(tags);
+                    }
 
                     // adds any already assigned tags to the tag box
                     for (var x = 0; x < tags['assignedTags'].length; x++) {
@@ -236,9 +245,6 @@
                 }
                 if (opts.autocomplete && opts.allowEdit) {
                     $(inputField).autocomplete("option", "source", tags['availableTags']);
-                }
-                if (opts.sortTags) {
-                    tags = sortTags(tags);
                 }
             }
 
