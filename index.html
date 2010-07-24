@@ -222,26 +222,186 @@
                 <ul id="ajaxautoupdate_tag_handler"></ul>
 
                 <a name="options"><h2>Plugin Options</h2></a>
-<pre class="options">
-Tag data options:
-assignedTags:  optional array to use for assignedTags: default: []
-availableTags: optional array to use for availableTags: default: []
-getData:       data field with info for getURL - default: ''
-getURL:        URL to get tag list via ajax - default: ''
-updatetData:   data field with info for updateURL - default: ''
-updateURL:     URL to update tag list via ajax - default: ''
+                <p>Tag data specific options:</p>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Option
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Default Value
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                assignedTags
+                            </td>
+                            <td>
+                                array to use for already assigned tags
+                            </td>
+                            <td>
+                                []
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                availableTags
+                            </td>
+                            <td>
+                                array to use for all available tags
+                            </td>
+                            <td>
+                                []
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                getData
+                            </td>
+                            <td>
+                                data field with info for getURL
+                            </td>
+                            <td>
+                                ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                getURL
+                            </td>
+                            <td>
+                                URL for retrieving tag list via ajax
+                            </td>
+                            <td>
+                                ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                updateData
+                            </td>
+                            <td>
+                                data field with info for updtateURL
+                            </td>
+                            <td>
+                                ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                updateURL
+                            </td>
+                            <td>
+                                URL for savingg tags via ajax
+                            </td>
+                            <td>
+                                ''
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-Misc options:
-allowEdit:     indicates whether the tag list is editable - default: true
-autocomplete:  requires jqueryui autocomplete plugin - default: false
-autoUpdate:    indicates whether updating occurs automatically whenever
-               a tag is added/deleted. If set true, the save button will
-               not be shown - default: false
-className:     class to add to all tags - default: 'tagHandler'
-debug:         turns debugging on and off - default: false
-delimiter:     extra delimiter to use to separate tags - default: ''
-               Note: enter and comma are always allowed
-sortTags:      sets sorting of tag names alphabetically - default: true</pre>
+                <p>Miscellaneous options:</p>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                Option
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Default Value
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                allowEdit
+                            </td>
+                            <td>
+                                indicates whether the tag list is editable
+                            </td>
+                            <td>
+                                true
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                autocomplete
+                            </td>
+                            <td>
+                                activates autocomplete dropdown functionality for tag name - requires jqueryui autocomplete plugin
+                            </td>
+                            <td>
+                                false
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                autoUpdate
+                            </td>
+                            <td>
+                                indicates whether updating occurs automatically whenever a tag is added/deleted - if set true, the save button will not be shown
+                            </td>
+                            <td>
+                                false
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                className
+                            </td>
+                            <td>
+                                base class name that will be added to the tag container
+                            </td>
+                            <td>
+                                tagHandler
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                debug
+                            </td>
+                            <td>
+                                will turn on some console logging debug information
+                            </td>
+                            <td>
+                                false
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                delimiter
+                            </td>
+                            <td>
+                                extra delimiter to use to separate tags - note 'enter' and 'comma' are always allowed
+                            </td>
+                            <td>
+                                ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                sortTags
+                            </td>
+                            <td>
+                                sets sorting of tag names alphabetically
+                            </td>
+                            <td>
+                                true
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <div class="footer">
                     get the source code on GitHub : <a href="http://github.com/ioncache/Tag-Handler">ioncache/Tag-Handler</a>
