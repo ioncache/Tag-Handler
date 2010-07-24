@@ -172,11 +172,11 @@
             // adds a save/loader divs to the tagContainer if needed
             if (opts.updateURL != '') {
                 if (!opts.autoUpdate) {
-                    $("<div />").attr("id", tagContainer.id + "_save").addClass("tagUpdate").click(function() {
+                    $("<div />").attr({ id: tagContainer.id + "_save", title: "Save Tags" }).addClass("tagUpdate").click(function() {
                         saveTags(tags, opts, tagContainer.id);
                     }).appendTo($(tagContainer).parent());
                 }
-                $("<div />").attr("id", tagContainer.id + "_loader").addClass("tagLoader").appendTo($(tagContainer).parent());
+                $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo($(tagContainer).parent());
             }
 
             // initializes the tag lists
