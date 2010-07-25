@@ -20,10 +20,12 @@
 
         <script type="text/javascript">
             $.beautyOfCode.init({
+                baseUrl: 'http://alexgorbatchev.com/pub/sh/current/',
                 brushes: ['JScript'],
                 ready: function() {
                     $("pre.code").beautifyCode('javascript', {gutter:false});
-                }
+                },
+                theme: 'ThemeMDUltra'
             });
         
             $(document).ready(function() {
