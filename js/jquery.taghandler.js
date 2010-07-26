@@ -36,7 +36,7 @@
     Tags may be removed from the tag box by hitting backspace or clicking on
     the tag.
     
-    Tag Handler may recieve a list of tags when initialized or by pulling data
+    Tag Handler may receive a list of tags when initialized or by pulling data
     via ajax from a supplied URL. It may also post back a list of tags to a
     separately specified URL.
     
