@@ -3,7 +3,8 @@
     position: relative;
 }
 .tagHandler ul.tagHandlerContainer {
-    padding: 1px 5px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
     border: 1px solid #DFDFDF;
     overflow: hidden;
     min-height: 30px;
