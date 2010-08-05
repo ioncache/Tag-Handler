@@ -114,36 +114,41 @@
                 </h1>
             
                 <div class="description">
-                    Tag Handler is a jquery plugin used for managing tag-type metadata.
+                    Tag Handler is a <a href="http://jquery.com/">jQuery</a> plugin used for managing tag-type metadata.
                 </div>
 
-                <p>Tag Handler must be attached to one or more &lt;ul&gt; tags in your HTML.</p>
+                <a name="instructions"></a>
+                <h2>Basic Usage Instructions</h2>
 
-                <p>To add a tag, click on the tag box, type in a name, and hit enter or comma.</p>
+                <ul>
+                    <li>Tag Handler must be attached to one or more &lt;ul&gt; tags in your HTML.</li>
+    
+                    <li>To add a tag, click on the tag box, type in a name, and hit enter or comma.</li>
+    
+                    <li>Tags may be removed from the tag box by hitting backspace inside the box or by clicking on the tag.</li>
+    
+                    <li>
+                        The list of tags may be initialized in 1 of 2 ways:<br />
+                        <ol>
+                            <li>
+                                By passing arrays of tag names as options to the plugin ("availableTags" and "assignedTags"); or,
+                            </li>
+                            <li>
+                                By supplying a "getURL" for the tags to be retrieved via AJAX.<br /><br />  When using this method, the server must supply a JSON formatted array named "availableTags" and optionally an additional array named "assignedTags".
+                            </li>
+                        </ol>
+                        Either way, the information from these 2 methods will be used in the following manner:<br /><br />
+                        availableTags: each item in this array will populate the autocomplete drop-down list<br /><br />
+                        assignedTags: each item this array will become a tag in the tag box
+                    </li>
+    
+                    <li>
+                        Tags may be sent back to the server by supplying an "updateURL". In this case, an array will be sent back to the server named "tags".
+                    </li>
+    
+                    <li>A sample CSS file is included that can be used to help with formatting tags.</li>
 
-                <p>Tags may be removed from the tag box by hitting backspace or clicking on the tag.</p>
-
-                <p>
-                    Tag Handler may receive a list of tags when initialized or by pulling data
-                    via ajax from a supplied URL. It may also post back a list of tags to a
-                    separately specified URL.
-                </p>
-
-                <p>
-                    If tags are retrieved with the a URL, the server must supply a JSON
-                    formatted string with an array titled 'availableTags' and optionally an
-                    array titled 'assignedTags'. The 'availableTags' array will populate the
-                    autocomplete list for the tag input field, and the list of 'assignedTags'
-                    will be added as tags to the tag container.
-                </p>
-
-                <p>
-                    If tags are updated via ajax, then an array of tags will be sent back to
-                    the updateURL named 'tags'.  You may also specify any additional data to
-                    be sent with the updateData option.
-                </p>
-
-                <p>A sample CSS file is included that can be used to help with formatting tags.</p>
+                </ul>
 
                 <h2>Download</h2>
                 <p>
@@ -465,6 +470,8 @@
                 <a href="http://github.com/ioncache/Tag-Handler/zipball/master"><img style="border: none; width: 90px;" src="http://github.com/images/modules/download/zip.png" alt="Download Zip" /></a>
                 <a href="http://github.com/ioncache/Tag-Handler/tarball/master"><img style="border: none; width: 90px;" src="http://github.com/images/modules/download/tar.png" alt="Download Tar" /></a>
 
+                <p><a href="#instructions" style="color: #0066bd;">Basic Usage Instrucations</a></p>
+                
                 <p><a href="#examples" style="color: #0066bd;">Plugin Examples</a></p>
 
                 <p><a href="#options" style="color: #0066bd;">Plugin Options</a></p>

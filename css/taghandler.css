@@ -30,6 +30,14 @@ p {
     font-family: arial,helvetica, sans-serif
 }
 
+ul li {
+    margin: 10px 0px;
+}
+
+ol li {
+    margin-bottom: 5px;
+}
+
 h1 { font-size: 3.8em; color: #0066bd; margin-bottom: 3px; }
 
 h1 .small { font-size: 0.4em; }
