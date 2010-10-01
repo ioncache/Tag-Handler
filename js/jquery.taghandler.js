@@ -163,10 +163,10 @@
             var inputField = $(tagContainer).find(".tagInputField");
 
             // master tag list, will contain 3 arrays of tags
-            var tags = new Array();
-            tags['availableTags'] = new Array();
-            tags['originalTags'] = new Array();
-            tags['assignedTags'] = new Array();
+            var tags = [];
+            tags.availableTags = [];
+            tags.originalTags = [];
+            tags.assignedTags = [];
 
             // adds a save/loader divs to the tagContainer if needed
             if (opts.updateURL != '') {
@@ -188,31 +188,31 @@
                     dataType: 'json',
                     success: function(data, text, xhr) {
                         if (data.availableTags.length) {
-                            tags['availableTags'] = data.availableTags.slice();
-                            tags['originalTags'] = tags['availableTags'].slice();
+                            tags.availableTags = data.availableTags.slice();
+                            tags.originalTags = tags.availableTags.slice();
                         }
                         if (opts.sortTags) {
                             tags = sortTags(tags);
                         }
                         if (data.assignedTags.length) {
-                            tags['assignedTags'] = data.assignedTags.slice();
+                            tags.assignedTags = data.assignedTags.slice();
                             if (opts.sortTags) {
                                 tags = sortTags(tags);
                             }     
 
 
                             // adds any already assigned tags to the tag box
-                            for (var x = 0; x < tags['assignedTags'].length; x++) {
+                            for (var x = 0; x < tags.assignedTags.length; x++) {
                                 if (opts.allowEdit) {
-                                    $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField).parent());
+                                    $("<li />").addClass("tagItem").html(tags.assignedTags[x]).insertBefore($(inputField).parent());
                                 } else {
-                                    $("<li />").addClass("tagItem").css("cursor", "default").html(tags['assignedTags'][x]).appendTo($(tagContainer));
+                                    $("<li />").addClass("tagItem").css("cursor", "default").html(tags.assignedTags[x]).appendTo($(tagContainer));
                                 }
-                                tags['availableTags'] = removeTagFromList(tags['assignedTags'][x], tags['availableTags']);
+                                tags.availableTags = removeTagFromList(tags.assignedTags[x], tags.availableTags);
                             }
                         }
                         if (opts.autocomplete && opts.allowEdit) {
-                            $(inputField).autocomplete("option", "source", tags['availableTags']);
+                            $(inputField).autocomplete("option", "source", tags.avail294ableTags);
                         }
                     },
                     error: function(xhr, text, error) {
@@ -221,30 +221,30 @@
                 });
             } else {
                 if (opts.availableTags.length) {
-                    tags['availableTags'] = opts.availableTags.slice();
-                    tags['originalTags'] = tags.availableTags.slice();
+                    tags.availableTags = opts.availableTags.slice();
+                    tags.originalTags = tags.availableTags.slice();
                 }
                 if (opts.sortTags) {
                     tags = sortTags(tags);
                 }  
                 if (opts.assignedTags.length) {
-                    tags['assignedTags'] = opts.assignedTags.slice();
+                    tags.assignedTags = opts.assignedTags.slice();
                     if (opts.sortTags) {
                         tags = sortTags(tags);
                     }
 
                     // adds any already assigned tags to the tag box
-                    for (var x = 0; x < tags['assignedTags'].length; x++) {
+                    for (var x = 0; x < tags.assignedTags.length; x++) {
                         if (opts.allowEdit) {
-                            $("<li />").addClass("tagItem").html(tags['assignedTags'][x]).insertBefore($(inputField).parent());
+                            $("<li />").addClass("tagItem").html(tags.assignedTags[x]).insertBefore($(inputField).parent());
                         } else {
-                            $("<li />").addClass("tagItem").css("cursor", "default").html(tags['assignedTags'][x]).appendTo($(tagContainer));
+                            $("<li />").addClass("tagItem").css("cursor", "default").html(tags.assignedTags[x]).appendTo($(tagContainer));
                         }
-                        tags['availableTags'] = removeTagFromList(tags['assignedTags'][x], tags['availableTags']);
+                        tags.availableTags = removeTagFromList(tags.assignedTags[x], tags.availableTags);
                     }
                 }
                 if (opts.autocomplete && opts.allowEdit) {
-                    $(inputField).autocomplete("option", "source", tags['availableTags']);
+                    $(inputField).autocomplete("option", "source", tags.availableTags);
                 }
             }
 
@@ -259,7 +259,7 @@
                         saveTags(tags, opts, tagContainer.id);
                     }
                     if (opts.autocomplete) {
-                        $(inputField).autocomplete("option", "source", tags['availableTags']);
+                        $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 });
 
@@ -268,13 +268,13 @@
                 $(inputField).keypress(function(e) {
                     if (e.which == 13 || e.which == 44 || e.which == opts.delimiter.charCodeAt(0)) {
                         e.preventDefault();
-                        if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags['assignedTags'])) {
+                        if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags.assignedTags)) {
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
                             if (opts.updateURL != '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
                             if (opts.autocomplete) {
-                                $(inputField).autocomplete("option", "source", tags['availableTags']);
+                                $(inputField).autocomplete("option", "source", tags.availableTags);
                             }
                             $(this).val("");
                             $(this).focus();
@@ -291,7 +291,7 @@
                             saveTags(tags, opts, tagContainer.id);
                         }
                         if (opts.autocomplete) {
-                            $(inputField).autocomplete("option", "source", tags['availableTags']);
+                            $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                         $(this).focus();
                     }
@@ -300,14 +300,14 @@
                 // adds autocomplete functionality for the tag names
                 if (opts.autocomplete) {
                     $(inputField).autocomplete({
-                        source: tags['availableTags'],
+                        source: tags.availableTags,
                         select: function(event, ui) {
-                            if (!checkTag($.trim(ui.item.value), tags['assignedTags'])) {
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
                                 tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                 if (opts.updateURL != '' && opts.autoUpdate) {
                                     saveTags(tags, opts, tagContainer.id);
                                 }
-                                $(inputField).autocomplete("option", "source", tags['availableTags']);
+                                $(inputField).autocomplete("option", "source", tags.availableTags);
                                 $(this).focus();
                             }
                             $(this).val("");
@@ -376,8 +376,8 @@
 
     // adds a tag to the tag box and the assignedTags list
     function addTag(tagField, value, tags, sort) {
-        tags['assignedTags'].push(value);
-        tags['availableTags'] = removeTagFromList(value, tags['availableTags']);
+        tags.assignedTags.push(value);
+        tags.availableTags = removeTagFromList(value, tags.availableTags);
         $("<li />").addClass("tagItem").html(value).insertBefore($(tagField).parent());
 
         if (sort) {
@@ -389,9 +389,9 @@
     // removes a tag from the tag box and the assignedTags list
     function removeTag(tag, tags, sort) {
         var value = $(tag).html();
-        tags['assignedTags'] = removeTagFromList(value, tags['assignedTags']);
-        if (checkTag(value, tags['originalTags'])) {
-            tags['availableTags'].push(value);
+        tags.assignedTags = removeTagFromList(value, tags.assignedTags);
+        if (checkTag(value, tags.originalTags)) {
+            tags.availableTags.push(value);
         }
         $(tag).remove();
 
@@ -403,9 +403,9 @@
 
     // sorts each of the sets of tags
     function sortTags(tags) {
-        tags['availableTags'] = tags['availableTags'].sort();
-        tags['assignedTags'] = tags['assignedTags'].sort();
-        tags['originalTags'] = tags['originalTags'].sort();
+        tags.availableTags = tags.availableTags.sort();
+        tags.assignedTags = tags.assignedTags.sort();
+        tags.originalTags = tags.originalTags.sort();
 
         return tags;
     }
@@ -450,6 +450,6 @@
             window.console.log(options);
             window.console.log($.fn.tagHandler.defaults);
         }
-    };
+    }
 
 })(jQuery);
