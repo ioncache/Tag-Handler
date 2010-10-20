@@ -1,0 +1,8 @@
+Revision history for jQuery Tag-Handler plugin
+
+1.0.1 2010-10-20
+    - Fixed a typo bug that was introduced at some point where the tag box's
+      autocomplete would no longer work.
+
+1.0.0 2010-07-08
+    - initial release
