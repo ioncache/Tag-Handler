@@ -212,7 +212,7 @@
                             }
                         }
                         if (opts.autocomplete && opts.allowEdit) {
-                            $(inputField).autocomplete("option", "source", tags.avail294ableTags);
+                            $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                     },
                     error: function(xhr, text, error) {
@@ -317,17 +317,19 @@
                     });
                 }
 
-                // sets the focus to the input field whenever the user clicks
-                // anywhere on the tagContainer -- since the input field by default
-                // has no border it isn't obvious where to click to access it
-                // also initiates an autocompelte search on an empty string in
-                // the case of no value in the input field to force the
-                // autocomplete drop-down to show
-                $(tagContainer).click(function() {
-                    $(inputField).focus().blur().focus();
+                // sets the input field to show the autocomplete list on focus
+                // when there is no value
+                $(inputField).focus(function() {
                     if ($(inputField).val() == "" && opts.autocomplete) {
                         $(inputField).autocomplete("search", "");
                     }
+                });
+
+                // sets the focus to the input field whenever the user clicks
+                // anywhere on the tagContainer -- since the input field by default
+                // has no border it isn't obvious where to click to access it
+                $(tagContainer).click(function() {
+                    $(inputField).focus();
                 });
             }
         });
