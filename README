@@ -26,30 +26,43 @@ http://preloaders.net/
 Description 
 ------------------------------------------------------------------------------
 
-Tag Handler is a jquery plugin used for managing tag-type metadata.
+Tag Handler is a jQuery plugin used for managing tag-type metadata. 
 
-Tag Handler must be attached to one or more <ul> tags in your HTML.
+------------------------------------------------------------------------------
+Basic Usage Instructions
+------------------------------------------------------------------------------
 
-To add a tag, click on the tag box, type in a name, and hit enter or comma.
+* Tag Handler must be attached to one or more <ul> tags in your HTML.
 
-Tags may be removed from the tag box by hitting backspace or clicking on
-the tag.
+* To add a tag, click on the tag box, type in a name, and hit enter or comma.
 
-Tag Handler may receive a list of tags when initialized or by pulling data
-via ajax from a supplied URL. It may also post back a list of tags to a
-separately specified URL.
+* Tags may be removed from the tag box by hitting backspace inside the box or
+  by clicking on the tag.
 
-If tags are retrieved with the a URL, the server must supply a JSON
-formatted string with an array titled 'availableTags' and optionally an
-array titled 'assignedTags'. The 'availableTags' array will populate the
-autocomplete list for the tag input field, and the list of 'assignedTags'
-will be added as tags to the tag container.
+* The list of tags may be initialized in 1 of 2 ways:
 
-If tags are updated via ajax, then an array of tags will be sent back to
-the updateURL named 'tags'.  You may also specify any additional data to
-be sent with the updateData option.
+     1. By passing arrays of tag names as options to the plugin
+        ("availableTags" and "assignedTags"); or,
 
-A sample CSS file is included that can be used to help with formatting tags.
+     2. By supplying a "getURL" for the tags to be retrieved via AJAX.
+
+        When using this method, the server must supply a JSON formatted array
+        named "availableTags" and optionally an additional array named
+        "assignedTags".
+  
+  Either way, the information from these 2 methods will be used in the
+  following manner:
+
+  availableTags: each item in this array will populate the autocomplete
+  drop-down list
+
+  assignedTags: each item this array will become a tag in the tag box
+
+* Tags may be sent back to the server by supplying an "updateURL". In this case,
+  an array will be sent back to the server named "tags".
+
+* A sample CSS file is included that can be used to help with formatting tags.
+
 
 ------------------------------------------------------------------------------
 Plugin Examples
