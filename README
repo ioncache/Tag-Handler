@@ -1,4 +1,4 @@
-jQuery Tag Handler v1.0
+jQuery Tag Handler v1.0.1
 Copyright (C) 2010 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
@@ -22,9 +22,9 @@ Loader image created at:
 Preloaders.net
 http://preloaders.net/
 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 Description 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 Tag Handler is a jquery plugin used for managing tag-type metadata.
 
@@ -51,67 +51,94 @@ be sent with the updateData option.
 
 A sample CSS file is included that can be used to help with formatting tags.
 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 Plugin Examples
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-Example 1: The Tag Handler will be initialized with no options and no
-           default tags:
+Example 1: The Tag Handler will be initialized with no options and no default
+           tags:
 
-    $("#tag_container").tagHandler();
+    $("#basic_tag_handler").tagHandler();
 
 Example 2: The Tag Handler will be initialized with preset tags from the
-           assignedTags and availableTags arrays, and autocomplete witll
-           be turned on:
+           assignedTags and availableTags arrays, and autocomplete witll be
+           turned on:
 
-    $("#tag_container").tagHandler({
-       assignedTags: [ 'Perl' ] ,
-       availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
-       autocomplete: true
-    });
-
-Example 3: The Tag Handler will be initialized and pull data via ajax,
-           also sending some data to the server:
-
-    $("#tag_container").tagHandler({
-        getData: { 'id': user_id, 'type': 'user' },
-        getURL: '/get_record_tags',
+    $("#array_tag_handler").tagHandler({
+        assignedTags: [ 'Perl' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
         autocomplete: true
     });
 
-----------------------------------------------------------------------------
+Example 3: The Tag Handler will be initialized and pull data via ajax, also
+           sending some data to the server:
+
+    $("#ajaxget_tag_handler").tagHandler({
+        getData: { id: 'user123', type: 'user' },
+        getURL: '/ajaxtest/get',
+        autocomplete: true
+    });
+
+Example 4: Same as Example 3, but a different user is set in the getData /
+           UpdateData options and now the tags will save when clicking the save
+           button:
+           
+    $("#ajaxupdate_tag_handler").tagHandler({
+        getData: { id: 'user234', type: 'user' },
+        getURL: '/ajaxtest/get',
+        updateData: { id: 'user234', type: 'user' },
+        updateURL: '/ajaxtest/update',
+        autocomplete: true
+    });
+
+Example 5: Same as Example 4, but autoUpdate is true, tags will save
+           automatically (no save button will be shown):
+
+    $("#ajaxautoupdate_tag_handler").tagHandler({
+        getData: { id: 'user234', type: 'user' },
+        getURL: '/ajaxtest/get',
+        updateData: { id: 'user234', type: 'user' },
+        updateURL: '/ajaxtest/update',
+        autocomplete: true,
+        autoUpdate: true
+    });
+
+------------------------------------------------------------------------------
 Plugin Options
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
-Tag data options:
-assignedTags:  optional array to use for assignedTags: default: []
-availableTags: optional array to use for availableTags: default: []
-getData:       data field with info for getURL - default: ''
-getURL:        URL to get tag list via ajax - default: ''
-updatetData:   data field with info for updateURL - default: ''
-updateURL:     URL to update tag list via ajax - default: ''
+Tag data specific options:
+--------------------------
 
-Misc options:
-allowEdit:     indicates whether the tag list is editable - default: true
-autocomplete:  requires jqueryui autocomplete plugin - default: false
-autoUpdate:    indicates whether updating occurs automatically whenever
-               a tag is added/deleted. If set true, the save button will
-               not be shown - default: false
-className:     class to add to all tags - default: 'tagHandler'
-debug:         turns debugging on and off - default: false
-delimiter:     extra delimiter to use to separate tags - default: ''
-               Note: enter and comma are always allowed
-sortTags:      sets sorting of tag names alphabetically - default: true
+Option          Description                                     Default Value
+--------------  ----------------------------------------------  --------------
+assignedTags    array to pass a list of already assigned tags   []
+availableTags   array to pass a list of all available tags      []
+getData         data field with info for getURL                 ''
+getURL          URL for retrieving tag lists via ajax           ''
+updatetData     data field with additional info for updtateURL  ''
+updateURL       URL for saving tags via ajax                    ''
 
-----------------------------------------------------------------------------
-To Do
-----------------------------------------------------------------------------
+Miscellaneous options:
+----------------------
 
-Error checking of some sort should be added to the ajax methods.
+Option          Description                                     Default Value
+--------------  ----------------------------------------------  --------------
+allowEdit       indicates whether the tag list is editable      true
+autocomplete    requires jqueryui autocomplete plugin           false
+autoUpdate      indicates whether updating occurs automatically false
+                whenever a tag is added/deleted - if set true,
+                the save button will not be shown
+className       base class name that will be added to the tag   'tagHandler'
+                container 
+debug           will turn on some console logging debug info    false
+delimiter       extra delimiter to use to separate tags         ''
+                note 'enter' and 'comma' are always allowed 
+sortTags        sets sorting of tag names alphabetically        true
 
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 License
-----------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
