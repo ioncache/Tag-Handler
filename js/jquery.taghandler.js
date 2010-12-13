@@ -3,11 +3,18 @@
     Copyright (C) 2010 Mark Jubenville
     Mark Jubenville - ioncache@gmail.com
     http://ioncache.github.com/Tag-Handler
-
+    
     Development time supported by:
     Raybec Communications
     http://www.raybec.com
     http://www.mysaleslink.com
+    
+    Modified by Javier Fernandez Escribano - fesjav@gmail.com
+    Added autocomplete queries as the user writes
+
+    Development time supported by:
+    Tourist Eye
+    http://www.touristeye.com
 
     Based heavily on:
     Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
@@ -89,21 +96,27 @@
     availableTags: optional array to use for availableTags: default: []
     getData:       data field with info for getURL - default: ''
     getURL:        URL to get tag list via ajax - default: ''
+    initLoad:      indicates whether load all tags at init or when requested - default: true
     updatetData:   data field with info for updateURL - default: ''
     updateURL:     URL to update tag list via ajax - default: ''
     
     Misc options:
     allowEdit:     indicates whether the tag list is editable - default: true
+    allowAdd:      indicates whether the user can add new tags - default: true
     autocomplete:  requires jqueryui autocomplete plugin - default: false
     autoUpdate:    indicates whether updating occurs automatically whenever
                    a tag is added/deleted. If set true, the save button will
                    not be shown - default: false
     className:     class to add to all tags - default: 'tagHandler'
+    queryname:     variable name to query the server - default: 'q'
     debug:         turns debugging on and off - default: false
     delimiter:     extra delimiter to use to separate tags - default: ''
                    Note: enter and comma are always allowed
     sortTags:      sets sorting of tag names alphabetically - default: true
-
+    minChars:      minimun number of chars to query the server - default: 0
+    messageNoPermissionNewTag: message shown when the user cannot add a new tag - default: "You don't have enough points to create a new tag",
+    messageErrorLoading: message shown when there is an error loading the tags - default: "There was an error getting the tag list."
+    
     ----------------------------------------------------------------------------
     To Do
     ----------------------------------------------------------------------------
@@ -179,8 +192,9 @@
             }
 
             // initializes the tag lists
-            // tag lists will be pulled from a URL, or passed lists of tags
-            if (opts.getURL != '') {
+            // tag lists will be pulled from a URL
+            if (opts.getURL != '' && opts.initLoad) {
+                
                 $.ajax({
                     url: opts.getURL,
                     cache: false,
@@ -216,10 +230,30 @@
                         }
                     },
                     error: function(xhr, text, error) {
-                        alert("There was an error getting the tag list.");
+                        alert(opts.messageErrorLoading);
                     }
-                });
+                });              
+            
+            // show assigned tags only if we load the data as we write
+            } else if( opts.getURL != '' ) {
+
+                tags.assignedTags = opts.assignedTags.slice();
+                if (opts.sortTags) {
+                  tags = sortTags(tags);
+                }
+
+                // adds any already assigned tags to the tag box
+                for (var x = 0; x < tags.assignedTags.length; x++) {
+                  if (opts.allowEdit) {
+                    $("<li />").addClass("tagItem").html(tags.assignedTags[x]).insertBefore($(inputField).parent());
+                  } else {
+                    $("<li />").addClass("tagItem").css("cursor", "default").html(tags.assignedTags[x]).appendTo($(tagContainer));
+                  }
+                }
+                
+            // or load the lists of tags   
             } else {
+                
                 if (opts.availableTags.length) {
                     tags.availableTags = opts.availableTags.slice();
                     tags.originalTags = tags.availableTags.slice();
@@ -243,7 +277,7 @@
                         tags.availableTags = removeTagFromList(tags.assignedTags[x], tags.availableTags);
                     }
                 }
-                if (opts.autocomplete && opts.allowEdit) {
+                if (opts.autocomplete && opts.allowEdit && opts.initLoad) {
                     $(inputField).autocomplete("option", "source", tags.availableTags);
                 }
             }
@@ -258,8 +292,8 @@
                     if (opts.updateURL != '' && opts.autoUpdate) {
                         saveTags(tags, opts, tagContainer.id);
                     }
-                    if (opts.autocomplete) {
-                        $(inputField).autocomplete("option", "source", tags.availableTags);
+                    if (opts.autocomplete && opts.initLoad) {
+                      $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 });
 
@@ -269,12 +303,19 @@
                     if (e.which == 13 || e.which == 44 || e.which == opts.delimiter.charCodeAt(0)) {
                         e.preventDefault();
                         if ($(this).val() != "" && !checkTag($.trim($(this).val()), tags.assignedTags)) {
+                            
+                            // check if the tag is in availableTags
+                            if( !opts.allowAdd && !checkTag($.trim($(this).val()), tags.availableTags)){
+                              alert(opts.messageNoPermissionNewTag);
+                              return;
+                            }
+                            
                             tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
                             if (opts.updateURL != '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
-                            if (opts.autocomplete) {
-                                $(inputField).autocomplete("option", "source", tags.availableTags);
+                            if (opts.autocomplete && opts.initLoad) {
+                              $(inputField).autocomplete("option", "source", tags.availableTags);
                             }
                             $(this).val("");
                             $(this).focus();
@@ -290,15 +331,16 @@
                         if (opts.updateURL != '' && opts.autoUpdate) {
                             saveTags(tags, opts, tagContainer.id);
                         }
-                        if (opts.autocomplete) {
-                            $(inputField).autocomplete("option", "source", tags.availableTags);
+                        if (opts.autocomplete && opts.initLoad) {
+                          $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                         $(this).focus();
                     }
                 });
 
                 // adds autocomplete functionality for the tag names
-                if (opts.autocomplete) {
+                if (opts.autocomplete && opts.initLoad) {
+                    
                     $(inputField).autocomplete({
                         source: tags.availableTags,
                         select: function(event, ui) {
@@ -313,14 +355,49 @@
                             $(this).val("");
                             return false;
                         },
-                        minLength: 0
+                        minLength: opts.minChars
+                    });
+                    
+                // Make an AJAX request to get the list of tags
+                }else if( opts.autocomplete ){
+                
+                    var cache = {};
+                    
+                    $(inputField).autocomplete({
+                        minLength: opts.minChars,
+                        source: function( request, response ) {
+                          var term = request.term;
+                          if ( term in cache ) {
+                            response( cache[ term ] );
+                            return;
+                          }
+                          // Add term to search on the server
+                          opts.getData[opts.queryName] = term;
+                          lastXhr = $.getJSON( opts.getURL, opts.getData, function( data, status, xhr ) {
+                              cache[ term ] = data;
+                              if ( xhr === lastXhr ) {
+                                response( data );
+                    	      }
+                           });
+                        },
+                        select: function(event, ui) {
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                if (opts.updateURL != '' && opts.autoUpdate) {
+                                    saveTags(tags, opts, tagContainer.id);
+                                }
+                                $(this).focus();
+                            }
+                            $(this).val("");
+                            return false;
+                        }
                     });
                 }
 
                 // sets the input field to show the autocomplete list on focus
                 // when there is no value
                 $(inputField).focus(function() {
-                    if ($(inputField).val() == "" && opts.autocomplete) {
+                    if ($(inputField).val() == "" && opts.autocomplete && opts.initLoad) {
                         $(inputField).autocomplete("search", "");
                     }
                 });
@@ -338,20 +415,26 @@
     // plugin option defaults
     $.fn.tagHandler.defaults = {
         allowEdit: true,
+        allowAdd: true,
         assignedTags: [],
         autocomplete: false,
         autoUpdate: false,
         availableTags: [],
         className: 'tagHandler',
+        queryName: 'q',
         debug: false,
         delimiter: '',
         getData: '',
         getURL: '',
+        initLoad: true,
         sortTags: true,
         updatetData: '',
-        updateURL: ''
+        updateURL: '',
+        minChars: 0,
+        messageNoPermissionNewTag: "You don't have enough points to create a new tag",
+        messageErrorLoading: "There was an error getting the tag list."
     };
-
+    
     // checks to to see if a tag is already found in a list of tags
     function checkTag(value, tags) {
         var check = false;
