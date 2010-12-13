@@ -8,6 +8,13 @@ Raybec Communications
 http://www.raybec.com
 http://www.mysaleslink.com
 
+Modified by Javier Fernandez Escribano - fesjav@gmail.com
+Added autocomplete queries as the user writes
+
+Development time supported by:
+Tourist Eye
+http://www.touristeye.com
+
 Based heavily on:
 Tag it! by Levy Carneiro Jr (http://levycarneiro.com/)
 http://levycarneiro.com/projects/tag-it/example.html
@@ -39,7 +46,7 @@ Basic Usage Instructions
 * Tags may be removed from the tag box by hitting backspace inside the box or
   by clicking on the tag.
 
-* The list of tags may be initialized in 1 of 2 ways:
+* The list of tags may be initialized in 1 of 3 ways:
 
      1. By passing arrays of tag names as options to the plugin
         ("availableTags" and "assignedTags"); or,
@@ -49,8 +56,15 @@ Basic Usage Instructions
         When using this method, the server must supply a JSON formatted array
         named "availableTags" and optionally an additional array named
         "assignedTags".
+     
+     3. By supplying a "getURL" and initLoad: false.
+
+        When using this method, it will get the "assignedTags" from the array as in 
+        method 1. When the user writes a tag, it will query the server searching for
+        similar tags.        
+     
   
-  Either way, the information from these 2 methods will be used in the
+  Either way, the information from these 3 methods will be used in the
   following manner:
 
   availableTags: each item in this array will populate the autocomplete
@@ -60,6 +74,10 @@ Basic Usage Instructions
 
 * Tags may be sent back to the server by supplying an "updateURL". In this case,
   an array will be sent back to the server named "tags".
+
+* You can define whether the user can create new tags or select tags only.
+
+* You can define if the user can edit the tags.
 
 * A sample CSS file is included that can be used to help with formatting tags.
 
@@ -116,6 +134,28 @@ Example 5: Same as Example 4, but autoUpdate is true, tags will save
         autoUpdate: true
     });
 
+Example 6: The Tag Handler will be initialized but it will request the tag list when the user writes more than 2 chars, also sending some data to the server:
+
+    $("#ajaxget_tag_handler").tagHandler({
+        getData: { id: 'user123', type: 'user' },
+        initLoad: false,
+        getURL: '/ajaxtest/get',
+        autocomplete: true,
+        minChars: 2
+    });
+
+Example 7: Same as example 6, but the user cannot create new tags:
+
+    $("#ajaxget_tag_handler").tagHandler({
+        getData: { id: 'user123', type: 'user' },
+        initLoad: false,
+        getURL: '/ajaxtest/get',
+        autocomplete: true,
+        minChars: 2,
+        allowAdd: false
+    });
+    
+        
 ------------------------------------------------------------------------------
 Plugin Options
 ------------------------------------------------------------------------------
@@ -129,6 +169,7 @@ assignedTags    array to pass a list of already assigned tags   []
 availableTags   array to pass a list of all available tags      []
 getData         data field with info for getURL                 ''
 getURL          URL for retrieving tag lists via ajax           ''
+initLoad:       indicates if load all tags at init              true
 updatetData     data field with additional info for updtateURL  ''
 updateURL       URL for saving tags via ajax                    ''
 
@@ -138,16 +179,23 @@ Miscellaneous options:
 Option          Description                                     Default Value
 --------------  ----------------------------------------------  --------------
 allowEdit       indicates whether the tag list is editable      true
+allowAdd        indicates whether the user can add new tags     true
 autocomplete    requires jqueryui autocomplete plugin           false
 autoUpdate      indicates whether updating occurs automatically false
                 whenever a tag is added/deleted - if set true,
                 the save button will not be shown
 className       base class name that will be added to the tag   'tagHandler'
                 container 
+queryname       variable name to query the server               'q'
 debug           will turn on some console logging debug info    false
 delimiter       extra delimiter to use to separate tags         ''
                 note 'enter' and 'comma' are always allowed 
 sortTags        sets sorting of tag names alphabetically        true
+minChars        minimum number of chars to query the server     0
+msgNoNewTag     message shown when the user cannot add a new    "You don't have enough points
+                tag                                              to create a new tag"
+msgError        message shown when there is an error loading    "There was an error getting
+                the tags                                         the tag list."
 
 ------------------------------------------------------------------------------
 License
