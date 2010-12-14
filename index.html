@@ -497,11 +497,9 @@
 
                 var wun_page = location.host;
                 if ( location.pathname != '/' ) {
-                    wun_page = wun_page+location.pathname;
+                    wun_page = wun_page+location.pathname.replace( /\/$/, "");
                 }
-                if ( window.console && window.console.log ) {
-                    console.log("wun_page: " + wun_page);
-                }                
+              
                 var lang = ( typeof( navigator.browserLanguage ) == 'undefined' ) ? navigator.language : navigator.browserLanguage;
                 var referrer = ( document.referrer === '' ) ? parent.document.referrer : document.referrer;
             
