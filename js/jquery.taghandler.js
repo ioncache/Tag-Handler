@@ -155,12 +155,6 @@
                 next;
             }
 
-            // adds an id to the tagContainer in case it doesn't have one
-            if (!this.id) {
-                var d = new Date();
-                this.id = d.getTime();
-            }
-
             var tagContainer = this;
 
             // wraps the <ul> element in a div mainly for use in positioning
@@ -286,7 +280,7 @@
             if (opts.allowEdit) {
                 // delegates a click event function to all future <li> elements with
                 // the tagItem class that will remove the tag upon click
-                $(tagContainer).delegate("#" + this.id + " li.tagItem", "click",
+                $(tagContainer).delegate("li.tagItem", "click",
                 function() {
                     tags = removeTag($(this), tags, opts.sortTags);
                     if (opts.updateURL != '' && opts.autoUpdate) {
