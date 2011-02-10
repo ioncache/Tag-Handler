@@ -155,6 +155,12 @@
                 next;
             }
 
+            // adds an id to the tagContainer in case it doesn't have one
+            if (!this.id) {
+                var d = new Date();
+                this.id = d.getTime();
+            }
+
             var tagContainer = this;
 
             // wraps the <ul> element in a div mainly for use in positioning
