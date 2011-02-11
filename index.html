@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="css/cupertino/jquery-ui-1.8.2.custom.css" />
         <link rel="stylesheet" type="text/css" media="all" href="http://github.com/ioncache/Tag-Handler/raw/master/css/jquery.taghandler.css" />
         
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <script type="text/javascript" src="http://github.com/ioncache/Tag-Handler/raw/master/js/jquery.taghandler.js"></script>
         <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
@@ -333,6 +333,17 @@
                     <tbody>
                         <tr>
                             <td>
+                                allowAdd
+                            </td>
+                            <td>
+                                indicates whether the user can add new tags
+                            </td>
+                            <td>
+                                true
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
                                 allowEdit
                             </td>
                             <td>
@@ -395,6 +406,39 @@
                             </td>
                             <td>
                                 ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                minChars
+                            </td>
+                            <td>
+                                minimum number of characters to type before starting autocomplete
+                            </td>
+                            <td>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                msgNoNewTag
+                            </td>
+                            <td>
+                                message shown when the user cannot add a new tag
+                            </td>
+                            <td>
+                                You don't have permission to create a new tag.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                msgError
+                            </td>
+                            <td>
+                                message shown when there is an error loading the tags
+                            </td>
+                            <td>
+                                There was an error getting the tag list.
                             </td>
                         </tr>
                         <tr>
