@@ -1,5 +1,10 @@
 Revision history for jQuery Tag-Handler plugin
 
+1.0.3 2011-02-09
+    - Shortened the name of the messageNoPermissionNewTag and messageErrorLoading options down to msgNoNewTag and msgError (as was shown in the README).
+    - Merged in change to the delegate function from Pierre Giraud
+    - Renamed the tagDebug internal method to just debug.
+
 1.0.2 2010-12-13
     - Added the possibility of autocompleting the tag list as the user writes, instead of loading all the tags at the beginning.
     - Option to restrict if the user can create new tags
