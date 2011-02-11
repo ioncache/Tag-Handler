@@ -1,5 +1,5 @@
-jQuery Tag Handler v1.0.1
-Copyright (C) 2010 Mark Jubenville
+jQuery Tag Handler v1.0.2
+Copyright (C) 2010-2011 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
 
@@ -134,7 +134,8 @@ Example 5: Same as Example 4, but autoUpdate is true, tags will save
         autoUpdate: true
     });
 
-Example 6: The Tag Handler will be initialized but it will request the tag list when the user writes more than 2 chars, also sending some data to the server:
+Example 6: The Tag Handler will be initialized but it will request the tag list
+when the user writes more than 2 chars, also sending some data to the server:
 
     $("#ajaxget_tag_handler").tagHandler({
         getData: { id: 'user123', type: 'user' },
@@ -178,8 +179,8 @@ Miscellaneous options:
 
 Option          Description                                     Default Value
 --------------  ----------------------------------------------  --------------
-allowEdit       indicates whether the tag list is editable      true
 allowAdd        indicates whether the user can add new tags     true
+allowEdit       indicates whether the tag list is editable      true
 autocomplete    requires jqueryui autocomplete plugin           false
 autoUpdate      indicates whether updating occurs automatically false
                 whenever a tag is added/deleted - if set true,
@@ -190,26 +191,30 @@ queryname       variable name to query the server               'q'
 debug           will turn on some console logging debug info    false
 delimiter       extra delimiter to use to separate tags         ''
                 note 'enter' and 'comma' are always allowed 
+minChars        minimum number of chars to type before starting 0
+                autocomplete
+msgNoNewTag     message shown when the user cannot add a new    'You don't have
+                tag                                             permission to
+                                                                create a new
+                                                                tag.'
+msgError        message shown when there is an error loading    'There was an
+                the tags                                        error getting
+                                                                the tag list.'
 sortTags        sets sorting of tag names alphabetically        true
-minChars        minimum number of chars to query the server     0
-msgNoNewTag     message shown when the user cannot add a new    "You don't have enough points
-                tag                                              to create a new tag"
-msgError        message shown when there is an error loading    "There was an error getting
-                the tags                                         the tag list."
 
 ------------------------------------------------------------------------------
 License
 ------------------------------------------------------------------------------
 
 This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
+it under the terms of the Lesser GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+Lesser GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
+You should have received a copy of the Lesser GNU General Public License
 along with this program.  If not, see < http://www.gnu.org/licenses/ >.
