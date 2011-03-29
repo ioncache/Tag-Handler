@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" media="all" href="css/cupertino/jquery-ui-1.8.2.custom.css" />
         <link rel="stylesheet" type="text/css" media="all" href="http://github.com/ioncache/Tag-Handler/raw/master/css/jquery.taghandler.css" />
         
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <script type="text/javascript" src="http://github.com/ioncache/Tag-Handler/raw/master/js/jquery.taghandler.js"></script>
         <script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
@@ -405,7 +405,6 @@
                     </thead>
                     <tbody>
                         <tr>
-                        <tr>
                             <td>
                                 allowAdd
                             </td>
@@ -416,6 +415,7 @@
                                 true
                             </td>
                         </tr>
+                        <tr>
                             <td>
                                 allowEdit
                             </td>
@@ -618,40 +618,42 @@
         }());
         </script>
 
-        <!-- begin wundercounter.com code http://www.wundercounter.com/?refID=ioncache -->
+        <!-- begin wundercounter.com code http://www.wundercounter.com/?refID=ioncache-->
+        <script type="text/javascript">
         
-        <script language="JavaScript">
+            (function() {
+
+                var wun_page = location.host;
+                if ( location.pathname != '/' ) {
+                    wun_page = wun_page+location.pathname.replace( /\/$/, "");
+                }
+              
+                var lang = ( typeof( navigator.browserLanguage ) == 'undefined' ) ? navigator.language : navigator.browserLanguage;
+                var referrer = ( document.referrer === '' ) ? parent.document.referrer : document.referrer;
+            
+                var url = 'http://www.wundercounter.com/cgi-bin/stats/image.cgi?' +
+                'WUNVERSION=2.0' +
+                '&amp;user=ioncache' +
+                '&amp;page=' + wun_page +
+                '&amp;wS='   + screen.width +
+                '&amp;hS='   + screen.height +
+                '&amp;cS='   + screen.colorDepth +
+                '&amp;hisl=' + history.length +
+                '&amp;WUNL=' + lang +
+                '&amp;WUNC=' + navigator.cookieEnabled +
+                '&amp;WUNJ=' + navigator.javaEnabled() +
+                '&amp;WUNR=' + Math.random() +
+                '&amp;reF='  + referrer;
+            
+                /* <![CDATA[ */
+                document.write('<img src="' + url + '" alt=" " width="1" height="1" />');
+                /* ]]> */
+            
+            })();
         
-        function wunder_url () {
-        
-            var lang        = navigator.browserLanguage;
-            var referrer    = document.referrer;
-        
-            if ( referrer == '' )        { referrer = parent.document.referrer }
-            if ( typeof( lang ) == 'undefined' )   { lang = navigator.language }
-        
-            var url = 'http://www.wundercounter.com/cgi-bin/stats/image.cgi?';
-            url += 'WUNVERSION=2.0&user=ioncache';
-            url += "&page=ioncache.github.com/Tag-Handler";
-            url += '&wS='    + screen.width;
-            url += '&hS='    + screen.height;
-            url += '&cS='    + screen.colorDepth;
-            url += '&hisl='  + history.length;
-            url += '&WUNL='  + lang;
-            url += '&WUNC='  + navigator.cookieEnabled;
-            url += '&WUNJ='  + navigator.javaEnabled();
-            url += '&WUNR='  + Math.random();
-            url += '&reF='   + referrer;
-        
-            return url;
-        
-        }
-        
-        document.write('<img src=' + wunder_url() + '" alt=" " width="1" height="1" />');
-        // -->
         </script>
         
-        <noscript><img src="http://www.wundercounter.com/cgi-bin/stats/image.cgi?WUNVERSION=2.0&user=ioncache&page=ioncache.github.com/Tag-Handler&digits=0" width="1" height="1" alt=" " />
+        <noscript><div><img src="http://www.wundercounter.com/cgi-bin/stats/image.cgi?WUNVERSION=2.0&amp;user=ioncache&amp;page=ioncache.github.com/Tag-Handler&amp;digits=0" width="1" height="1" alt=" " /></div>
         </noscript>
         <!-- end wundercounter.com code http://www.wundercounter.com/?refID=ioncache -->
 
