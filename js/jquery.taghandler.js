@@ -188,19 +188,21 @@
                     the save button will not be shown
     className       base class name that will be added to the tag   'tagHandler'
                     container 
-    queryname       variable name to query the server               'q'
     debug           will turn on some console logging debug info    false
     delimiter       extra delimiter to use to separate tags         ''
                     note 'enter' and 'comma' are always allowed 
+    maxTags         sets a limit to the number of allowed tags, set 0
+                    to 0 to allow unlimited
     minChars        minimum number of chars to type before starting 0
                     autocomplete
+    msgError        message shown when there is an error loading    'There was an
+                    the tags                                        error getting
+                                                                    the tag list.'
     msgNoNewTag     message shown when the user cannot add a new    'You don't have
                     tag                                             permission to
                                                                     create a new
                                                                     tag.'
-    msgError        message shown when there is an error loading    'There was an
-                    the tags                                        error getting
-                                                                    the tag list.'
+    queryname       variable name to query the server               'q'
     sortTags        sets sorting of tag names alphabetically        true
     
     ------------------------------------------------------------------------------
@@ -237,6 +239,7 @@
 
             // caches the container to avoid scope issues.
             var tagContainer = this;
+            var tagContainerObject = $(tagContainer);
 
             // adds an id to the tagContainer in case it doesn't have one
             if ( !tagContainer.id ) {
@@ -246,15 +249,15 @@
 
             // wraps the <ul> element in a div mainly for use in positioning
             // the save button and loader image.
-            $(tagContainer).wrap('<div class="' + opts.className + '" />');
+            tagContainerObject.wrap('<div class="' + opts.className + '" />');
 
             // adds the the tag class to the tagContainer and creates the tag
             // input field
-            $(tagContainer).addClass(opts.className + "Container");
+            tagContainerObject.addClass(opts.className + "Container");
             if (opts.allowEdit) {
-                $(tagContainer).html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
+                tagContainerObject.html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
             }
-            var inputField = $(tagContainer).find(".tagInputField");
+            var inputField = tagContainerObject.find(".tagInputField");
 
             // master tag list, will contain 3 arrays of tags
             var tags = [];
@@ -267,9 +270,9 @@
                 if (!opts.autoUpdate) {
                     $("<div />").attr({ id: tagContainer.id + "_save", title: "Save Tags" }).addClass("tagUpdate").click(function() {
                         saveTags(tags, opts, tagContainer.id);
-                    }).appendTo($(tagContainer).parent());
+                    }).appendTo(tagContainerObject.parent());
                 }
-                $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo($(tagContainer).parent());
+                $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo(tagContainerObject.parent());
             }
 
             // initializes the tag lists
@@ -298,7 +301,7 @@
                             tags = addAssignedTags(opts, tags, inputField, tagContainer);
 
                         }
-                        if (opts.autocomplete && opts.allowEdit) {
+                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
                             $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                     },
@@ -309,7 +312,7 @@
                 });              
             
             // show assigned tags only if we load the data as we write
-            } else if( opts.getURL !=='' ) {
+            } else if( opts.getURL !== '' ) {
 
                 tags.assignedTags = opts.assignedTags.slice();
                 if (opts.sortTags) {
@@ -336,7 +339,7 @@
 
                     tags = addAssignedTags(opts, tags, inputField, tagContainer);
                 }
-                if (opts.autocomplete && opts.allowEdit && opts.initLoad) {
+                if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit && opts.initLoad) {
                     $(inputField).autocomplete("option", "source", tags.availableTags);
                 }
             }
@@ -345,13 +348,12 @@
             if (opts.allowEdit) {
                 // delegates a click event function to all future <li> elements with
                 // the tagItem class that will remove the tag upon click
-                $(tagContainer).delegate("li.tagItem", "click",
-                function() {
+                tagContainerObject.delegate("li.tagItem", "click", function() {
                     tags = removeTag($(this), tags, opts.sortTags);
                     if (opts.updateURL !=='' && opts.autoUpdate) {
                         saveTags(tags, opts, tagContainer.id);
                     }
-                    if (opts.autocomplete && opts.initLoad) {
+                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                       $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 });
@@ -369,12 +371,16 @@
                               return;
                             }
                             
-                            tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
-                            if (opts.updateURL !=='' && opts.autoUpdate) {
-                                saveTags(tags, opts, tagContainer.id);
-                            }
-                            if (opts.autocomplete && opts.initLoad) {
-                              $(inputField).autocomplete("option", "source", tags.availableTags);
+                            if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
+                                alert('Maximum tags allowed: ' + opts.maxTags);
+                            } else {
+                                tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
+                                if (opts.updateURL !=='' && opts.autoUpdate) {
+                                    saveTags(tags, opts, tagContainer.id);
+                                }
+                                if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
+                                    $(inputField).autocomplete("option", "source", tags.availableTags);
+                                }
                             }
                             $(this).val("");
                             $(this).focus();
@@ -386,11 +392,11 @@
                 // keypress event doesn't work in IE
                 $(inputField).keydown(function(e) {
                     if (e.which === 8 && $(this).val() === "") {
-                        tags = removeTag($(tagContainer).find(".tagItem:last"), tags, opts.sortTags);
+                        tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags);
                         if (opts.updateURL !=='' && opts.autoUpdate) {
                             saveTags(tags, opts, tagContainer.id);
                         }
-                        if (opts.autocomplete && opts.initLoad) {
+                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                           $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                         $(this).focus();
@@ -398,17 +404,21 @@
                 });
 
                 // adds autocomplete functionality for the tag names
-                if (opts.autocomplete && opts.initLoad) {
+                if  ( opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad ) {
                     
                     $(inputField).autocomplete({
                         source: tags.availableTags,
                         select: function(event, ui) {
                             if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                if (opts.updateURL !=='' && opts.autoUpdate) {
-                                    saveTags(tags, opts, tagContainer.id);
+                                if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                } else {
+                                    tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                    if (opts.updateURL !=='' && opts.autoUpdate) {
+                                        saveTags(tags, opts, tagContainer.id);
+                                    }
+                                    $(inputField).autocomplete("option", "source", tags.availableTags);
                                 }
-                                $(inputField).autocomplete("option", "source", tags.availableTags);
                                 $(this).focus();
                             }
                             $(this).val("");
@@ -418,7 +428,7 @@
                     });
 
                 // Make an AJAX request to get the list of tags
-                } else if ( opts.autocomplete ){
+                } else if ( opts.autocomplete && typeof($.fn.autocomplete) == 'function' ) {
 
                     var cache = {};
 
@@ -439,14 +449,18 @@
                             });
                         },
                         select: function(event, ui) {
-                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                if (opts.updateURL !=='' && opts.autoUpdate) {
-                                    saveTags(tags, opts, tagContainer.id);
+                            if ( !checkTag($.trim(ui.item.value), tags.assignedTags) ) {
+                                if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                } else {
+                                    tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                    if (opts.updateURL !=='' && opts.autoUpdate) {
+                                        saveTags(tags, opts, tagContainer.id);
+                                    }
                                 }
                                 $(this).focus();
                             }
-                            $(this).val("");
+                            $(this).val('');
                             return false;
                         },
                         minLength: opts.minChars
@@ -456,7 +470,7 @@
                 // sets the input field to show the autocomplete list on focus
                 // when there is no value
                 $(inputField).focus(function() {
-                    if ($(inputField).val() === "" && opts.autocomplete && opts.initLoad) {
+                    if ($(inputField).val() === '' && opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                         $(inputField).autocomplete("search", "");
                     }
                 });
@@ -464,7 +478,7 @@
                 // sets the focus to the input field whenever the user clicks
                 // anywhere on the tagContainer -- since the input field by default
                 // has no border it isn't obvious where to click to access it
-                $(tagContainer).click(function() {
+                tagContainerObject.click(function() {
                     $(inputField).focus();
                 });
             }
@@ -480,18 +494,19 @@
         autoUpdate: false,
         availableTags: [],
         className: 'tagHandler',
-        queryName: 'q',
         debug: false,
         delimiter: '',
         getData: '',
         getURL: '',
         initLoad: true,
-        sortTags: true,
-        updatetData: '',
-        updateURL: '',
+        maxTags: 0,
         minChars: 0,
         msgNoNewTag: "You don't have permission to create a new tag.",
-        msgError: "There was an error getting the tag list."
+        msgError: "There was an error getting the tag list.",
+        queryName: 'q',
+        sortTags: true,
+        updatetData: '',
+        updateURL: ''
     };
     
     // checks to to see if a tag is already found in a list of tags
@@ -593,7 +608,7 @@
             if (opts.allowEdit) {
                 $("<li />").addClass("tagItem").html(e).insertBefore($(inputField).parent());
             } else {
-                $("<li />").addClass("tagItem").css("cursor", "default").html(e).appendTo($(tagContainer));
+                $("<li />").addClass("tagItem").css("cursor", "default").html(e).appendTo(tagContainerObject);
             }
             tags.availableTags = removeTagFromList(e, tags.availableTags);
         });

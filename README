@@ -191,15 +191,18 @@ queryname       variable name to query the server               'q'
 debug           will turn on some console logging debug info    false
 delimiter       extra delimiter to use to separate tags         ''
                 note 'enter' and 'comma' are always allowed 
+maxTags         sets a limit to the number of allowed tags, set 0
+                to 0 to allow unlimited
 minChars        minimum number of chars to type before starting 0
                 autocomplete
+msgError        message shown when there is an error loading    'There was an
+                the tags                                        error getting
+                                                                the tag list.'
 msgNoNewTag     message shown when the user cannot add a new    'You don't have
                 tag                                             permission to
                                                                 create a new
                                                                 tag.'
-msgError        message shown when there is an error loading    'There was an
-                the tags                                        error getting
-                                                                the tag list.'
+queryname       variable name to query the server               'q'
 sortTags        sets sorting of tag names alphabetically        true
 
 ------------------------------------------------------------------------------

@@ -1,5 +1,11 @@
 Revision history for jQuery Tag-Handler plugin
 
+1.1.0 2011-03-29
+    - added maxTags option to limit the maximum number of tags allowed
+    - added check for all autocomplete functions to ensure that jQueryUI autocomplete is enabled
+    - added maxTags option to limit number of tags -- set to 0 for unlimited (default)
+    - saved $(tagContainer) to a variable to save on some jQuery function calls
+
 1.0.3 2011-02-09
     - Shortened the name of the messageNoPermissionNewTag and messageErrorLoading options down to msgNoNewTag and msgError (as was shown in the README).
     - Merged in change to the delegate function from Pierre Giraud
