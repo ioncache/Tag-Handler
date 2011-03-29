@@ -97,6 +97,30 @@
                     autocomplete: true,
                     autoUpdate: true
                 });
+  
+                $("#ajax_no_initial_tag_handler").tagHandler({
+                    getData: { id: 'user123', type: 'user' },
+                    getURL: '/ajaxtest/get',
+                    autocomplete: true,
+                    initialLoad: false,
+                    minChars: 2
+                });
+
+                $("#ajax_no_add_tag_handler").tagHandler({
+                    getData: { id: 'user123', type: 'user' },
+                    getURL: '/ajaxtest/get',
+                    autocomplete: true,
+                    initialLoad: false,
+                    minChars: 2,
+                    allowAdd: false
+                });
+
+                $("#max_tags").tagHandler({
+                    assignedTags: [ 'Perl' ],
+                    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                    autocomplete: true,
+                    maxTags: 10
+                });
 
             });
         </script>
@@ -128,7 +152,7 @@
                     <li>Tags may be removed from the tag box by hitting backspace inside the box or by clicking on the tag.</li>
     
                     <li>
-                        The list of tags may be initialized in 1 of 2 ways:<br />
+                        The list of tags may be initialized in 1 of 3 ways:<br />
                         <ol>
                             <li>
                                 By passing arrays of tag names as options to the plugin ("availableTags" and "assignedTags"); or,
@@ -136,8 +160,13 @@
                             <li>
                                 By supplying a "getURL" for the tags to be retrieved via AJAX.<br /><br />  When using this method, the server must supply a JSON formatted array named "availableTags" and optionally an additional array named "assignedTags".
                             </li>
+                            <li>
+                                By supplying a "getURL" and initLoad: false.<br /><br />
+                                When using this method, it will get the "assignedTags" from the array as in method 1. When the user writes a tag, it will query the server searching for similar tags.
+                            </li>
                         </ol>
-                        Either way, the information from these 2 methods will be used in the following manner:<br /><br />
+                        <br />
+                        Using any of the initialization methods, the information from these 3 methods will be used in the following manner:<br /><br />
                         availableTags: each item in this array will populate the autocomplete drop-down list<br /><br />
                         assignedTags: each item this array will become a tag in the tag box
                     </li>
@@ -226,6 +255,50 @@
                     </code>
                 </pre>
                 <ul id="ajaxautoupdate_tag_handler"></ul>
+
+                <p><strong>Example 6:</strong> The Tag Handler will be initialized but it will request the tag list when the user writes more than 2 chars:</p>
+                <pre class="code">
+                    <code>
+                        $("#ajax_no_initial_tag_handler").tagHandler({
+                            getData: { id: 'user123', type: 'user' },
+                            getURL: '/ajaxtest/get',
+                            updateURL: '/ajaxtest/update',
+                            autocomplete: true,
+                            initialLoad: false,
+                            minChars: 2
+                        });
+                    </code>
+                </pre>
+                <ul id="ajax_no_initial_tag_handler"></ul>
+
+                <p><strong>Example 7:</strong> Same as example 6, but the user cannot create new tags</p>
+                <pre class="code">
+                    <code>
+                        $("#ajax_no_add_tag_handler").tagHandler({
+                            getData: { id: 'user123', type: 'user' },
+                            getURL: '/ajaxtest/get',
+                            updateURL: '/ajaxtest/update',
+                            autocomplete: true,
+                            initialLoad: false,
+                            minChars: 2,
+                            allowAdd: false
+                        });
+                    </code>
+                </pre>
+                <ul id="ajax_no_add_tag_handler"></ul>
+
+                <p><strong>Example 8:</strong> Setting maximum number of tags:</p>
+                <pre class="code">
+                    <code>
+                        $("#array_tag_handler").tagHandler({
+                            assignedTags: [ 'Perl' ],
+                            availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                            autocomplete: true,
+                            maxTags: 10
+                        });
+                    </code>
+                </pre>
+                <ul id="max_tags"></ul>
 
                 <a name="options"></a>
                 <h2>Plugin Options</h2>
@@ -332,6 +405,17 @@
                     </thead>
                     <tbody>
                         <tr>
+                        <tr>
+                            <td>
+                                allowAdd
+                            </td>
+                            <td>
+                                indicates whether the user can add new tags
+                            </td>
+                            <td>
+                                true
+                            </td>
+                        </tr>
                             <td>
                                 allowEdit
                             </td>
@@ -395,6 +479,50 @@
                             </td>
                             <td>
                                 ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                maxTags
+                            </td>
+                            <td>
+                                sets a limit to the number of allowed tags, set to 0 to allow unlimited
+                            </td>
+                            <td>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                minChars
+                            </td>
+                            <td>
+                                minimum number of chars to type before starting autocomplete
+                            </td>
+                            <td>
+                                0
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                msgError
+                            </td>
+                            <td>
+                                message shown when there is an error loading the tags
+                            </td>
+                            <td>
+                                There was an error getting the tag list.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                msgNoNewTag
+                            </td>
+                            <td>
+                                message shown when the user cannot add a new tag
+                            </td>
+                            <td>
+                                You don't have permission to create a new tag.
                             </td>
                         </tr>
                         <tr>
