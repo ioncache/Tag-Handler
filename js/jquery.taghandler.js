@@ -202,7 +202,7 @@
                     tag                                             permission to
                                                                     create a new
                                                                     tag.'
-    queryname       variable name to query the server               'q'
+    queryname       query term used to send user typed data         'q'
     sortTags        sets sorting of tag names alphabetically        true
     
     ------------------------------------------------------------------------------
@@ -397,7 +397,7 @@
                             saveTags(tags, opts, tagContainer.id);
                         }
                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
-                          $(inputField).autocomplete("option", "source", tags.availableTags);
+                            $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                         $(this).focus();
                     }
@@ -440,7 +440,7 @@
                               return;
                             }
                             // Add term to search on the server
-                            opts.getData[opts.queryName] = term;
+                            opts.getData[opts.queryname] = term;
                             lastXhr = $.getJSON( opts.getURL, opts.getData, function( data, status, xhr ) {
                                 cache[ term ] = data;
                                 if ( xhr === lastXhr ) {
@@ -503,7 +503,7 @@
         minChars: 0,
         msgNoNewTag: "You don't have permission to create a new tag.",
         msgError: "There was an error getting the tag list.",
-        queryName: 'q',
+        queryname: 'q',
         sortTags: true,
         updatetData: '',
         updateURL: ''

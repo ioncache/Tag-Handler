@@ -187,7 +187,6 @@ autoUpdate      indicates whether updating occurs automatically false
                 the save button will not be shown
 className       base class name that will be added to the tag   'tagHandler'
                 container 
-queryname       variable name to query the server               'q'
 debug           will turn on some console logging debug info    false
 delimiter       extra delimiter to use to separate tags         ''
                 note 'enter' and 'comma' are always allowed 
@@ -202,7 +201,7 @@ msgNoNewTag     message shown when the user cannot add a new    'You don't have
                 tag                                             permission to
                                                                 create a new
                                                                 tag.'
-queryname       variable name to query the server               'q'
+queryname       query term used to send user typed data        'q'
 sortTags        sets sorting of tag names alphabetically        true
 
 ------------------------------------------------------------------------------
