@@ -102,7 +102,7 @@
                     getData: { id: 'user123', type: 'user' },
                     getURL: '/ajaxtest/get',
                     autocomplete: true,
-                    initialLoad: false,
+                    initLoad: false,
                     minChars: 2
                 });
 
@@ -110,7 +110,7 @@
                     getData: { id: 'user123', type: 'user' },
                     getURL: '/ajaxtest/get',
                     autocomplete: true,
-                    initialLoad: false,
+                    initLoad: false,
                     minChars: 2,
                     allowAdd: false
                 });
@@ -264,7 +264,7 @@
                             getURL: '/ajaxtest/get',
                             updateURL: '/ajaxtest/update',
                             autocomplete: true,
-                            initialLoad: false,
+                            initLoad: false,
                             minChars: 2
                         });
                     </code>
@@ -279,7 +279,7 @@
                             getURL: '/ajaxtest/get',
                             updateURL: '/ajaxtest/update',
                             autocomplete: true,
-                            initialLoad: false,
+                            initLoad: false,
                             minChars: 2,
                             allowAdd: false
                         });
@@ -361,6 +361,17 @@
                             </td>
                             <td>
                                 ''
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                initLoad
+                            </td>
+                            <td>
+                                Indicates if all tags should be loaded on init.
+                            </td>
+                            <td>
+                                true
                             </td>
                         </tr>
                         <tr>
