@@ -169,10 +169,10 @@
     --------------  ----------------------------------------------  --------------
     assignedTags    array to pass a list of already assigned tags   []
     availableTags   array to pass a list of all available tags      []
-    getData         data field with info for getURL                 ''
+    getData         data field with info for getURL                 {}
     getURL          URL for retrieving tag lists via ajax           ''
     initLoad        indicates if all tags should be loaded on init  true
-    updatetData     data field with additional info for updtateURL  ''
+    updateData     data field with additional info for updateUrl    {}
     updateURL       URL for saving tags via ajax                    ''
     
     Miscellaneous options:
@@ -440,8 +440,10 @@
                               return;
                             }
                             // Add term to search on the server
-                            opts.getData[opts.queryname] = term;
-                            lastXhr = $.getJSON( opts.getURL, opts.getData, function( data, status, xhr ) {
+                            getData = {};
+                            getData[opts.queryname] = term;
+                            $.extend(getData, opts.getData);
+                            lastXhr = $.getJSON( opts.getURL, getData, function( data, status, xhr ) {
                                 cache[ term ] = data;
                                 if ( xhr === lastXhr ) {
                                     response( data );
@@ -496,7 +498,7 @@
         className: 'tagHandler',
         debug: false,
         delimiter: '',
-        getData: '',
+        getData: {},
         getURL: '',
         initLoad: true,
         maxTags: 0,
@@ -505,7 +507,7 @@
         msgError: "There was an error getting the tag list.",
         queryname: 'q',
         sortTags: true,
-        updatetData: '',
+        updateData: {},
         updateURL: ''
     };
     
