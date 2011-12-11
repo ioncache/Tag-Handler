@@ -1,5 +1,5 @@
 /*
-    jQuery Tag Handler v1.2.0
+    jQuery Tag Handler v1.2.1
     Copyright (C) 2010-2011 Mark Jubenville
     Mark Jubenville - ioncache@gmail.com
     http://ioncache.github.com/Tag-Handler
@@ -333,7 +333,7 @@
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function() {
                         if ( typeof(opts.onDelete) == "function" ) {
-                            opts.onDelete.call(this, $.trim($(this).val()));
+                            opts.onDelete.call(this, $.trim($(this).text()));
                         }
                         tags = removeTag($(this), tags, opts.sortTags);
                         if (opts.updateURL !=='' && opts.autoUpdate) {
@@ -360,7 +360,8 @@
                                 if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
                                     alert('Maximum tags allowed: ' + opts.maxTags);
                                 } else {
-                                    tags = addTag(this, $.trim($(this).val()), tags, opts.sortTags);
+                                    var newTag = $.trim($(this).val());
+                                    tags = addTag(this, newTag, tags, opts.sortTags);
                                     if (opts.updateURL !=='' && opts.autoUpdate) {
                                         saveTags(tags, opts, tagContainer.id);
                                     }
@@ -368,7 +369,7 @@
                                         $(inputField).autocomplete("option", "source", tags.availableTags);
                                     }
                                     if ( typeof(opts.onAdd) == "function" ) {
-                                        opts.onAdd.call(this, $.trim($(this).val()));
+                                        opts.onAdd.call(this, newTag);
                                     }
                                 }
                                 $(this).val("");
@@ -405,13 +406,14 @@
                                     if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
                                     } else {
-                                        tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                        var newTag = $.trim(ui.item.value);
+                                        tags = addTag(this, newTag, tags, opts.sortTags);
                                         if (opts.updateURL !=='' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
                                         }
                                         $(inputField).autocomplete("option", "source", tags.availableTags);
                                         if ( typeof(opts.onAdd) == "function" ) {
-                                            opts.onAdd.call(this, $.trim($(this).val()));
+                                            opts.onAdd.call(this, newTag);
                                         }
                                     }
                                     $(this).focus();
@@ -436,12 +438,13 @@
                                     if ( opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags ) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
                                     } else {
+                                        var newTag = $.trim(ui.item.value);
                                         tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                         if (opts.updateURL !=='' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
                                         }
                                         if ( typeof(opts.onAdd) == "function" ) {
-                                            opts.onAdd.call(this, $.trim($(this).val()));
+                                            opts.onAdd.call(this, newTag);
                                         }
                                     }
                                     $(this).focus();
