@@ -15,8 +15,8 @@
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>
-        <!--<script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>-->
+        <!--<script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>-->
+        <script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
         <script type="text/javascript" src="js/jquery.beautyOfCode.js"></script>
 
@@ -29,6 +29,7 @@
             });
         
             $(document).ready(function() {
+                $(".methodButton").button();
                 $.mockjax(function(settings) {
                     var service = settings.url.match(/\/ajaxtest\/(.*)$/);
                     if ( service ) {
@@ -140,7 +141,7 @@
                 $("#basic_tag_handler").tagHandler();
                 
                 $("#array_tag_handler").tagHandler({
-                    assignedTags: [ 'Perl' ],
+                    assignedTags: [ 'C', 'Perl', 'PHP' ],
                     availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                     autocomplete: true
                 });
@@ -185,7 +186,7 @@
                     allowAdd: false
                 });
 
-                $("#max_tags").tagHandler({
+                $("#max_tags_tag_handler").tagHandler({
                     assignedTags: [ 'Perl' ],
                     availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                     autocomplete: true,
@@ -261,7 +262,7 @@
                 <pre class="source">$ git clone git://github.com/ioncache/Tag-Handler</pre>
 
                 <a name="examples"></a>
-                <h2>Plugin Examples</h2>
+                <h2>Plugin Setup and Usage Examples</h2>
 
                 <p>Note: the ajax examples are using mockjax (<a href="http://github.com/appendto/jquery-mockjax">http://github.com/appendto/jquery-mockjax</a>) as the backend rather than a live server.</p>
 
@@ -277,7 +278,7 @@
                 <pre class="code">
                     <code>
                         $("#array_tag_handler").tagHandler({
-                            assignedTags: [ 'Perl' ],
+                            assignedTags: [ 'C', 'Perl', 'PHP' ],
                             availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                             autocomplete: true
                         });
@@ -360,7 +361,7 @@
                 <p><strong>Example 8:</strong> Setting maximum number of tags:</p>
                 <pre class="code">
                     <code>
-                        $("#array_tag_handler").tagHandler({
+                        $("#max_tags_tag_handler").tagHandler({
                             assignedTags: [ 'Perl' ],
                             availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                             autocomplete: true,
@@ -368,7 +369,26 @@
                         });
                     </code>
                 </pre>
-                <ul id="max_tags"></ul>
+                <ul id="max_tags_tag_handler"></ul>
+
+                <a name="methods"></a>
+                <h2>Plugin Methods</h2>
+                <p>These are convenience methods for dealing with the Tag-Handler.</p>
+                <p>Note: clicking the example buttons will show any output as an alert and in the console.log.</p>
+                
+                <h3>getTags <button class="methodButton" style="margin-left: 15px; font-size: 12px;" type="button" onclick="if(window.console && window.console.log) { console.log($('#ajaxupdate_tag_handler').tagHandler('getTags')); } alert($('#ajaxupdate_tag_handler').tagHandler('getTags'));">Get Tags</button></h3>
+                <pre class="code">
+                    <code>
+                        $("#ajaxupdate_tag_handler").tagHandler("getTags");
+                    </code>
+                </pre>
+
+                <h3>getSerializedTags <button class="methodButton" style="margin-left: 15px; font-size: 12px;" type="button" onclick="if(window.console && window.console.log) { console.log($('#array_tag_handler').tagHandler('getSerializedTags')); }  alert($('#array_tag_handler').tagHandler('getSerializedTags'));">Get Serialized Tags</button></h3>
+                <pre class="code">
+                    <code>
+                        $("#array_tag_handler").tagHandler("getSerializedTags");
+                    </code>
+                </pre>
 
                 <a name="options"></a>
                 <h2>Plugin Options</h2>
@@ -631,6 +651,47 @@
                     </tbody>
                 </table>
 
+                <div class="table_title">Plugin Methods</div>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">
+                                Method
+                            </th>
+                            <th style="width: 440px;">
+                                Description
+                            </th>
+                            <th style="width: 150px;">
+                                Usage
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                getSerializedTags
+                            </td>
+                            <td>
+                                Will return a comma separated string of the currently assigned tags for the object.
+                            </td>
+                            <td>
+                                .tagHandler("getSerialzedTags")
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                getTags
+                            </td>
+                            <td>
+                                Will return an array of the currently assigned tags for the object.
+                            </td>
+                            <td>
+                                .tagHandler("getTags")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <p>&nbsp;</p>
 
                 <a name="comments"></a>
@@ -655,6 +716,8 @@
             </div>
 
             <div id="sidebar">
+                <h3>Version</h3>
+                <p> <a href="https://raw.github.com/ioncache/Tag-Handler/master/Changes" style="font-size: 14px; font-weight: bold; color: #0066BD;">1.2.0</a> - 2011-12-11 (<a href="https://raw.github.com/ioncache/Tag-Handler/master/Changes">view change file</a>)</p>
                 <h3>Author</h3>
                 <p>Mark Jubenville (<a href="http://github.com/ioncache">ioncache</a>)<br /></p>
                 <p><a href="http://github.com/ioncache/Tag-Handler">Tag Handler Repository</a><br /></p>
@@ -693,6 +756,8 @@
                 <p><a href="#instructions" style="color: #0066bd;">Basic Usage Instrucations</a></p>
                 
                 <p><a href="#examples" style="color: #0066bd;">Plugin Examples</a></p>
+
+                <p><a href="#methods" style="color: #0066bd;">Plugin Method Examples</a></p>
 
                 <p><a href="#options" style="color: #0066bd;">Plugin Options</a></p>
 
