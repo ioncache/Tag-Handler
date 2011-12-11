@@ -82,7 +82,6 @@
     
     * A sample CSS file is included that can be used to help with formatting tags.
     
-    
     ------------------------------------------------------------------------------
     Plugin Examples
     ------------------------------------------------------------------------------
@@ -102,62 +101,8 @@
             autocomplete: true
         });
     
-    Example 3: The Tag Handler will be initialized and pull data via ajax, also
-               sending some data to the server:
+    See http://ioncache.github.com/Tag-Handler for more examples
     
-        $("#ajaxget_tag_handler").tagHandler({
-            getData: { id: 'user123', type: 'user' },
-            getURL: '/ajaxtest/get',
-            autocomplete: true
-        });
-    
-    Example 4: Same as Example 3, but a different user is set in the getData /
-               UpdateData options and now the tags will save when clicking the save
-               button:
-               
-        $("#ajaxupdate_tag_handler").tagHandler({
-            getData: { id: 'user234', type: 'user' },
-            getURL: '/ajaxtest/get',
-            updateData: { id: 'user234', type: 'user' },
-            updateURL: '/ajaxtest/update',
-            autocomplete: true
-        });
-    
-    Example 5: Same as Example 4, but autoUpdate is true, tags will save
-               automatically (no save button will be shown):
-    
-        $("#ajaxautoupdate_tag_handler").tagHandler({
-            getData: { id: 'user234', type: 'user' },
-            getURL: '/ajaxtest/get',
-            updateData: { id: 'user234', type: 'user' },
-            updateURL: '/ajaxtest/update',
-            autocomplete: true,
-            autoUpdate: true
-        });
-    
-    Example 6: The Tag Handler will be initialized but it will request the tag list
-    when the user writes more than 2 chars, also sending some data to the server:
-    
-        $("#ajaxget_tag_handler").tagHandler({
-            getData: { id: 'user123', type: 'user' },
-            initLoad: false,
-            getURL: '/ajaxtest/get',
-            autocomplete: true,
-            minChars: 2
-        });
-    
-    Example 7: Same as example 6, but the user cannot create new tags:
-    
-        $("#ajaxget_tag_handler").tagHandler({
-            getData: { id: 'user123', type: 'user' },
-            initLoad: false,
-            getURL: '/ajaxtest/get',
-            autocomplete: true,
-            minChars: 2,
-            allowAdd: false
-        });
-        
-            
     ------------------------------------------------------------------------------
     Plugin Options
     ------------------------------------------------------------------------------
@@ -174,6 +119,13 @@
     initLoad        indicates if all tags should be loaded on init  true
     updatetData     data field with additional info for updtateURL  ''
     updateURL       URL for saving tags via ajax                    ''
+
+    Callback options:
+    -----------------
+    Option          Description                                     Default Value
+    --------------  ----------------------------------------------  --------------
+    onAdd           function to be called when a new tag is added   function() {}
+    onDelete        function to be called when a tag is deleted     function() {}
     
     Miscellaneous options:
     ----------------------
@@ -380,6 +332,9 @@
                     // delegates a click event function to all future <li> elements with
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function() {
+                        if ( typeof(opts.onDelete) == "function" ) {
+                            opts.onDelete.call(this, $.trim($(this).val()));
+                        }
                         tags = removeTag($(this), tags, opts.sortTags);
                         if (opts.updateURL !=='' && opts.autoUpdate) {
                             saveTags(tags, opts, tagContainer.id);
@@ -412,6 +367,9 @@
                                     if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                                         $(inputField).autocomplete("option", "source", tags.availableTags);
                                     }
+                                    if ( typeof(opts.onAdd) == "function" ) {
+                                        opts.onAdd.call(this, $.trim($(this).val()));
+                                    }
                                 }
                                 $(this).val("");
                                 $(this).focus();
@@ -423,6 +381,9 @@
                     // keypress event doesn't work in IE
                     $(inputField).keydown(function(e) {
                         if (e.which === 8 && $(this).val() === "") {
+                            if ( typeof(opts.onDelete) == "function" ) {
+                                opts.onDelete.call(this, $.trim($(this).val()));
+                            }
                             tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags);
                             if (opts.updateURL !=='' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
@@ -449,6 +410,9 @@
                                             saveTags(tags, opts, tagContainer.id);
                                         }
                                         $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        if ( typeof(opts.onAdd) == "function" ) {
+                                            opts.onAdd.call(this, $.trim($(this).val()));
+                                        }
                                     }
                                     $(this).focus();
                                 }
@@ -475,6 +439,9 @@
                                         tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                         if (opts.updateURL !=='' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
+                                        }
+                                        if ( typeof(opts.onAdd) == "function" ) {
+                                            opts.onAdd.call(this, $.trim($(this).val()));
                                         }
                                     }
                                     $(this).focus();
@@ -522,16 +489,18 @@
         className: 'tagHandler',
         debug: false,
         delimiter: '',
-        getData: '',
+        getData: {},
         getURL: '',
         initLoad: true,
         maxTags: 0,
         minChars: 0,
         msgNoNewTag: "You don't have permission to create a new tag.",
         msgError: "There was an error getting the tag list.",
+        onAdd: {},
+        onDelete: {},
         queryname: 'q',
         sortTags: true,
-        updatetData: '',
+        updatetData: {},
         updateURL: ''
     };
     

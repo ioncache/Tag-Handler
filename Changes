@@ -4,6 +4,7 @@ Revision history for jQuery Tag-Handler plugin
     - added plugin convenience methods
         - getTags: returns an array of tags
         - getSerializedTags: returns comma separated string of tags
+    - added options for callback functions onAdd & onDelete -- these execute after adding or deleting a tag (ryanhollister -- issue #6)
     - modified the way that the ajax retrieval of tags from the server when initLoad is set to false expects returned data to be more in line with the rest of the AJAX calls -- the server must now return an object with an availableTags array just like the other ajax calls or the regualr tag setup
       *** NOTE ***: this is not backwards compatible with previous versions of the Tag-Handler (although I'm not sure how well used this functionality is anyhow)
 
