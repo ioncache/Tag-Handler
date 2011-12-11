@@ -15,8 +15,8 @@
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>
-        <!--<script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>-->
+        <!--<script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>-->
+        <script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
         <script type="text/javascript" src="js/jquery.beautyOfCode.js"></script>
 
@@ -184,6 +184,14 @@
                     initLoad: false,
                     minChars: 2,
                     allowAdd: false
+                });
+
+                $("#callback_tag_handler").tagHandler({
+                    assignedTags: [ 'C', 'Perl', 'PHP' ],
+                    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                    autocomplete: true,
+                    onAdd: function() { alert('tag was added'); },
+                    onDelete: function() { alert('tag was deleted'); }
                 });
 
                 $("#max_tags_tag_handler").tagHandler({
@@ -357,8 +365,22 @@
                     </code>
                 </pre>
                 <ul id="ajax_no_add_tag_handler"></ul>
+    
+                <p><strong>Example 8:</strong> Same as example 2, but there are onAdd and onDelete callbacks</p>
+                <pre class="code">
+                    <code>
+                        $("#callback_tag_handler").tagHandler({
+                            assignedTags: [ 'C', 'Perl', 'PHP' ],
+                            availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                            autocomplete: true,
+                            onAdd: function() { alert('tag was added'); },
+                            onDelete: function() { alert('tag was deleted'); }
+                        });
+                    </code>
+                </pre>
+                <ul id="callback_tag_handler"></ul>
 
-                <p><strong>Example 8:</strong> Setting maximum number of tags:</p>
+                <p><strong>Example 9:</strong> Setting maximum number of tags:</p>
                 <pre class="code">
                     <code>
                         $("#max_tags_tag_handler").tagHandler({
