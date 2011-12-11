@@ -371,8 +371,8 @@
                             assignedTags: [ 'C', 'Perl', 'PHP' ],
                             availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                             autocomplete: true,
-                            onAdd: function() { alert('tag was added'); },
-                            onDelete: function() { alert('tag was deleted'); }
+                            onAdd: function(tag) { alert('Added tag: ' + tag); },
+                            onDelete: function(tag) { alert('Deleted tag: ' + tag); }
                         });
                     </code>
                 </pre>
