@@ -71,7 +71,7 @@
                                 contentType: 'text/json',
                                 response: function(sent) {
                                     var data = sent.data;
-                                    var someTags = [
+                                    var drinkTags = [
                                         "Alabama Slammer",
                                         "Anejo Highball",
                                         "Appletini",
@@ -120,17 +120,15 @@
                                         "Vodka Tonic"
                                     ];
                                     var foundTags = [];
-                                    if (data.id == 'user345') {
+                                    for (var i = 0; i < drinkTags.length; i++) {
                                         var pattern = new RegExp(data.q, "gi");
-                                        for (var i = 0; i < someTags.length; i++) {
-                                            if ( pattern.test(someTags[i]) ) {
-                                                foundTags.push(someTags[i]);
-                                            }
+                                        if ( pattern.test(drinkTags[i]) ) {
+                                            foundTags.push(drinkTags[i]);
                                         }
-                                        this.responseText = { 
-                                            availableTags: foundTags
-                                        };
                                     }
+                                    this.responseText = { 
+                                        availableTags: foundTags
+                                    };
                                 }
                             }
                         }
