@@ -1,5 +1,8 @@
 Revision history for jQuery Tag-Handler plugin
 
+1.2.1 2011-12-11
+    - modified the code for the onAdd & onDelete callbacks to ensure the tag name was being properly being passed to the functions
+
 1.2.0 2011-12-11
     - added plugin convenience methods
         - getTags: returns an array of tags
