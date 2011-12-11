@@ -427,25 +427,13 @@
                         minLength: opts.minChars
                     });
 
-                // Make an AJAX request to get the list of tags
+                // Make an AJAX request to get the list of tags based on typed data
                 } else if ( opts.autocomplete && typeof($.fn.autocomplete) == 'function' ) {
-
-                    var cache = {};
-
                     $(inputField).autocomplete({
                         source: function( request, response ) {
-                            var term = request.term;
-                            if ( term in cache ) {
-                              response( cache[ term ] );
-                              return;
-                            }
-                            // Add term to search on the server
-                            opts.getData[opts.queryname] = term;
+                            opts.getData[opts.queryname] = request.term;
                             lastXhr = $.getJSON( opts.getURL, opts.getData, function( data, status, xhr ) {
-                                cache[ term ] = data;
-                                if ( xhr === lastXhr ) {
-                                    response( data );
-                                }
+                                response( data.availableTags );
                             });
                         },
                         select: function(event, ui) {
@@ -618,7 +606,7 @@
 
     // some debugging information
     function debug(tagContainer, options) {
-        if (window.console && window.console.log && options.debug) {
+        if (options.debug && window.console && window.console.log) {
             window.console.log(tagContainer);
             window.console.log(options);
             window.console.log($.fn.tagHandler.defaults);
