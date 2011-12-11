@@ -156,6 +156,23 @@
             minChars: 2,
             allowAdd: false
         });
+    
+    Example 8: Same as example 7, but there are onAdd and onDelete callbacks
+        
+        var deleted = function() { alert('tag was deleted'); }
+        
+        var added = fcuntion() { alert('tag was added'); }
+        
+        $("#ajaxget_tag_handler").tagHandler({
+            getData: { id: 'user123', type: 'user' },
+            initLoad: false,
+            getURL: '/ajaxtest/get',
+            autocomplete: true,
+            minChars: 2,
+            allowAdd: false,
+            onAdd: added,
+            onDelete: deleted
+        });
         
             
     ------------------------------------------------------------------------------
@@ -174,6 +191,8 @@
     initLoad        indicates if all tags should be loaded on init  true
     updatetData     data field with additional info for updtateURL  ''
     updateURL       URL for saving tags via ajax                    ''
+	onAdd			function to be called when a new tag is added	function() {}
+	onDelete		function to be called when a tag is deleted		function() {}
     
     Miscellaneous options:
     ----------------------
@@ -349,6 +368,7 @@
                 // delegates a click event function to all future <li> elements with
                 // the tagItem class that will remove the tag upon click
                 tagContainerObject.delegate("li.tagItem", "click", function() {
+                    opts.onDelete.call(this);
                     tags = removeTag($(this), tags, opts.sortTags);
                     if (opts.updateURL !=='' && opts.autoUpdate) {
                         saveTags(tags, opts, tagContainer.id);
@@ -381,6 +401,7 @@
                                 if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                                     $(inputField).autocomplete("option", "source", tags.availableTags);
                                 }
+                                opts.onAdd.call($(this), $.trim($(this).val()));
                             }
                             $(this).val("");
                             $(this).focus();
@@ -418,6 +439,7 @@
                                         saveTags(tags, opts, tagContainer.id);
                                     }
                                     $(inputField).autocomplete("option", "source", tags.availableTags);
+                                    opts.onAdd.call($(this), $.trim($(this).val()));
                                 }
                                 $(this).focus();
                             }
@@ -445,6 +467,7 @@
                                     if (opts.updateURL !=='' && opts.autoUpdate) {
                                         saveTags(tags, opts, tagContainer.id);
                                     }
+                                    opts.onAdd.call($(this), $.trim($(this).val()));
                                 }
                                 $(this).focus();
                             }
@@ -494,7 +517,9 @@
         queryname: 'q',
         sortTags: true,
         updatetData: '',
-        updateURL: ''
+        updateURL: '',
+        onDelete: function () {},
+        onAdd: function() {}
     };
     
     // checks to to see if a tag is already found in a list of tags
