@@ -124,8 +124,8 @@
     -----------------
     Option          Description                                     Default Value
     --------------  ----------------------------------------------  --------------
-    onAdd           function to be called when a new tag is added   function() {}
-    onDelete        function to be called when a tag is deleted     function() {}
+    onAdd           function to be called when a new tag is added   {}
+    onDelete        function to be called when a tag is deleted     {}
     
     Miscellaneous options:
     ----------------------
