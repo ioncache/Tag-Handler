@@ -1,5 +1,5 @@
 /*
-    jQuery Tag Handler v1.1.0
+    jQuery Tag Handler v1.2.0
     Copyright (C) 2010-2011 Mark Jubenville
     Mark Jubenville - ioncache@gmail.com
     http://ioncache.github.com/Tag-Handler
@@ -204,6 +204,15 @@
                                                                     tag.'
     queryname       query term used to send user typed data         'q'
     sortTags        sets sorting of tag names alphabetically        true
+
+    Methods
+    ----------------------
+    
+    Name               Description               Usage
+    -----------------  -----------------------  --------------------------------
+    getTags            returns an array of tags .tagHandler("getTags")
+    getSerializedTags  returns comma separated  .tagHandler("getSerializedTags")
+                       string of tags
     
     ------------------------------------------------------------------------------
     License

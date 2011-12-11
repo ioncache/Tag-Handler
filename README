@@ -204,6 +204,15 @@ msgNoNewTag     message shown when the user cannot add a new    'You don't have
 queryname       query term used to send user typed data        'q'
 sortTags        sets sorting of tag names alphabetically        true
 
+Methods
+----------------------
+
+Name               Description               Usage
+-----------------  -----------------------  --------------------------------
+getTags            returns an array of tags .tagHandler("getTags")
+getSerializedTags  returns comma separated  .tagHandler("getSerializedTags")
+                   string of tags
+
 ------------------------------------------------------------------------------
 License
 ------------------------------------------------------------------------------
