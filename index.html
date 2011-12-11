@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
         <title>ioncache/Tag-Handler @ GitHub</title>
 
@@ -13,7 +13,7 @@
         <!-- <link rel="stylesheet" type="text/css" media="all" href="https://raw.github.com/ioncache/Tag-Handler/master/css/jquery.taghandler.css" /> -->
         <link rel="stylesheet" type="text/css" media="all" href="css/jquery.taghandler.css" />
         
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
@@ -63,6 +63,74 @@
                                     }
                                 }
                             }
+                        } else if (service[1] == 'search') {
+                            return {
+                                url: '/ajaxtest/search',
+                                contentType: 'text/json',
+                                response: function(sent) {
+                                    var data = sent.data;
+                                    var someTags = [
+                                        "Alabama Slammer",
+                                        "Anejo Highball",
+                                        "Appletini",
+                                        "Bay Breeze",
+                                        "Bellini",
+                                        "Black & Tan",
+                                        "Bloody Mary",
+                                        "Bocce Ball",
+                                        "Bourbon & Water",
+                                        "Brown Cow",
+                                        "Campari & Soda",
+                                        "Cape Codder",
+                                        "Cherry Hooker",
+                                        "Creamsicle",
+                                        "Cuba Libre",
+                                        "Dark & Stormy",
+                                        "Freddie Fuddpucker (Cactus Banger)",
+                                        "Fuzzy Navel",
+                                        "Gin & Tonic",
+                                        "Gin Buck",
+                                        "Gin Rickey",
+                                        "Greyhound",
+                                        "Hairy Navel",
+                                        "Harvey Wallbanger",
+                                        "Highball",
+                                        "Hollywood",
+                                        "Horny Bull",
+                                        "Madras",
+                                        "Manhattan",
+                                        "Martini",
+                                        "Melon Ball",
+                                        "Moscow Mule",
+                                        "Orange Blossom",
+                                        "Rum & Coke",
+                                        "Salty Dog",
+                                        "Sea Breeze",
+                                        "Scarlet O'Hara",
+                                        "Scotch & Soda",
+                                        "Screwdriver",
+                                        "Seven & Seven",
+                                        "Sloe Screw",
+                                        "Smith & Kearns",
+                                        "Smith & Wesson",
+                                        "Tequila Sunrise",
+                                        "Vodka Red Bull",
+                                        "Vodka Tonic"
+                                    ];
+                                    var foundTags = [];
+                                    if (data.id == 'user345') {
+                                        var pattern = new RegExp(data.q, "gi");
+                                        for (var i = 0; i < someTags.length; i++) {
+                                            if ( pattern.test(someTags[i]) ) {
+                                                foundTags.push(someTags[i]);
+                                            }
+                                        }
+                                        this.responseText = { 
+                                            availableTags: foundTags
+                                        };
+                                    }
+                                }
+                            }
                         }
                     }
                     return;
@@ -100,16 +168,16 @@
                 });
   
                 $("#ajax_no_initial_tag_handler").tagHandler({
-                    getData: { id: 'user123', type: 'user' },
-                    getURL: '/ajaxtest/get',
+                    getData: { id: 'user345', type: 'user' },
+                    getURL: '/ajaxtest/search',
                     autocomplete: true,
                     initLoad: false,
                     minChars: 2
                 });
 
                 $("#ajax_no_add_tag_handler").tagHandler({
-                    getData: { id: 'user123', type: 'user' },
-                    getURL: '/ajaxtest/get',
+                    getData: { id: 'user345', type: 'user' },
+                    getURL: '/ajaxtest/search',
                     autocomplete: true,
                     initLoad: false,
                     minChars: 2,
