@@ -15,8 +15,8 @@
         
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>
-        <!--<script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>-->
+        <!--<script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.min.js"></script>-->
+        <script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
         <script type="text/javascript" src="js/jquery.beautyOfCode.js"></script>
 
@@ -190,8 +190,8 @@
                     assignedTags: [ 'C', 'Perl', 'PHP' ],
                     availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
                     autocomplete: true,
-                    onAdd: function() { alert('tag was added'); },
-                    onDelete: function() { alert('tag was deleted'); }
+                    onAdd: function(tag) { alert('Added tag: ' + tag); },
+                    onDelete: function(tag) { alert('Deleted tag: ' + tag); }
                 });
 
                 $("#max_tags_tag_handler").tagHandler({
