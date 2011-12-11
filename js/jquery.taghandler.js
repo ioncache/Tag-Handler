@@ -115,9 +115,9 @@
     assignedTags    array to pass a list of already assigned tags   []
     availableTags   array to pass a list of all available tags      []
     getData         data field with info for getURL                 ''
-    getURL          URL for retrieving tag lists via ajax           ''
+    getURL          URL for retrieving tag lists via ajax           {}
     initLoad        indicates if all tags should be loaded on init  true
-    updatetData     data field with additional info for updtateURL  ''
+    updatetData     data field with additional info for updtateURL  {}
     updateURL       URL for saving tags via ajax                    ''
 
     Callback options:
