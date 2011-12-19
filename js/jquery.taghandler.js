@@ -117,7 +117,7 @@
     getData         data field with info for getURL                 ''
     getURL          URL for retrieving tag lists via ajax           {}
     initLoad        indicates if all tags should be loaded on init  true
-    updatetData     data field with additional info for updtateURL  {}
+    updateData      data field with additional info for updtateURL  {}
     updateURL       URL for saving tags via ajax                    ''
 
     Callback options:
@@ -503,7 +503,7 @@
         onDelete: {},
         queryname: 'q',
         sortTags: true,
-        updatetData: {},
+        updateData: {},
         updateURL: ''
     };
     
