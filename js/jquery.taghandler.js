@@ -326,24 +326,30 @@
                         $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 }
-    
+
                 // all tag editing functionality only activated if set in options
                 if (opts.allowEdit) {
                     // delegates a click event function to all future <li> elements with
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function() {
+                        var rc;
+
                         if ( typeof(opts.onDelete) == "function" ) {
-                            opts.onDelete.call(this, $.trim($(this).text()));
+                            rc = opts.onDelete.call(this, $.trim($(this).text()));
                         }
-                        tags = removeTag($(this), tags, opts.sortTags);
-                        if (opts.updateURL !=='' && opts.autoUpdate) {
-                            saveTags(tags, opts, tagContainer.id);
+
+                        if (rc) {
+                            tags = removeTag($(this), tags, opts.sortTags);
+                            if (opts.updateURL !=='' && opts.autoUpdate) {
+                                saveTags(tags, opts, tagContainer.id);
+                            }
                         }
+
                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                           $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                     });
-    
+
                     // checks the keypress event for enter or comma, and adds a new tag
                     // when either of those keys are pressed
                     $(inputField).keypress(function(e) {
