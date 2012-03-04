@@ -332,7 +332,7 @@
                     // delegates a click event function to all future <li> elements with
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function() {
-                        var rc;
+                        var rc = 1;
 
                         if ( typeof(opts.onDelete) == "function" ) {
                             rc = opts.onDelete.call(this, $.trim($(this).text()));
@@ -367,15 +367,22 @@
                                     alert('Maximum tags allowed: ' + opts.maxTags);
                                 } else {
                                     var newTag = $.trim($(this).val());
-                                    tags = addTag(this, newTag, tags, opts.sortTags);
-                                    if (opts.updateURL !=='' && opts.autoUpdate) {
-                                        saveTags(tags, opts, tagContainer.id);
-                                    }
-                                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
-                                        $(inputField).autocomplete("option", "source", tags.availableTags);
-                                    }
+
+                                    // allow addition onAdd return code to control whether addition
+                                    // is allowed to go through.
+                                    var rc = 1;
                                     if ( typeof(opts.onAdd) == "function" ) {
-                                        opts.onAdd.call(this, newTag);
+                                        rc = opts.onAdd.call(this, newTag);
+                                    }
+
+                                    if (rc) {
+                                        tags = addtag(this, newtag, tags, opts.sorttags);
+                                        if (opts.updateurl !=='' && opts.autoupdate) {
+                                            savetags(tags, opts, tagcontainer.id);
+                                        }
+                                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
+                                            $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        }
                                     }
                                 }
                                 $(this).val("");
