@@ -357,7 +357,7 @@
                             e.preventDefault();
                             if ($(this).val() !=="" && !checkTag($.trim($(this).val()), tags.assignedTags)) {
                                 
-                                // check if the tag is in availableTags
+                               // check if the tag is in availableTags
                                 if( !opts.allowAdd && !checkTag($.trim($(this).val()), tags.availableTags)){
                                   alert(opts.msgNoNewTag);
                                   return;
@@ -376,7 +376,7 @@
                                     }
 
                                     if (rc) {
-                                        tags = addtag(this, newtag, tags, opts.sorttags);
+                                        tags = addTag(this, newTag, tags, opts.sorttags);
                                         if (opts.updateurl !=='' && opts.autoupdate) {
                                             savetags(tags, opts, tagcontainer.id);
                                         }
@@ -523,7 +523,7 @@
     // checks to to see if a tag is already found in a list of tags
     function checkTag(value, tags) {
         var check = false;
-        $(tags).each(function(i, e) {
+        jQuery.each(tags, function(i, e) {
             if ( e === value ) {
                 check = true;
                 return false;
@@ -535,7 +535,7 @@
 
     // removes a tag from a tag list
     function removeTagFromList(value, tags) {
-        $(tags).each(function(i, e) {
+        jQuery.each(tags, function(i, e) {
             if ( e === value )  {
                 tags.splice(i, 1);
             }
