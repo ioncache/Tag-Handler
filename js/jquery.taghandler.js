@@ -326,24 +326,30 @@
                         $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 }
-    
+
                 // all tag editing functionality only activated if set in options
                 if (opts.allowEdit) {
                     // delegates a click event function to all future <li> elements with
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function() {
+                        var rc = 1;
+
                         if ( typeof(opts.onDelete) == "function" ) {
-                            opts.onDelete.call(this, $.trim($(this).text()));
+                            rc = opts.onDelete.call(this, $.trim($(this).text()));
                         }
-                        tags = removeTag($(this), tags, opts.sortTags);
-                        if (opts.updateURL !=='' && opts.autoUpdate) {
-                            saveTags(tags, opts, tagContainer.id);
+
+                        if (rc) {
+                            tags = removeTag($(this), tags, opts.sortTags);
+                            if (opts.updateURL !=='' && opts.autoUpdate) {
+                                saveTags(tags, opts, tagContainer.id);
+                            }
                         }
+
                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                           $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                     });
-    
+
                     // checks the keypress event for enter or comma, and adds a new tag
                     // when either of those keys are pressed
                     $(inputField).keypress(function(e) {
@@ -351,7 +357,7 @@
                             e.preventDefault();
                             if ($(this).val() !=="" && !checkTag($.trim($(this).val()), tags.assignedTags)) {
                                 
-                                // check if the tag is in availableTags
+                               // check if the tag is in availableTags
                                 if( !opts.allowAdd && !checkTag($.trim($(this).val()), tags.availableTags)){
                                   alert(opts.msgNoNewTag);
                                   return;
@@ -361,15 +367,22 @@
                                     alert('Maximum tags allowed: ' + opts.maxTags);
                                 } else {
                                     var newTag = $.trim($(this).val());
-                                    tags = addTag(this, newTag, tags, opts.sortTags);
-                                    if (opts.updateURL !=='' && opts.autoUpdate) {
-                                        saveTags(tags, opts, tagContainer.id);
-                                    }
-                                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
-                                        $(inputField).autocomplete("option", "source", tags.availableTags);
-                                    }
+
+                                    // allow addition onAdd return code to control whether addition
+                                    // is allowed to go through.
+                                    var rc = 1;
                                     if ( typeof(opts.onAdd) == "function" ) {
-                                        opts.onAdd.call(this, newTag);
+                                        rc = opts.onAdd.call(this, newTag);
+                                    }
+
+                                    if (rc) {
+                                        tags = addTag(this, newTag, tags, opts.sorttags);
+                                        if (opts.updateurl !=='' && opts.autoupdate) {
+                                            savetags(tags, opts, tagcontainer.id);
+                                        }
+                                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
+                                            $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        }
                                     }
                                 }
                                 $(this).val("");
@@ -510,7 +523,7 @@
     // checks to to see if a tag is already found in a list of tags
     function checkTag(value, tags) {
         var check = false;
-        $(tags).each(function(i, e) {
+        jQuery.each(tags, function(i, e) {
             if ( e === value ) {
                 check = true;
                 return false;
@@ -522,7 +535,7 @@
 
     // removes a tag from a tag list
     function removeTagFromList(value, tags) {
-        $(tags).each(function(i, e) {
+        jQuery.each(tags, function(i, e) {
             if ( e === value )  {
                 tags.splice(i, 1);
             }
