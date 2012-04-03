@@ -1,4 +1,4 @@
-jQuery Tag Handler v1.2.1
+jQuery Tag Handler v1.2.2
 Copyright (C) 2010-2011 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
@@ -126,6 +126,8 @@ Option          Description                                     Default Value
 --------------  ----------------------------------------------  --------------
 onAdd           function to be called when a new tag is added   {}
 onDelete        function to be called when a tag is deleted     {}
+afterAdd        function to be called after a new tag is added  {}
+afterDelete     function to be called after a tag is deleted    {}
 
 Miscellaneous options:
 ----------------------

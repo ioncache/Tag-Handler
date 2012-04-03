@@ -1,5 +1,5 @@
 /*
-jQuery Tag Handler v1.2.1
+jQuery Tag Handler v1.2.2
 Copyright (C) 2010-2011 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
