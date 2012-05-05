@@ -404,15 +404,16 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // keypress event doesn't work in IE
                     $(inputField).keydown(function (e) {
                         if (e.which === 8 && $(this).val() === "") {
+                            var deleted_tag = tagContainerObject.find(".tagItem:last").text();
                             if (typeof (opts.onDelete) == "function") {
-                                opts.onDelete.call(this, $.trim($(this).val()));
+                                opts.onDelete.call(this, $.trim(deleted_tag));
                             }
-                            tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags);
+                            tags = removeTag(deleted_tag, tags, opts.sortTags);
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
                             if (typeof (opts.afterDelete) == "function") {
-                                opts.afterDelete.call(this, $.trim($(this).text()));
+                                opts.afterDelete.call(this, $.trim(deleted_tag));
                             }
                             if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initLoad) {
                                 $(inputField).autocomplete("option", "source", tags.availableTags);
@@ -568,7 +569,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
     function addTag(tagField, value, tags, sort) {
         tags.assignedTags.push(value);
         tags.availableTags = removeTagFromList(value, tags.availableTags);
-        $("<li />").addClass("tagItem").html(value).insertBefore($(tagField).parent());
+        $("<li />").addClass("tagItem").text(value).insertBefore($(tagField).parent());
 
         if (sort) {
             tags = sortTags(tags);
@@ -578,7 +579,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
     // removes a tag from the tag box and the assignedTags list
     function removeTag(tag, tags, sort) {
-        var value = $(tag).html();
+        var value = $(tag).text();
         tags.assignedTags = removeTagFromList(value, tags.assignedTags);
         if (checkTag(value, tags.originalTags)) {
             tags.availableTags.push(value);
@@ -637,9 +638,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
     function addAssignedTags(opts, tags, inputField, tagContainer) {
         $(tags.assignedTags).each(function (i, e) {
             if (opts.allowEdit) {
-                $("<li />").addClass("tagItem").html(e).insertBefore($(inputField).parent());
+                $("<li />").addClass("tagItem").text(e).insertBefore($(inputField).parent());
             } else {
-                $("<li />").addClass("tagItem").css("cursor", "default").html(e).appendTo(tagContainerObject);
+                $("<li />").addClass("tagItem").css("cursor", "default").text(e).appendTo(tagContainerObject);
             }
             tags.availableTags = removeTagFromList(e, tags.availableTags);
         });
