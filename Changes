@@ -1,5 +1,10 @@
 Revision history for jQuery Tag-Handler plugin
 
+1.3.0 2012-05-05
+    - fixed issue where adding html reserved characters (<> etc) were bing interpreted as HTML -- now using .text() instead of .html() to read/write tags -- reported by bull5_i oin Disqus comments
+    - fixed issue where hitting backspace to remove a tag does not actually delete the tag from the tag list, nor did it return the tag text in the onDelete callback -- issue reported by Eduardo Pereira from Disqus comments
+    - added afterAdd and afterDelete callbacks -- pull request from liddellj
+
 1.2.1 2011-12-11
     - modified the code for the onAdd & onDelete callbacks to ensure the tag name was being properly being passed to the functions
 
