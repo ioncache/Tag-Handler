@@ -209,7 +209,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
     // main plugin initialization
     $.fn.tagHandler = function (options) {
-        if (typeof (options) == 'object' || typeof (options) == 'undefined') {
+        if (typeof(options) == 'object' || typeof(options) == 'undefined') {
 
             var opts = $.extend({}, $.fn.tagHandler.defaults, options);
             debug($(this), opts);
@@ -286,7 +286,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                 tags = addAssignedTags(opts, tags, inputField, tagContainer);
 
                             }
-                            if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.allowEdit) {
+                            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
                                 $(inputField).autocomplete("option", "source", tags.availableTags);
                             }
                         },
@@ -324,7 +324,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
                         tags = addAssignedTags(opts, tags, inputField, tagContainer);
                     }
-                    if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.allowEdit && opts.initLoad) {
+                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit && opts.initLoad) {
                         $(inputField).autocomplete("option", "source", tags.availableTags);
                     }
                 }
@@ -336,7 +336,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     tagContainerObject.delegate("li.tagItem", "click", function () {
                         var rc = 1;
 
-                        if (typeof (opts.onDelete) == "function") {
+                        if (typeof(opts.onDelete) == "function") {
                             rc = opts.onDelete.call(this, $.trim($(this).text()));
                         }
 
@@ -347,11 +347,11 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             }
                         }
 
-                        if (typeof (opts.afterDelete) == "function") {
+                        if (typeof(opts.afterDelete) == "function") {
                             opts.afterDelete.call(this, $.trim($(this).text()));
                         }
 
-                        if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initLoad) {
+                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                             $(inputField).autocomplete("option", "source", tags.availableTags);
                         }
                     });
@@ -377,7 +377,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     // allow addition onAdd return code to control whether addition
                                     // is allowed to go through.
                                     var rc = 1;
-                                    if (typeof (opts.onAdd) == "function") {
+                                    if (typeof(opts.onAdd) == "function") {
                                         rc = opts.onAdd.call(this, newTag);
                                     }
 
@@ -386,10 +386,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                         if (opts.updateurl !== '' && opts.autoupdate) {
                                             savetags(tags, opts, tagcontainer.id);
                                         }
-                                        if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initload) {
+                                        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
                                             $(inputField).autocomplete("option", "source", tags.availableTags);
                                         }
-                                        if (typeof (opts.afterAdd) == "function") {
+                                        if (typeof(opts.afterAdd) == "function") {
                                             opts.afterAdd.call(this, newTag);
                                         }
                                     }
@@ -405,17 +405,17 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     $(inputField).keydown(function (e) {
                         if (e.which === 8 && $(this).val() === "") {
                             var deleted_tag = tagContainerObject.find(".tagItem:last").text();
-                            if (typeof (opts.onDelete) == "function") {
+                            if (typeof(opts.onDelete) == "function") {
                                 opts.onDelete.call(this, $.trim(deleted_tag));
                             }
-                            tags = removeTag(deleted_tag, tags, opts.sortTags);
+                            tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags);
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
-                            if (typeof (opts.afterDelete) == "function") {
+                            if (typeof(opts.afterDelete) == "function") {
                                 opts.afterDelete.call(this, $.trim(deleted_tag));
                             }
-                            if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initLoad) {
+                            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                                 $(inputField).autocomplete("option", "source", tags.availableTags);
                             }
                             $(this).focus();
@@ -423,8 +423,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     });
 
                     // adds autocomplete functionality for the tag names
-                    if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initLoad) {
-
+                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                         $(inputField).autocomplete({
                             source: tags.availableTags,
                             select: function (event, ui) {
@@ -438,10 +437,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                             saveTags(tags, opts, tagContainer.id);
                                         }
                                         $(inputField).autocomplete("option", "source", tags.availableTags);
-                                        if (typeof (opts.onAdd) == "function") {
+                                        if (typeof(opts.onAdd) == "function") {
                                             opts.onAdd.call(this, newTag);
                                         }
-                                        if (typeof (opts.afterAdd) == "function") {
+                                        if (typeof(opts.afterAdd) == "function") {
                                             opts.afterAdd.call(this, newTag);
                                         }
                                     }
@@ -454,7 +453,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         });
 
                         // Make an AJAX request to get the list of tags based on typed data
-                    } else if (opts.autocomplete && typeof ($.fn.autocomplete) == 'function') {
+                    } else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
                         $(inputField).autocomplete({
                             source: function (request, response) {
                                 opts.getData[opts.queryname] = request.term;
@@ -472,10 +471,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                         if (opts.updateURL !== '' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
                                         }
-                                        if (typeof (opts.onAdd) == "function") {
+                                        if (typeof(opts.onAdd) == "function") {
                                             opts.onAdd.call(this, newTag);
                                         }
-                                        if (typeof (opts.afterAdd) == "function") {
+                                        if (typeof(opts.afterAdd) == "function") {
                                             opts.afterAdd.call(this, newTag);
                                         }
                                     }
@@ -491,7 +490,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // sets the input field to show the autocomplete list on focus
                     // when there is no value
                     $(inputField).focus(function () {
-                        if ($(inputField).val() === '' && opts.autocomplete && typeof ($.fn.autocomplete) == 'function' && opts.initLoad) {
+                        if ($(inputField).val() === '' && opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                             $(inputField).autocomplete("search", "");
                         }
                     });
@@ -508,7 +507,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 };
                 return 1;
             });
-        } else if (typeof (options) == "string" && methods[options]) {
+        } else if (typeof(options) == "string" && methods[options]) {
             return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
         }
     };
