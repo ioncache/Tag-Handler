@@ -390,7 +390,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     if (rc) {
                                         tags = addTag(this, newTag, tags, opts.sorttags);
                                         if (opts.updateurl !== '' && opts.autoupdate) {
-                                            savetags(tags, opts, tagcontainer.id);
+                                            saveTags(tags, opts, tagContainer.id);
                                         }
                                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
                                             $(inputField).autocomplete("option", "source", tags.availableTags);
@@ -409,7 +409,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // checks the keydown event for the backspace key as checking the
                     // keypress event doesn't work in IE
                     $(inputField).keydown(function (e) {
-                        var $el = $(this)
+                        var $el = $(this);
                         if (e.which === 8 && $el.val() === "") {
                             var deleted_tag = tagContainerObject.find(".tagItem:last").text();
                             if (typeof(opts.onDelete) == "function") {
@@ -466,7 +466,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         $(inputField).autocomplete({
                             source: function (request, response) {
                                 opts.getData[opts.queryname] = request.term;
-                                lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
+                                var lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
                                     response(data.availableTags);
                                 });
                             },
@@ -614,7 +614,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
     // saves the tags to the server via ajax
     function saveTags(tags, opts, tcID) {
-        sendData = {
+        var sendData = {
             tags: tags.assignedTags
         };
         $.extend(sendData, opts.updateData);
@@ -653,7 +653,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 $("<li />").addClass("tagItem").text(e).insertBefore($(inputField).parent());
             }
             else {
-                $("<li />").addClass("tagItem").css("cursor", "default").text(e).appendTo(tagContainerObject);
+                $("<li />").addClass("tagItem").css("cursor", "default").text(e).appendTo($(tagContainer));
             }
             tags.availableTags = removeTagFromList(e, tags.availableTags);
         });
