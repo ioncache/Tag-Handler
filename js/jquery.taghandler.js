@@ -189,7 +189,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
 (function ($) {
 
-    // some help methods
+    // some helper methods
     var methods = {
         getSerializedTags: function () {
             var currentTags = [];
@@ -250,7 +250,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 tags.originalTags = [];
                 tags.assignedTags = [];
 
-                // adds a save/loader divs to the tagContainer if needed
+                // adds save/loader divs to the tagContainer if needed
                 if (opts.updateURL !== '') {
                     if (!opts.autoUpdate) {
                         $("<div />").attr({ id: tagContainer.id + "_save", title: "Save Tags" }).addClass("tagUpdate").click(function () {
@@ -263,7 +263,6 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 // initializes the tag lists
                 // tag lists will be pulled from a URL
                 if (opts.getURL !== '' && opts.initLoad) {
-
                     $.ajax({
                         url: opts.getURL,
                         cache: false,
@@ -336,21 +335,22 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // delegates a click event function to all future <li> elements with
                     // the tagItem class that will remove the tag upon click
                     tagContainerObject.delegate("li.tagItem", "click", function () {
+                        var $el = $(this);
                         var rc = 1;
 
                         if (typeof(opts.onDelete) == "function") {
-                            rc = opts.onDelete.call(this, $.trim($(this).text()));
+                            rc = opts.onDelete.call(this, $.trim($el.text()));
                         }
 
                         if (rc) {
-                            tags = removeTag($(this), tags, opts.sortTags);
+                            tags = removeTag($el, tags, opts.sortTags);
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
                         }
 
                         if (typeof(opts.afterDelete) == "function") {
-                            opts.afterDelete.call(this, $.trim($(this).text()));
+                            opts.afterDelete.call(this, $.trim($el.text()));
                         }
 
                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
@@ -361,12 +361,13 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // checks the keypress event for enter or comma, and adds a new tag
                     // when either of those keys are pressed
                     $(inputField).keypress(function (e) {
+                        var $el = $(this);
                         if (e.which === 13 || e.which === 44 || e.which === opts.delimiter.charCodeAt(0)) {
                             e.preventDefault();
-                            if ($(this).val() !== "" && !checkTag($.trim($(this).val()), tags.assignedTags)) {
+                            if ($el.val() !== "" && !checkTag($.trim($el.val()), tags.assignedTags)) {
 
                                 // check if the tag is in availableTags
-                                if (!opts.allowAdd && !checkTag($.trim($(this).val()), tags.availableTags)) {
+                                if (!opts.allowAdd && !checkTag($.trim($el.val()), tags.availableTags)) {
                                     alert(opts.msgNoNewTag);
                                     return;
                                 }
@@ -375,7 +376,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     alert('Maximum tags allowed: ' + opts.maxTags);
                                 }
                                 else {
-                                    var newTag = $.trim($(this).val());
+                                    var newTag = $.trim($el.val());
 
                                     // allow addition onAdd return code to control whether addition
                                     // is allowed to go through.
@@ -397,8 +398,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                         }
                                     }
                                 }
-                                $(this).val("");
-                                $(this).focus();
+                                $el.val("");
+                                $el.focus();
                             }
                         }
                     });
@@ -406,7 +407,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     // checks the keydown event for the backspace key as checking the
                     // keypress event doesn't work in IE
                     $(inputField).keydown(function (e) {
-                        if (e.which === 8 && $(this).val() === "") {
+                        var $el = $(this)
+                        if (e.which === 8 && $el.val() === "") {
                             var deleted_tag = tagContainerObject.find(".tagItem:last").text();
                             if (typeof(opts.onDelete) == "function") {
                                 opts.onDelete.call(this, $.trim(deleted_tag));
@@ -421,7 +423,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
                                 $(inputField).autocomplete("option", "source", tags.availableTags);
                             }
-                            $(this).focus();
+                            $el.focus();
                         }
                     });
 
@@ -430,6 +432,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         $(inputField).autocomplete({
                             source: tags.availableTags,
                             select: function (event, ui) {
+                                var $el = $(this);
                                 if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
@@ -448,9 +451,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                             opts.afterAdd.call(this, newTag);
                                         }
                                     }
-                                    $(this).focus();
+                                    $el.focus();
                                 }
-                                $(this).val("");
+                                $el.val("");
                                 return false;
                             },
                             minLength: opts.minChars
@@ -466,6 +469,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                 });
                             },
                             select: function (event, ui) {
+                                var $el = $(this);
                                 if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
@@ -483,9 +487,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                             opts.afterAdd.call(this, newTag);
                                         }
                                     }
-                                    $(this).focus();
+                                    $el.focus();
                                 }
-                                $(this).val('');
+                                $el.val('');
                                 return false;
                             },
                             minLength: opts.minChars
