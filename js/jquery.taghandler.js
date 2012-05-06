@@ -1,5 +1,5 @@
 /*
-jQuery Tag Handler v1.2.2
+jQuery Tag Handler v1.3.0
 Copyright (C) 2010-2011 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
@@ -57,14 +57,13 @@ by clicking on the tag.
 When using this method, the server must supply a JSON formatted array
 named "availableTags" and optionally an additional array named
 "assignedTags".
-         
+
 3. By supplying a "getURL" and initLoad: false.
     
 When using this method, it will get the "assignedTags" from the array as in 
 method 1. When the user writes a tag, it will query the server searching for
 similar tags.        
-         
-      
+
 Either way, the information from these 3 methods will be used in the
 following manner:
     
@@ -204,6 +203,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 currentTags.push($(e).text());
             });
             return currentTags;
+        },
+        version: function () {
+            return "1.3.0";
         }
     };
 
