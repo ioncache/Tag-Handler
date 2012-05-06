@@ -380,14 +380,14 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                 else {
                                     var newTag = $.trim($el.val());
 
-                                    // allow addition onAdd return code to control whether addition
-                                    // is allowed to go through.
+                                    // allow addition onAdd return code to control whether
+                                    // addition is allowed to go through
                                     var rc = 1;
                                     if (typeof(opts.onAdd) == "function") {
                                         rc = opts.onAdd.call(this, newTag);
                                     }
 
-                                    if (rc) {
+                                    if (rc || typeof(rc) == "undefined") {
                                         tags = addTag(this, newTag, tags, opts.sorttags);
                                         if (opts.updateurl !== '' && opts.autoupdate) {
                                             saveTags(tags, opts, tagContainer.id);
@@ -441,16 +441,19 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     }
                                     else {
                                         var newTag = $.trim(ui.item.value);
-                                        tags = addTag(this, newTag, tags, opts.sortTags);
-                                        if (opts.updateURL !== '' && opts.autoUpdate) {
-                                            saveTags(tags, opts, tagContainer.id);
-                                        }
-                                        $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        var rc = 1;
                                         if (typeof(opts.onAdd) == "function") {
-                                            opts.onAdd.call(this, newTag);
+                                            rc = opts.onAdd.call(this, newTag);
                                         }
-                                        if (typeof(opts.afterAdd) == "function") {
-                                            opts.afterAdd.call(this, newTag);
+                                        if (rc || typeof(rc) == "undefined") {
+                                            tags = addTag(this, newTag, tags, opts.sortTags);
+                                            if (opts.updateURL !== '' && opts.autoUpdate) {
+                                                saveTags(tags, opts, tagContainer.id);
+                                            }
+                                            $(inputField).autocomplete("option", "source", tags.availableTags);
+                                            if (typeof(opts.afterAdd) == "function") {
+                                                opts.afterAdd.call(this, newTag);
+                                            }
                                         }
                                     }
                                     $el.focus();
@@ -478,15 +481,18 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     }
                                     else {
                                         var newTag = $.trim(ui.item.value);
-                                        tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                        if (opts.updateURL !== '' && opts.autoUpdate) {
-                                            saveTags(tags, opts, tagContainer.id);
-                                        }
+                                        var rc = 1;
                                         if (typeof(opts.onAdd) == "function") {
                                             opts.onAdd.call(this, newTag);
                                         }
-                                        if (typeof(opts.afterAdd) == "function") {
-                                            opts.afterAdd.call(this, newTag);
+                                        if (rc || typeof(rc) == "undefined") {
+                                            tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                            if (opts.updateURL !== '' && opts.autoUpdate) {
+                                                saveTags(tags, opts, tagContainer.id);
+                                            }
+                                            if (typeof(opts.afterAdd) == "function") {
+                                                opts.afterAdd.call(this, newTag);
+                                            }
                                         }
                                     }
                                     $el.focus();
