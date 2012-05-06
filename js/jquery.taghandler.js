@@ -297,7 +297,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     });
 
                     // show assigned tags only if we load the data as we write
-                } else if (opts.getURL !== '') {
+                }
+                else if (opts.getURL !== '') {
 
                     tags.assignedTags = opts.assignedTags.slice();
                     if (opts.sortTags) {
@@ -307,7 +308,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     tags = addAssignedTags(opts, tags, inputField, tagContainer);
 
                     // or load the lists of tags   
-                } else {
+                }
+                else {
 
                     if (opts.availableTags.length) {
                         tags.availableTags = opts.availableTags.slice();
@@ -371,7 +373,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
                                 if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                     alert('Maximum tags allowed: ' + opts.maxTags);
-                                } else {
+                                }
+                                else {
                                     var newTag = $.trim($(this).val());
 
                                     // allow addition onAdd return code to control whether addition
@@ -430,7 +433,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                 if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
-                                    } else {
+                                    }
+                                    else {
                                         var newTag = $.trim(ui.item.value);
                                         tags = addTag(this, newTag, tags, opts.sortTags);
                                         if (opts.updateURL !== '' && opts.autoUpdate) {
@@ -451,9 +455,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             },
                             minLength: opts.minChars
                         });
-
-                        // Make an AJAX request to get the list of tags based on typed data
-                    } else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
+                    }
+                    // Make an AJAX request to get the list of tags based on typed data
+                    else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
                         $(inputField).autocomplete({
                             source: function (request, response) {
                                 opts.getData[opts.queryname] = request.term;
@@ -465,7 +469,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                 if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
-                                    } else {
+                                    }
+                                    else {
                                         var newTag = $.trim(ui.item.value);
                                         tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
                                         if (opts.updateURL !== '' && opts.autoUpdate) {
@@ -507,7 +512,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 };
                 return 1;
             });
-        } else if (typeof(options) == "string" && methods[options]) {
+        }
+        else if (typeof(options) == "string" && methods[options]) {
             return methods[options].apply(this, Array.prototype.slice.call(arguments, 1));
         }
     };
@@ -618,7 +624,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     function () {
                         $("#" + tcID + "_loader").fadeIn(200);
                     });
-                } else {
+                }
+                else {
                     $("#" + tcID + "_loader").fadeIn(200);
                 }
             },
@@ -638,7 +645,8 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
         $(tags.assignedTags).each(function (i, e) {
             if (opts.allowEdit) {
                 $("<li />").addClass("tagItem").text(e).insertBefore($(inputField).parent());
-            } else {
+            }
+            else {
                 $("<li />").addClass("tagItem").css("cursor", "default").text(e).appendTo(tagContainerObject);
             }
             tags.availableTags = removeTagFromList(e, tags.availableTags);
