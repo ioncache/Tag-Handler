@@ -1,5 +1,5 @@
 /*
-jQuery Tag Handler v1.3.0
+jQuery Tag Handler v1.3.1
 Copyright (C) 2010-2011 Mark Jubenville
 Mark Jubenville - ioncache@gmail.com
 http://ioncache.github.com/Tag-Handler
@@ -389,7 +389,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
                                     if (rc || typeof(rc) == "undefined") {
                                         tags = addTag(this, newTag, tags, opts.sorttags);
-                                        if (opts.updateurl !== '' && opts.autoupdate) {
+                                        if (opts.updateURL !== '' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
                                         }
                                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
