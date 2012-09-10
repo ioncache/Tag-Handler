@@ -1,7 +1,7 @@
 {
   "name": "Tag-Handler",
   "description": "Tag Handler is a jQuery plugin used for managing tag-type metadata. ",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "keywords": [
     "Tag",
     "jQuery",
