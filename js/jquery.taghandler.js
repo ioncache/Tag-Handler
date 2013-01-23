@@ -262,6 +262,81 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                     $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo(tagContainerObject.parent());
                 }
 
+                // adds autocomplete functionality for the tag names
+                if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
+                    $(inputField).autocomplete({
+                        source: tags.availableTags,
+                        select: function (event, ui) {
+                            var $el = $(this);
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                }
+                                else {
+                                    var newTag = $.trim(ui.item.value);
+                                    var rc = 1;
+                                    if (typeof(opts.onAdd) == "function") {
+                                        rc = opts.onAdd.call(this, newTag);
+                                    }
+                                    if (rc || typeof(rc) == "undefined") {
+                                        tags = addTag(this, newTag, tags, opts.sortTags);
+                                        if (opts.updateURL !== '' && opts.autoUpdate) {
+                                            saveTags(tags, opts, tagContainer.id);
+                                        }
+                                        $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        if (typeof(opts.afterAdd) == "function") {
+                                            opts.afterAdd.call(this, newTag);
+                                        }
+                                    }
+                                }
+                                $el.focus();
+                            }
+                            $el.val("");
+                            return false;
+                        },
+                        minLength: opts.minChars
+                    });
+                }
+                // Make an AJAX request to get the list of tags based on typed data
+                else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
+                    $(inputField).autocomplete({
+                        source: function (request, response) {
+                            opts.getData[opts.queryname] = request.term;
+                            var lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
+                                response(data.availableTags);
+                            });
+                        },
+                        select: function (event, ui) {
+                            var $el = $(this);
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                }
+                                else {
+                                    var newTag = $.trim(ui.item.value);
+                                    var rc = 1;
+                                    if (typeof(opts.onAdd) == "function") {
+                                        opts.onAdd.call(this, newTag);
+                                    }
+                                    if (rc || typeof(rc) == "undefined") {
+                                        tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                        if (opts.updateURL !== '' && opts.autoUpdate) {
+                                            saveTags(tags, opts, tagContainer.id);
+                                        }
+                                        if (typeof(opts.afterAdd) == "function") {
+                                            opts.afterAdd.call(this, newTag);
+                                        }
+                                    }
+                                }
+                                $el.focus();
+                            }
+                            $el.val('');
+                            return false;
+                        },
+                        minLength: opts.minChars
+                    });
+                }
+
                 // initializes the tag lists
                 // tag lists will be pulled from a URL
                 if (opts.getURL !== '' && opts.initLoad) {
@@ -428,81 +503,6 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             $el.focus();
                         }
                     });
-
-                    // adds autocomplete functionality for the tag names
-                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
-                        $(inputField).autocomplete({
-                            source: tags.availableTags,
-                            select: function (event, ui) {
-                                var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                    if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                                        alert('Maximum tags allowed: ' + opts.maxTags);
-                                    }
-                                    else {
-                                        var newTag = $.trim(ui.item.value);
-                                        var rc = 1;
-                                        if (typeof(opts.onAdd) == "function") {
-                                            rc = opts.onAdd.call(this, newTag);
-                                        }
-                                        if (rc || typeof(rc) == "undefined") {
-                                            tags = addTag(this, newTag, tags, opts.sortTags);
-                                            if (opts.updateURL !== '' && opts.autoUpdate) {
-                                                saveTags(tags, opts, tagContainer.id);
-                                            }
-                                            $(inputField).autocomplete("option", "source", tags.availableTags);
-                                            if (typeof(opts.afterAdd) == "function") {
-                                                opts.afterAdd.call(this, newTag);
-                                            }
-                                        }
-                                    }
-                                    $el.focus();
-                                }
-                                $el.val("");
-                                return false;
-                            },
-                            minLength: opts.minChars
-                        });
-                    }
-                    // Make an AJAX request to get the list of tags based on typed data
-                    else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
-                        $(inputField).autocomplete({
-                            source: function (request, response) {
-                                opts.getData[opts.queryname] = request.term;
-                                var lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
-                                    response(data.availableTags);
-                                });
-                            },
-                            select: function (event, ui) {
-                                var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                    if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                                        alert('Maximum tags allowed: ' + opts.maxTags);
-                                    }
-                                    else {
-                                        var newTag = $.trim(ui.item.value);
-                                        var rc = 1;
-                                        if (typeof(opts.onAdd) == "function") {
-                                            opts.onAdd.call(this, newTag);
-                                        }
-                                        if (rc || typeof(rc) == "undefined") {
-                                            tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                            if (opts.updateURL !== '' && opts.autoUpdate) {
-                                                saveTags(tags, opts, tagContainer.id);
-                                            }
-                                            if (typeof(opts.afterAdd) == "function") {
-                                                opts.afterAdd.call(this, newTag);
-                                            }
-                                        }
-                                    }
-                                    $el.focus();
-                                }
-                                $el.val('');
-                                return false;
-                            },
-                            minLength: opts.minChars
-                        });
-                    }
 
                     // sets the input field to show the autocomplete list on focus
                     // when there is no value
