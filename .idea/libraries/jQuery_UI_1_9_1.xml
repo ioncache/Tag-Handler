@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="jQuery UI 1.9.1" type="javaScript">
+    <properties>
+      <option name="frameworkName" value="jQuery UI" />
+      <option name="frameworkVersion" value="1.9.1" />
+    </properties>
+    <CLASSES>
+      <root url="file:///www/sites/reliv/application/vendor/reliv/Rcm/public/vendor/jquery/js/jquery-ui-1.9.1.custom.min.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
