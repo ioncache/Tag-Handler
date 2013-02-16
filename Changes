@@ -1,4 +1,20 @@
 Revision history for jQuery Tag-Handler plugin
+2.0.0 2013-xx-xx
+    - refactored codebase
+    - added method addTag to add a tag to active tagHandler
+    - added method removeTag to remove an active tag from the list
+    - added method addOption to add a new available tag
+    - added method removeOption to remove a currently available tag
+    - added method destory to remove an active tagHandler and restore container to it original state
+    - added method reload to reinitialize an active tagHandler
+    - added option jqueryTheme so tagHandler will now use Jquery Ui theme roller for the theme is set to true.  default will use existing tagHandler theme.
+    - moved storing all tags to the jquery data object instead of in the dom
+    - added hotkey <tab> for completing tag entry
+    - added example/demo page to the package
+    - fixed autocomplete initiation
+    - added the ability to add tags from existing li's inside the ul container.
+    - added msgMaxTags option to translate or change the max allowed error message
+    - added onIsValid method for custom validation methods.
 
 1.3.1 2012-09-10
     - fixed issue with autoUpdate when the tag didn't exist before

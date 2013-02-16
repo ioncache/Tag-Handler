@@ -98,13 +98,13 @@
  $("#basic_tag_handler").tagHandler();
 
  Example 2: The Tag Handler will be initialized with preset tags from the
- assignedTags and availableTags arrays, and autocomplete witll be
+ assignedTags and availableTags arrays, and autocomplete will be
  turned on:
 
  $("#array_tag_handler").tagHandler({
- assignedTags: [ 'Perl' ],
- availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
- autocomplete: true
+    assignedTags: [ 'Perl' ],
+    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+    autocomplete: true
  });
 
  See http://ioncache.github.com/Tag-Handler for more examples
@@ -144,26 +144,28 @@
  allowEdit       indicates whether the tag list is editable      true
  autocomplete    requires jqueryui autocomplete plugin           false
  autoUpdate      indicates whether updating occurs automatically false
- whenever a tag is added/deleted - if set true,
- the save button will not be shown
+                 whenever a tag is added/deleted - if set true,
+                 the save button will not be shown
  className       base class name that will be added to the tag   'tagHandler'
- container
+                 container
  debug           will turn on some console logging debug info    false
  delimiter       extra delimiter to use to separate tags         ''
- note 'enter' and 'comma' are always allowed
+                 note 'enter' and 'comma' are always allowed
  maxTags         sets a limit to the number of allowed tags, set 0
- to 0 to allow unlimited
+                 to 0 to allow unlimited
  minChars        minimum number of chars to type before starting 0
- autocomplete
+                 autocomplete
  msgError        message shown when there is an error loading    'There was an
- the tags                                        error getting
- the tag list.'
+                 the tags                                        error getting
+                 the tag list.'
  msgNoNewTag     message shown when the user cannot add a new    'You don't have
- tag                                             permission to
- create a new
- tag.'
+                 tag                                             permission to
+                                                                 create a new
+                                                                 tag.'
  queryname       query term used to send user typed data         'q'
  sortTags        sets sorting of tag names alphabetically        true
+ jqueryTheme     use Jquery UI ThemeRoller                       false
+
 
  Methods
  ----------------------
@@ -172,7 +174,30 @@
  -----------------  -----------------------  --------------------------------
  getTags            returns an array of tags .tagHandler("getTags")
  getSerializedTags  returns comma separated  .tagHandler("getSerializedTags")
- string of tags
+                    string of tags
+ addTag             add a new tag            .tagHandler("addTag", "my new tag")
+ removeTag          removes an active tag    .tagHandler("removeTag", "tag")
+                    and adds it to the
+                    available tags
+ addOption          adds a new tag to the    .tagHandler("addOption", "my new tag")
+                    list of available tags
+
+ removeOption       removes a tag from the   .tagHandler("removeOption", "tag")
+                    list of available tags
+ saveTags           force a save of the      .tagHandler("saveTags")
+                    current active tags.
+                    only useful if using
+                    ajax to save new tags
+ destroy            destory the current      .tagHandler("destroy")
+                    taghandler and return
+                    selector to its previous
+                    state.
+ reload             reinitialize the         .tagHandler("reload")
+                    tagHandler.  Will remove
+                    any changes made to the
+                    active tagHandler and
+                    reload the tagHandler
+
 
  ------------------------------------------------------------------------------
  License
@@ -195,19 +220,62 @@
 
 (function ($) {
 
-    // some helper methods
+    /**
+     * Available Methods.  Methods are called using $(selector).tagHandler('method', arg1, arg2...)
+     *
+     * @type {Object}
+     */
     var methods = {
+        /**
+         * Get a comma separated list of selected/entered tags
+         *
+         * @return {String}
+         */
         getSerializedTags: function () {
             var tags = _getData(this, 'tags');
             return tags.assignedTags.join(',');
         },
 
+        /**
+         * Returns active/selected tags as an array.
+         *
+         * @return {Array}
+         */
         getTags: function () {
             var tags = _getData(this, 'tags');
             return tags.assignedTags;
         },
 
-        addTag: function(value) {
+        /**
+         * Returns active/selected tags as an array.
+         *
+         * @return {String}
+         */
+        getSerializedOptions: function () {
+            var tags = _getData(this, 'tags');
+            var allTags = tags.availableTags.concat(tags.assignedTags);
+            return allTags.join(',');
+        },
+
+        /**
+         * Returns active/selected tags as an array.
+         *
+         * @return {Array}
+         */
+        getOptions: function () {
+            var tags = _getData(this, 'tags');
+            return tags.availableTags.concat(tags.assignedTags);
+        },
+
+        /**
+         * Add a tag to an active TagHandler.  Call with $(selector).tagHandler('addTag', 'My New Tag').  Returns
+         * current tags
+         *
+         * @param value Tag to be added
+         * @param skipCallback set to true to skip callbacks
+         * @return {Object}
+         */
+        addTag: function(value, skipCallback) {
             var opts = _getData(this, 'opts');
 
             if (!opts) {
@@ -217,10 +285,47 @@
             var tags = _getData(this, 'tags');
             var tagField = $(this).find(".tagInputField");
 
+            if (!_isValidTag(this, $.trim(value), skipCallback)) {
+                return tags;
+            }
+
+            if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                alert(opts.msgMaxTags +' '+ opts.maxTags);
+                return tags;
+            }
+
+            var rc = 1;
+            if (typeof(opts.onAdd) == "function" && !skipCallback) {
+                rc = opts.onAdd.call(this, value);
+            }
+
+            if (typeof(rc) != "undefined" && rc === false) {
+                return tags;
+            }
+
             tags.assignedTags.push(value);
             tags.availableTags = $(this).tagHandler('removeOption', value);
 
-            $('<li data-tag="'+value+'">'+value+'</li>').addClass("tagItem").insertBefore($(tagField).parent());
+            var newLi = $('<li data-tag="'+value+'"></li>');
+            $(newLi).addClass("tagItem");
+
+            var newSpan = $('<span>'+value+'</span>');
+
+            if (opts.jqueryTheme) {
+                $(newLi).addClass("ui-menu-item")
+                    .addClass("ui-widget")
+                    .addClass("ui-state-default")
+                    .addClass("ui-button-text-only")
+                    .addClass("ui-corner-all")
+                    .addClass("ui-widget-content")
+                    .addClass("jqueryUiTagItem")
+                    .removeClass("tagItem");
+                $(newSpan).addClass("ui-button-text");
+            }
+
+            $(newLi).append(newSpan);
+
+            $(newLi).insertBefore($(tagField).parent());
 
             if (opts.sortTags) {
                 tags = _sortTags(tags);
@@ -232,9 +337,24 @@
 
             _saveData(this, 'tags', tags);
 
+            if (opts.updateURL !== '' && opts.autoUpdate && !skipCallback) {
+                $(this).tagHandler('saveTags');
+            }
+
+            if (typeof(opts.afterAdd) == "function" && !skipCallback) {
+                opts.afterAdd.call(this, value);
+            }
+
             return tags;
         },
 
+        /**
+         * Remove a selected or active tag.  Call with $(selector).tagHandler('removeTag', 'tag to remove')
+         * Returns object of tags
+         *
+         * @param value
+         * @return {*}
+         */
         removeTag : function(value) {
 
             var opts = _getData(this, 'opts');
@@ -268,21 +388,12 @@
             return tags;
         },
 
-        // removes a tag from a tag list
-        removeOption : function (value) {
-            var tags = _getData(this, 'tags');
-
-            $.each(tags.availableTags, function (i, e) {
-                if (e === value) {
-                    tags.availableTags.splice(i, 1);
-                }
-            });
-
-            _saveData(this, 'tags', tags);
-
-            return tags.availableTags;
-        },
-
+        /**
+         * Add an available option.  Call with $(selector).tagHandler('addOption', 'tag to add')
+         *
+         * @param value
+         * @return {Array}
+         */
         addOption: function (value) {
             var opts = _getData(this, 'opts');
 
@@ -307,6 +418,42 @@
             return tags.availableTags;
         },
 
+        /**
+         * Remove an available option from the list.  Call with $(selector).tagHandler('removeOption', 'tag to remove')
+         * Note: The function does not remove an active or currently selected tag.
+         *
+         * @param value
+         * @return {Array}
+         */
+        removeOption : function (value) {
+
+            var opts = _getData(this, 'opts');
+
+            if (!opts) {
+                return null;
+            }
+
+            var tags = _getData(this, 'tags');
+
+            $.each(tags.availableTags, function (i, e) {
+                if (e === value) {
+                    tags.availableTags.splice(i, 1);
+                }
+            });
+
+            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
+                $(this).find(".tagInputField").autocomplete("option", "source", tags.availableTags);
+            }
+
+            _saveData(this, 'tags', tags);
+
+            return tags.availableTags;
+        },
+
+        /**
+         * Save tags with Ajax call.  Used internally but a save can be forced by calling
+         * $(selector).tagHandler('saveTags')
+         */
         saveTags: function () {
             var opts = _getData(this, 'opts');
 
@@ -314,9 +461,11 @@
                 return;
             }
 
+            var containerId = _getData(this, 'generatedId');
+
             var tags = _getData(this, 'tags');
-            var saveContainer = $("#" + this.id + "_save");
-            var loadContainer = $("#" + this.id + "_loader");
+            var saveContainer = $("#" + containerId + "_save");
+            var loadContainer = $("#" + containerId+ "_loader");
 
             var sendData = {
                 tags: tags.assignedTags
@@ -351,6 +500,10 @@
             });
         },
 
+        /**
+         * Destory the active tagHandler and return the container to it original state.  Please note that any tags
+         * that have been entered or selected will be lost.
+         */
         destroy : function() {
             var original = _getData(this, 'original');
 
@@ -360,6 +513,11 @@
             $(parent).replaceWith(original);
         },
 
+        /**
+         * Reinitialize the tagHandler.  This method will restart the active tagHandler.  Useful when you need
+         * to restart the tagHandler and refresh it's items via ajax.  Please note that any that have been made or
+         * and tags that have not been saved will be lost.
+         */
         reload : function() {
             var opts = _getData(this, 'opts');
             var original = _getData(this, 'original');
@@ -372,6 +530,10 @@
             $(original).tagHandler(opts);
         },
 
+        /**
+         * Get the version number of the tagHandler plugin.
+         * @return {String}
+         */
         version: function () {
             return "2.0.0-alpha";
         }
@@ -404,30 +566,45 @@
 
             //Save container initial state
             _saveData(this, 'original', $(this).get(0).cloneNode(true));
+
+            var assignedTags = [];
+
+            //Check for existing LI's and convert to tags
+            $(this).find('li').each(function() {
+                initialOpts.assignedTags.push($(this).html());
+                $(this).remove();
+            });
+
             _saveData(this, 'opts', initialOpts);
             _saveData(this, 'tags', {
                 availableTags : [],
                 originalTags : [],
-                assignedTags : []
+                assignedTags : assignedTags
             });
 
             // adds an id to the tagContainer in case it doesn't have one
             //Not sure why this is here...  could this be something other then an ID?
-            if ($(this).id) {
-                $(this).id = _generateUUID();
+            if (!this.id) {
+                this.id = _generateUUID();
             }
 
-            _saveData(this, 'generatedId', $(this).id);
+            _saveData(this, 'generatedId', this.id);
 
             //Modify the dom
             _addTaggerWrappers(this);
             _addSaveAndLoaderDivs(this);
-            _initAutoLoad(this);
+            _initAutoComplete(this);
             _initInitialTags(this);
             _initBinds(this);
         });
     };
 
+    /**
+     * Add the dom wrappers needed.
+     *
+     * @param tagContainer
+     * @private
+     */
     var _addTaggerWrappers = function(tagContainer) {
 
         var opts = _getData(tagContainer, 'opts');
@@ -452,17 +629,27 @@
 
     };
 
+    /**
+     * Add the save and loader divs to the dom.
+     *
+     * @param tagContainer
+     * @private
+     */
     var _addSaveAndLoaderDivs = function (tagContainer) {
         var opts = _getData(tagContainer, 'opts');
 
         // adds save/loader divs to the tagContainer if needed
         if (opts.updateURL !== '') {
             if (!opts.autoUpdate) {
-                $("<div></div>").attr({ id: tagContainer.id + "_save", title: "Save Tags" }).addClass("tagUpdate").click(function () {
-                    $(tagContainer).tagHandler('saveTags');
-                }).appendTo($(tagContainer).parent());
+                $("<div></div>").attr({ id: tagContainer.id + "_save", title: "Save Tags" })
+                    .addClass("tagUpdate").click(function () {
+                        $(tagContainer).tagHandler('saveTags');
+                    })
+                    .appendTo($(tagContainer).parent());
             }
-            $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo($(tagContainer).parent());
+            $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" })
+                .addClass("tagLoader")
+                .appendTo($(tagContainer).parent());
         }
     };
 
@@ -472,7 +659,7 @@
      * @param tagContainer
      * @private
      */
-    var _initAutoLoad = function (tagContainer) {
+    var _initAutoComplete = function (tagContainer) {
         var opts = _getData(tagContainer, 'opts');
 
         if (!opts || !opts.autocomplete || typeof($.fn.autocomplete) != 'function') {
@@ -484,7 +671,23 @@
         var source = null;
 
         if (opts.initLoad) {
-            source = tags.availableTags
+            source = tags.availableTags;
+        } else if (opts.getURL) {
+            source = function () {
+                $.ajax({
+                    url: opts.getURL,
+                    cache: false,
+                    data: opts.getData,
+                    dataType: 'json',
+                    success: function (data) {
+                        _processTags(tagContainer, data)
+                    },
+                    error: function (xhr, text, error) {
+                        _debug(xhr, {text : text, error : error });
+                        throw new Error(opts.msgError);
+                    }
+                });
+            }
         } else {
             source = []
         }
@@ -495,29 +698,9 @@
             source: source,
             select: function (event, ui) {
                 var $el = $(this);
-                if (!_checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                    if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                        throw new Error('Maximum tags allowed: ' + opts.maxTags);
-                    }
-                    else {
-                        var newTag = $.trim(ui.item.value);
-                        var rc = 1;
-                        if (typeof(opts.onAdd) == "function") {
-                            rc = opts.onAdd.call(this, newTag);
-                        }
-                        if (rc || typeof(rc) == "undefined") {
-                            tags = $(tagContainer).tagHandler('addTag', newTag);
-                            if (opts.updateURL !== '' && opts.autoUpdate) {
-                                $(tagContainer).tagHandler('saveTags');
-                            }
-
-                            if (typeof(opts.afterAdd) == "function") {
-                                opts.afterAdd.call(this, newTag);
-                            }
-                        }
-                    }
-                    $el.focus();
-                }
+                var newTag = $.trim(ui.item.value);
+                tags = $(tagContainer).tagHandler('addTag', newTag);
+                $el.focus();
                 $el.val("");
                 return false;
             },
@@ -525,6 +708,12 @@
         });
     };
 
+    /**
+     * Process the initial tags to use.
+     *
+     * @param tagContainer
+     * @private
+     */
     var _initInitialTags = function(tagContainer) {
 
         var opts = _getData(tagContainer, 'opts');
@@ -556,6 +745,12 @@
         }
     };
 
+    /**
+     * Add needed binds events to the tagHandler.
+     *
+     * @param tagContainer
+     * @private
+     */
     var _initBinds = function (tagContainer) {
         var opts = _getData(tagContainer, 'opts');
 
@@ -580,15 +775,25 @@
             });
 
             $(inputField).focus(function () {
-                if ( $(inputField).val() === '' && opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad && tags.availableTags.length > 0) {
+                if ( $(inputField).val() === ''
+                    && opts.autocomplete
+                    && typeof($.fn.autocomplete) == 'function'
+                    && tags.availableTags.length > 0
+                    ) {
                     $(inputField).autocomplete("search", "");
                 }
             });
 
-            $(tagContainer).delegate("li.tagItem", "click", $(tagContainer), _tagClickHandler);
+            $(tagContainer).delegate("li.tagItem, li.jqueryUiTagItem", "click", $(tagContainer), _tagClickHandler);
         }
     };
 
+    /**
+     * Click Handler.  Used to bind the click event.
+     *
+     * @param e
+     * @private
+     */
     var _tagClickHandler = function(e) {
 
         var tagContainer = e.data;
@@ -607,7 +812,7 @@
             rc = opts.onDelete.call(this, $.trim($el.text()));
         }
 
-        if (rc) {
+        if (rc || typeof(rc) == "undefined") {
             $(tagContainer).tagHandler('removeTag', $el.text());
 
             if (opts.updateURL !== '' && opts.autoUpdate) {
@@ -621,6 +826,12 @@
 
     };
 
+    /**
+     * Key Press Handler.  Used in the keypress bind event.
+     *
+     * @param e
+     * @private
+     */
     var _tagKeyPressHandler = function (e) {
         var tagContainer = e.data;
 
@@ -639,44 +850,31 @@
             e.preventDefault();
             e.stopImmediatePropagation();
 
-            if ($el.val() !== "" && !_checkTag($.trim($el.val()), tags.assignedTags)) {
-
-                // check if the tag is in availableTags
-                if (!opts.allowAdd && !_checkTag($.trim($el.val()), tags.availableTags)) {
-                    alert(opts.msgNoNewTag);
-                    return;
-                }
-
-                if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                    alert('Maximum tags allowed: ' + opts.maxTags);
-                }
-                else {
-                    var newTag = $.trim($el.val());
-
-                    // allow addition onAdd return code to control whether
-                    // addition is allowed to go through
-                    var rc = 1;
-                    if (typeof(opts.onAdd) == "function") {
-                        rc = opts.onAdd.call(this, newTag);
-                    }
-
-                    if (rc || typeof(rc) == "undefined") {
-                        tags = $(tagContainer).tagHandler('addTag', newTag);
-                        if (opts.updateURL !== '' && opts.autoUpdate) {
-                            $(tagContainer).tagHandler('saveTags');
-                        }
-
-                        if (typeof(opts.afterAdd) == "function") {
-                            opts.afterAdd.call(this, newTag);
-                        }
-                    }
-                }
-                $el.val("");
-                $el.focus();
+            // check if the tag is in availableTags
+            if (!opts.allowAdd) {
+                alert(opts.msgNoNewTag);
+                return;
             }
+
+            if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                alert(opts.msgMaxTags +' '+ opts.maxTags);
+            }
+            else {
+                var newTag = $.trim($el.val());
+                tags = $(tagContainer).tagHandler('addTag', newTag);
+            }
+            $el.val("");
+            $el.focus();
+
         }
     };
 
+    /**
+     * Key Down Handler.  Used to process keydown events.
+     *
+     * @param e
+     * @private
+     */
     var _tagKeyDownHandler = function(e) {
         var tagContainer = e.data;
 
@@ -719,33 +917,67 @@
 
     };
 
-    // adds any already assigned tags to the tag box
+    /**
+     * Process the initial tags.  Used by _initInitialTags for both Ajax and static tags.
+     *
+     * @param tagContainer
+     * @param tagsToAdd
+     * @private
+     */
     var _processTags = function (tagContainer, tagsToAdd) {
         $(tagsToAdd.availableTags).each(function(i, e){
             $(tagContainer).tagHandler('addOption', e);
         });
 
         $(tagsToAdd.assignedTags).each(function (i, e) {
-            $(tagContainer).tagHandler('addTag', e);
+            $(tagContainer).tagHandler('addTag', e, true);
         });
     };
 
-    // checks to to see if a tag is already found in a list of tags
-    var _checkTag = function (value, tags) {
-        var check = false;
+    /**
+     * Check a tag and make sure the tag is valid.
+     *
+     * @param tagContainer  Container for the TagHandler
+     * @param value
+     * @param skipCallback Skips the isValid callback method
+     * @return {Boolean}
+     * @private
+     **/
+    var _isValidTag = function (tagContainer, value, skipCallback) {
 
-        jQuery.each(tags, function (i, e) {
+        var opts = _getData(tagContainer, 'opts');
+
+        if (!opts) {
+            return false;
+        }
+
+        var tags = _getData(tagContainer, 'tags');
+
+        var check = true;
+
+        //Check Assigned Tags
+        jQuery.each(tags.assignedTags, function (i, e) {
             if (e === value) {
-                check = true;
+                check = false;
                 return false;
             }
             return true;
         });
 
+        if (typeof(opts.onIsValid) == "function" && !skipCallback) {
+            check = opts.onIsValid.call(this, value);
+        }
+
         return check;
     };
 
-    // sorts each of the sets of tags
+    /**
+     * Sorts all tag containers.  Returns tags.
+     *
+     * @param tags
+     * @return {Object}
+     * @private
+     */
     var _sortTags = function(tags) {
         tags.availableTags = tags.availableTags.sort();
         tags.assignedTags = tags.assignedTags.sort();
@@ -755,7 +987,15 @@
     };
 
 
-
+    /**
+     * Save data to the jquery container.  Includes a namespace to keep other methods from overwriting other data
+     * accidentally
+     *
+     * @param container
+     * @param keyName
+     * @param saveData
+     * @private
+     */
     var _saveData = function (container, keyName, saveData) {
         var data = $(container).data('tagHandlerState');
 
@@ -768,6 +1008,14 @@
         $(container).data('tagHandlerState', data);
     };
 
+    /**
+     * Get saved data from the jquery container.  Uses a name space for easy access to select data.
+     *
+     * @param container
+     * @param keyName
+     * @return {*}
+     * @private
+     */
     var _getData = function (container, keyName) {
         var data = $(container).data('tagHandlerState');
 
@@ -778,6 +1026,12 @@
         return data[keyName];
     };
 
+    /**
+     * Get tagHandler defaults.
+     *
+     * @return {Object}
+     * @private
+     */
     var _getDefaults = function() {
         return {
             allowEdit: true,
@@ -796,27 +1050,38 @@
             minChars: 0,
             msgNoNewTag: "You don't have permission to create a new tag.",
             msgError: "There was an error getting the tag list.",
+            msgMaxTags: "Maximum tags allowed:",
             onAdd: {},
             onDelete: {},
+            onIsValid: {},
             afterAdd: {},
             afterDelete: {},
             queryname: 'q',
             sortTags: true,
             updateData: {},
-            updateURL: ''
+            updateURL: '',
+            jqueryTheme : false
         };
     };
 
+    /**
+     * Debug method.  Echos message to console.log
+     *
+     * @param tagContainer
+     * @param options
+     * @private
+     */
     var _debug = function (tagContainer, options) {
         if (options.debug && window.console && window.console.log) {
             window.console.log(tagContainer);
             window.console.log(options);
-            window.console.log($.fn.tagHandler.defaults);
+            window.console.log(_getDefaults());
         }
     };
 
     /**
      * Generates RFC4122 v4 compliant random ids
+     *
      * @return {String}
      */
     var _generateUUID = function () {
