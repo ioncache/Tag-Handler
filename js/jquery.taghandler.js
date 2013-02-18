@@ -242,7 +242,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                 // input field
                 tagContainerObject.addClass(opts.className + "Container");
                 if (opts.allowEdit) {
-                    tagContainerObject.html('<li class="tagInput"><input class="tagInputField" type="text" placeholder=' + opts.placeHolder + ' /></li>');
+                    tagContainerObject.html('<li class="tagInput"><input class="tagInputField" type="text" placeholder="' + opts.placeHolder + '" /></li>');
                 }
                 var inputField = tagContainerObject.find(".tagInputField");
 
