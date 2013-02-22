@@ -898,23 +898,25 @@
 
         if (e.which === 8 && $el.val() === "") {
             var deleted_tag = tags.assignedTags.slice(-1)[0];
+            var rc = 1;
 
             if (typeof(opts.onDelete) == "function") {
-                opts.onDelete.call(this, $.trim(deleted_tag));
+                rc = opts.onDelete.call(this, $.trim(deleted_tag));
             }
 
-            $(tagContainer).tagHandler('removeTag', deleted_tag);
+            if (rc || typeof(rc) == "undefined") {
+                $(tagContainer).tagHandler('removeTag', deleted_tag);
 
-            if (opts.updateURL !== '' && opts.autoUpdate) {
-                $(tagContainer).tagHandler('saveTags');
+                if (opts.updateURL !== '' && opts.autoUpdate) {
+                    $(tagContainer).tagHandler('saveTags');
+                }
             }
+
             if (typeof(opts.afterDelete) == "function") {
                 opts.afterDelete.call(this, $.trim(deleted_tag));
             }
             $el.focus();
         }
-
-
     };
 
     /**
