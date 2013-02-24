@@ -243,7 +243,7 @@
          */
         getTags: function () {
             var tags = _getData(this, 'tags');
-            return tags.assignedTags;
+            return tags.assignedTags.slice();
         },
 
         /**
