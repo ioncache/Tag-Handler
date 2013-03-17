@@ -134,6 +134,8 @@
  onDelete        function to be called when a tag is deleted     {}
  afterAdd        function to be called after a new tag is added  {}
  afterDelete     function to be called after a tag is deleted    {}
+ afterLoad       function to be called after tagHandler has      {}
+                 completed it's initiation
 
  Miscellaneous options:
  ----------------------
@@ -373,7 +375,7 @@
                 }
             });
 
-            tags.availableTags.push(value);
+            $(this).tagHandler('addOption', value);
 
             if (opts.sortTags) {
                 tags = _sortTags(tags);
@@ -402,6 +404,12 @@
             }
 
             var tags = _getData(this, 'tags');
+
+            // Make sure tag doesn't already exist.
+
+            if (!_isValidOption(this, $.trim(value))) {
+                return tags.availableTags;
+            }
 
             tags.availableTags.push(value);
 
@@ -596,6 +604,11 @@
             _initAutoComplete(this);
             _initInitialTags(this);
             _initBinds(this);
+
+            //Add user AfterLoad Callback
+            if (typeof(initialOpts.afterLoad) == "function" && (!initialOpts.getURL && initialOpts.initLoad)) {
+                _processAfterLoadCallback(this);
+            }
         });
     };
 
@@ -733,7 +746,9 @@
                 data: opts.getData,
                 dataType: 'json',
                 success: function (data) {
-                    _processTags(tagContainer, data)
+                    _processTags(tagContainer, data);
+                    _processAfterLoadCallback(tagContainer);
+
                 },
                 error: function (xhr, text, error) {
                     _debug(xhr, {text : text, error : error });
@@ -742,6 +757,18 @@
             });
         } else {
             _processTags(tagContainer, opts)
+        }
+    };
+
+    var _processAfterLoadCallback = function (tagContainer) {
+        var opts = _getData(tagContainer, 'opts');
+
+        if (!opts) {
+            return;
+        }
+
+        if (typeof(opts.afterLoad) == "function") {
+            opts.afterLoad.call(tagContainer);
         }
     };
 
@@ -955,20 +982,64 @@
 
         var tags = _getData(tagContainer, 'tags');
 
-        var check = true;
 
         //Check Assigned Tags
-        jQuery.each(tags.assignedTags, function (i, e) {
-            if (e === value) {
-                check = false;
-                return false;
-            }
-            return true;
-        });
+        if (_tagExists(value, tags, 'assignedTags')) {
+            return false;
+        }
+
+        var check = true;
 
         if (typeof(opts.onIsValid) == "function" && !skipCallback) {
             check = opts.onIsValid.call(this, value);
         }
+
+        return check;
+    };
+
+    var _isValidOption = function (tagContainer, value) {
+
+        var opts = _getData(tagContainer, 'opts');
+
+        if (!opts) {
+            return false;
+        }
+
+        var tags = _getData(tagContainer, 'tags');
+
+        //Check to make sure option isn't currently assigned
+        if (_tagExists(value, tags, 'assignedTags')) {
+            return false;
+        }
+
+        //Make sure it's not in the list already
+        if (_tagExists(value, tags, 'availableTags')) {
+            return false;
+        }
+
+        return true;
+    };
+
+    /**
+     * Check to see if the tag already exists in the list.
+     *
+     * @param value
+     * @param tags
+     * @param type
+     * @returns {boolean}
+     * @private
+     */
+    var _tagExists = function (value, tags, type) {
+        var check = false;
+
+        jQuery.each(tags[type], function (i, e) {
+            if (e === value) {
+                check = true;
+                return false;
+            }
+
+            return true;
+        });
 
         return check;
     };

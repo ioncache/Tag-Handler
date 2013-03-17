@@ -404,6 +404,26 @@
 </div>
 
 <div class="example">
+    <h3>Using the afterLoad Call Handler</h3>
+    <p>
+        The following example shows how to can pass in your own init callback.  This call will be called after
+        the tagHandler is loaded.
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_with_after_load_callback").tagHandler({
+        afterLoad : function() { alert("TagHandeler Loaded!") }
+    });
+    </pre>
+
+    <ul id="example_with_after_load_callback"></ul>
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='$(this).hide(); $("#example_with_after_load_callback").tagHandler({ afterLoad : function() { alert("TagHandeler Loaded!") } });'>
+        <span class="ui-button-text">Initized Tag Handler</span>
+    </button>
+</div>
+
+<div class="example">
     <h3>Setting maximum number of tags</h3>
     <p>
         The following example shows how to set the maximum number of allowed tags

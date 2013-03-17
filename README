@@ -134,6 +134,7 @@ onDelete        function to be called when a tag is deleted     {}
 afterAdd        function to be called after a new tag is added  {}
 afterDelete     function to be called after a tag is deleted    {}
 onIsValid       funciton to be called during validation         {}
+afterLoad       funciton to be called once loaded               {}
 
 Miscellaneous options:
 ----------------------
