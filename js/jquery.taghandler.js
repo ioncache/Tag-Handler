@@ -102,9 +102,9 @@
  turned on:
 
  $("#array_tag_handler").tagHandler({
-    assignedTags: [ 'Perl' ],
-    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
-    autocomplete: true
+ assignedTags: [ 'Perl' ],
+ availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+ autocomplete: true
  });
 
  See http://ioncache.github.com/Tag-Handler for more examples
@@ -135,7 +135,7 @@
  afterAdd        function to be called after a new tag is added  {}
  afterDelete     function to be called after a tag is deleted    {}
  afterLoad       function to be called after tagHandler has      {}
-                 completed it's initiation
+ completed it's initiation
 
  Miscellaneous options:
  ----------------------
@@ -146,24 +146,24 @@
  allowEdit       indicates whether the tag list is editable      true
  autocomplete    requires jqueryui autocomplete plugin           false
  autoUpdate      indicates whether updating occurs automatically false
-                 whenever a tag is added/deleted - if set true,
-                 the save button will not be shown
+ whenever a tag is added/deleted - if set true,
+ the save button will not be shown
  className       base class name that will be added to the tag   'tagHandler'
-                 container
+ container
  debug           will turn on some console logging debug info    false
  delimiter       extra delimiter to use to separate tags         ''
-                 note 'enter' and 'comma' are always allowed
+ note 'enter' and 'comma' are always allowed
  maxTags         sets a limit to the number of allowed tags, set 0
-                 to 0 to allow unlimited
+ to 0 to allow unlimited
  minChars        minimum number of chars to type before starting 0
-                 autocomplete
+ autocomplete
  msgError        message shown when there is an error loading    'There was an
-                 the tags                                        error getting
-                 the tag list.'
+ the tags                                        error getting
+ the tag list.'
  msgNoNewTag     message shown when the user cannot add a new    'You don't have
-                 tag                                             permission to
-                                                                 create a new
-                                                                 tag.'
+ tag                                             permission to
+ create a new
+ tag.'
  queryname       query term used to send user typed data         'q'
  sortTags        sets sorting of tag names alphabetically        true
  jqueryTheme     use Jquery UI ThemeRoller                       false
@@ -176,29 +176,29 @@
  -----------------  -----------------------  --------------------------------
  getTags            returns an array of tags .tagHandler("getTags")
  getSerializedTags  returns comma separated  .tagHandler("getSerializedTags")
-                    string of tags
+ string of tags
  addTag             add a new tag            .tagHandler("addTag", "my new tag")
  removeTag          removes an active tag    .tagHandler("removeTag", "tag")
-                    and adds it to the
-                    available tags
+ and adds it to the
+ available tags
  addOption          adds a new tag to the    .tagHandler("addOption", "my new tag")
-                    list of available tags
+ list of available tags
 
  removeOption       removes a tag from the   .tagHandler("removeOption", "tag")
-                    list of available tags
+ list of available tags
  saveTags           force a save of the      .tagHandler("saveTags")
-                    current active tags.
-                    only useful if using
-                    ajax to save new tags
+ current active tags.
+ only useful if using
+ ajax to save new tags
  destroy            destory the current      .tagHandler("destroy")
-                    taghandler and return
-                    selector to its previous
-                    state.
+ taghandler and return
+ selector to its previous
+ state.
  reload             reinitialize the         .tagHandler("reload")
-                    tagHandler.  Will remove
-                    any changes made to the
-                    active tagHandler and
-                    reload the tagHandler
+ tagHandler.  Will remove
+ any changes made to the
+ active tagHandler and
+ reload the tagHandler
 
 
  ------------------------------------------------------------------------------
@@ -333,7 +333,7 @@
                 tags = _sortTags(tags);
             }
 
-            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
+            if (_isAutoCompleteWithNoAjaxSearch(opts)) {
                 $(this).find(".tagInputField").autocomplete("option", "source", tags.availableTags);
             }
 
@@ -345,6 +345,10 @@
 
             if (typeof(opts.afterAdd) == "function" && !skipCallback) {
                 opts.afterAdd.call(this, value);
+            }
+
+            if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                tagField.hide();
             }
 
             return tags;
@@ -367,6 +371,8 @@
 
             var tags = _getData(this, 'tags');
 
+            var tagField = $(this).find(".tagInputField");
+
             $(this).find('[data-tag="'+value+'"]').remove();
 
             $.each(tags.assignedTags, function (i, e) {
@@ -381,11 +387,15 @@
                 tags = _sortTags(tags);
             }
 
-            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
+            if (_isAutoCompleteWithNoAjaxSearch(opts)) {
                 $(this).find(".tagInputField").autocomplete("option", "source", tags.availableTags);
             }
 
             _saveData(this, 'tags', tags);
+
+            if (opts.maxTags > 0 && tags.assignedTags.length < opts.maxTags) {
+                tagField.show();
+            }
 
             return tags;
         },
@@ -417,7 +427,7 @@
                 tags = _sortTags(tags);
             }
 
-            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
+            if (_isAutoCompleteWithNoAjaxSearch(opts)) {
                 $(this).find(".tagInputField").autocomplete("option", "source", tags.availableTags);
             }
 
@@ -449,7 +459,7 @@
                 }
             });
 
-            if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit) {
+            if (_isAutoCompleteWithNoAjaxSearch(opts)) {
                 $(this).find(".tagInputField").autocomplete("option", "source", tags.availableTags);
             }
 
@@ -686,14 +696,17 @@
         if (opts.initLoad) {
             source = tags.availableTags;
         } else if (opts.getURL) {
-            source = function () {
+            source = function (request, response) {
+                if (!opts.initLoad) {
+                    opts.getData[opts.queryname] = request.term;
+                }
                 $.ajax({
                     url: opts.getURL,
                     cache: false,
                     data: opts.getData,
                     dataType: 'json',
                     success: function (data) {
-                        _processTags(tagContainer, data)
+                        response( data.availableTags );
                     },
                     error: function (xhr, text, error) {
                         _debug(xhr, {text : text, error : error });
@@ -1097,6 +1110,15 @@
         }
 
         return data[keyName];
+    };
+
+    var _isAutoCompleteWithNoAjaxSearch = function(opts) {
+
+        if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.allowEdit && opts.initLoad) {
+            return true;
+        }
+
+        return false;
     };
 
     /**
