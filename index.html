@@ -12,10 +12,10 @@
         <link rel="stylesheet" type="text/css" media="all" href="css/taghandler.css" />
         <!-- <link rel="stylesheet" type="text/css" media="all" href="https://raw.github.com/ioncache/Tag-Handler/master/css/jquery.taghandler.css" /> -->
         <link rel="stylesheet" type="text/css" media="all" href="css/jquery.taghandler.css" />
-        
+
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="https://raw.github.com/ioncache/Tag-Handler/master/js/jquery.taghandler.js"></script>
+        <script type="text/javascript" src="https://ioncache.github.com/Tag-Handler/js/jquery.taghandler.min.js"></script>
         <!--<script type="text/javascript" src="../Tag-Handler/js/jquery.taghandler.js"></script>-->
         <script type="text/javascript" src="js/jquery.mockjax.js"></script>
         <script type="text/javascript" src="js/jquery.beautyOfCode.js"></script>
@@ -27,7 +27,7 @@
                     $("pre.code").beautifyCode('javascript', {gutter:false});
                 }
             });
-        
+
             $(document).ready(function() {
                 $(".methodButton").button();
                 $.mockjax(function(settings) {
@@ -126,7 +126,7 @@
                                             foundTags.push(drinkTags[i]);
                                         }
                                     }
-                                    this.responseText = { 
+                                    this.responseText = {
                                         availableTags: foundTags
                                     };
                                 }
@@ -137,7 +137,7 @@
                 });
 
                 $("#basic_tag_handler").tagHandler();
-                
+
                 $("#array_tag_handler").tagHandler({
                     assignedTags: [ 'C', 'Perl', 'PHP' ],
                     availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
@@ -166,7 +166,7 @@
                     autocomplete: true,
                     autoUpdate: true
                 });
-  
+
                 $("#ajax_no_initial_tag_handler").tagHandler({
                     getData: { id: 'user345', type: 'user' },
                     getURL: '/ajaxtest/search',
@@ -205,15 +205,15 @@
     </head>
 
     <body>
-    
+
         <div id="container">
-    
+
             <div id="main">
                 <h1>
                     <a href="http://github.com/ioncache/Tag-Handler">Tag Handler</a>
                     <span class="small">by <a href="http://github.com/ioncache">ioncache</a></span>
                 </h1>
-            
+
                 <div class="description">
                     Tag Handler is a <a href="http://jquery.com/">jQuery</a> plugin used for managing tag-type metadata.
                 </div>
@@ -223,11 +223,11 @@
 
                 <ul>
                     <li>Tag Handler must be attached to one or more &lt;ul&gt; tags in your HTML.</li>
-    
+
                     <li>To add a tag, click on the tag box, type in a name, and hit enter or comma.</li>
-    
+
                     <li>Tags may be removed from the tag box by hitting backspace inside the box or by clicking on the tag.</li>
-    
+
                     <li>
                         The list of tags may be initialized in 1 of 3 ways:<br />
                         <ol>
@@ -247,11 +247,11 @@
                         availableTags: each item in this array will populate the autocomplete drop-down list<br /><br />
                         assignedTags: each item in this array will become a tag in the tag box
                     </li>
-    
+
                     <li>
                         Tags may be sent back to the server by supplying an "updateURL". In this case, an array will be sent back to the server named "tags".
                     </li>
-    
+
                     <li>A sample CSS file is included that can be used to help with formatting tags.</li>
 
                 </ul>
@@ -279,7 +279,7 @@
                     </code>
                 </pre>
                 <ul id="basic_tag_handler"></ul>
-        
+
                 <p><strong>Example 2:</strong> The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
                 <pre class="code">
                     <code>
@@ -363,7 +363,7 @@
                     </code>
                 </pre>
                 <ul id="ajax_no_add_tag_handler"></ul>
-    
+
                 <p><strong>Example 8:</strong> Same as example 2, but there are onAdd and onDelete callbacks</p>
                 <pre class="code">
                     <code>
@@ -395,7 +395,7 @@
                 <h2>Plugin Methods</h2>
                 <p>These are convenience methods for dealing with the Tag-Handler.</p>
                 <p>Note: clicking the example buttons will show any output as an alert and in the console.log.</p>
-                
+
                 <h3>getTags <button class="methodButton" style="margin-left: 15px; font-size: 12px;" type="button" onclick="if(window.console && window.console.log) { console.log($('#ajaxupdate_tag_handler').tagHandler('getTags')); } alert($('#ajaxupdate_tag_handler').tagHandler('getTags'));">Get Tags</button></h3>
                 <pre class="code">
                     <code>
@@ -412,7 +412,7 @@
 
                 <a name="options"></a>
                 <h2>Plugin Options</h2>
-                
+
                 <div class="table_title" style="margin-top: 0px;">Tag data specific options:</div>
                 <table cellpadding="0" cellspacing="0" border="0">
                     <thead>
@@ -822,7 +822,7 @@
                     <a href="mailto:ioncache@gmail.com">ioncache@gmail.com</a><br />
                     <a href="http://twitter.com/ioncache"><img src="images/twitter.png" style="position: relative; top: 5px; width: 16px; height: 16px; border: none;" /></a><a href="http://twitter.com/ioncache">@ioncache</a>
                 </p>
-                
+
                 <h3>Acknowledgements</h3>
                 <p style="line-height: 15px;">
                     Development time supported by:<br />
@@ -852,7 +852,7 @@
                 <a href="http://github.com/ioncache/Tag-Handler/tarball/master"><img style="border: none; width: 90px;" src="http://github.com/images/modules/download/tar.png" alt="Download Tar" /></a>
 
                 <p><a href="#instructions" style="color: #0066bd;">Basic Usage Instrucations</a></p>
-                
+
                 <p><a href="#examples" style="color: #0066bd;">Plugin Examples</a></p>
 
                 <p><a href="#methods" style="color: #0066bd;">Plugin Method Examples</a></p>
@@ -861,7 +861,7 @@
 
                 <p><a href="#comments" style="color: #0066bd;">Comments</a></p>
             </div>
-            
+
         </div>
 
         <script type="text/javascript">
@@ -875,17 +875,17 @@
 
         <!-- begin wundercounter.com code http://www.wundercounter.com/?refID=ioncache-->
         <script type="text/javascript">
-        
+
             (function() {
 
                 var wun_page = location.host;
                 if ( location.pathname != '/' ) {
                     wun_page = wun_page+location.pathname.replace( /\/$/, "");
                 }
-              
+
                 var lang = ( typeof( navigator.browserLanguage ) == 'undefined' ) ? navigator.language : navigator.browserLanguage;
                 var referrer = ( document.referrer === '' ) ? parent.document.referrer : document.referrer;
-            
+
                 var url = 'http://www.wundercounter.com/cgi-bin/stats/image.cgi?' +
                 'WUNVERSION=2.0' +
                 '&amp;user=ioncache' +
@@ -899,15 +899,15 @@
                 '&amp;WUNJ=' + navigator.javaEnabled() +
                 '&amp;WUNR=' + Math.random() +
                 '&amp;reF='  + referrer;
-            
+
                 /* <![CDATA[ */
                 document.write('<img src="' + url + '" alt=" " width="1" height="1" />');
                 /* ]]> */
-            
+
             })();
-        
+
         </script>
-        
+
         <noscript><div><img src="http://www.wundercounter.com/cgi-bin/stats/image.cgi?WUNVERSION=2.0&amp;user=ioncache&amp;page=ioncache.github.com/Tag-Handler&amp;digits=0" width="1" height="1" alt=" " /></div>
         </noscript>
         <!-- end wundercounter.com code http://www.wundercounter.com/?refID=ioncache -->
