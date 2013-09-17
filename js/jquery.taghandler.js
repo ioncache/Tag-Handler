@@ -278,6 +278,11 @@
          * @return {Object}
          */
         addTag: function(value, skipCallback) {
+
+            if (!value) {
+                return null;
+            }
+
             var opts = _getData(this, 'opts');
 
             if (!opts) {
@@ -285,7 +290,7 @@
             }
 
             var tags = _getData(this, 'tags');
-            var tagField = $(this).find(".tagInputField");
+
 
             if (!_isValidTag(this, $.trim(value), skipCallback)) {
                 return tags;
@@ -308,26 +313,7 @@
             tags.assignedTags.push(value);
             tags.availableTags = $(this).tagHandler('removeOption', value);
 
-            var newLi = $('<li data-tag="'+value+'"></li>');
-            $(newLi).addClass("tagItem");
-
-            var newSpan = $('<span>'+value+'</span>');
-
-            if (opts.jqueryTheme) {
-                $(newLi).addClass("ui-menu-item")
-                    .addClass("ui-widget")
-                    .addClass("ui-state-default")
-                    .addClass("ui-button-text-only")
-                    .addClass("ui-corner-all")
-                    .addClass("ui-widget-content")
-                    .addClass("jqueryUiTagItem")
-                    .removeClass("tagItem");
-                $(newSpan).addClass("ui-button-text");
-            }
-
-            $(newLi).append(newSpan);
-
-            $(newLi).insertBefore($(tagField).parent());
+            _addNewLi($(this), value);
 
             if (opts.sortTags) {
                 tags = _sortTags(tags);
@@ -348,8 +334,10 @@
             }
 
             if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                tagField.hide();
+                $(this).find(".tagInputField").hide();
             }
+
+            $(this).tagHandler('refresh');
 
             return tags;
         },
@@ -548,6 +536,19 @@
             $(original).tagHandler(opts);
         },
 
+        refresh : function() {
+            var currentTags = $(this).tagHandler('getTags');
+            var opts = _getData(this, 'opts');
+
+            $(this).find(".tagItem").remove();
+
+            var container = this
+
+            $.each(currentTags, function(i,v) {
+                _addNewLi(container, v);
+            })
+        },
+
         /**
          * Get the version number of the tagHandler plugin.
          * @return {String}
@@ -674,6 +675,33 @@
                 .addClass("tagLoader")
                 .appendTo($(tagContainer).parent());
         }
+    };
+
+    var _addNewLi = function (tagContainer, value)
+    {
+        var tagField = $(tagContainer).find(".tagInputField");
+        var opts = _getData(tagContainer, 'opts');
+
+        var newLi = $('<li data-tag="'+value+'"></li>');
+        $(newLi).addClass("tagItem");
+
+        var newSpan = $('<span>'+value+'</span>');
+
+        if (opts.jqueryTheme) {
+            $(newLi).addClass("ui-menu-item")
+                .addClass("ui-widget")
+                .addClass("ui-state-default")
+                .addClass("ui-button-text-only")
+                .addClass("ui-corner-all")
+                .addClass("ui-widget-content")
+                .addClass("jqueryUiTagItem")
+                .removeClass("tagItem");
+            $(newSpan).addClass("ui-button-text");
+        }
+
+        $(newLi).append(newSpan);
+
+        $(newLi).insertBefore($(tagField).parent());
     };
 
     /**
@@ -1071,7 +1099,6 @@
 
         return tags;
     };
-
 
     /**
      * Save data to the jquery container.  Includes a namespace to keep other methods from overwriting other data
