@@ -1,0 +1,44 @@
+{
+  "name": "Tag-Handler-NG",
+  "description": "Tag Handler is a jQuery plugin used for managing tag-type metadata. This plugin is a fork and rewrite of Mark Jubenville original Tag-Handler.",
+  "version": "2.0.3",
+  "title": "Tag Handler NG",
+  "keywords": [
+    "Tag",
+    "jQuery",
+    "Plugin",
+    "Autocomplete",
+    "Tags",
+    "AJAX"
+  ],
+  "author": {
+      "name": "Westin Shafer",
+      "email": "shafer_w2002@yahoo.com",
+      "web": "http://wshafer.github.io/Tag-Handler"
+  },
+  "maintainers": [
+    {
+      "name": "Westin Shafer",
+      "email": "shafer_w2002@yahoo.com",
+      "web": "http://wshafer.github.io/Tag-Handler"
+    }
+  ],
+  "demo": "http://wshafer.github.io/Tag-Handler/",
+  "dependencies": {
+    "jquery": "1.4.4+"
+  },
+  "bugs": "https://github.com/wshafer/Tag-Handler/issues",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:wshafer/Tag-Handler.git"
+    }
+  ],
+  "licenses": [
+    {
+      "name": "LGPL",
+      "url": "http://www.gnu.org/licenses/lgpl.html"
+    }
+  ],
+  "homepage": "http://wshafer.github.io/Tag-Handler"
+}

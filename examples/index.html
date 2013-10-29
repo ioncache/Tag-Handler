@@ -1,0 +1,857 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>ioncache/Tag-Handler</title>
+
+    <script type="text/javascript" src="jquery_ui/js/jquery-1.9.0.js"></script>
+    <script type="text/javascript" src="jquery_ui/js/jquery-ui-1.10.0.custom.min.js"></script>
+    <script type="text/javascript" src="js/google-code-prettify/prettify.js"></script>
+    <script type="text/javascript" src="../js/jquery.taghandler.min.js" ></script>
+    <script type="text/javascript" src="js/jquery.mockjax.js"></script>
+    <script type="text/javascript" src="js/example_ajaxmock.js"></script>
+
+
+    <link type="text/css" href="../css/jquery.taghandler.min.css" rel="stylesheet">
+    <link type="text/css" href="jquery_ui/css/smoothness/jquery-ui.css" rel="stylesheet">
+    <link type="text/css" href="js/google-code-prettify/prettify.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            color: #000000;
+            font-family: arial,helvetica,sans-serif;
+            font-size: 13px;
+        }
+        h1 {
+            color: #0066BD;
+        }
+        h1 .small {
+            font-size: 0.4em;
+        }
+        h1 a{
+            text-decoration: none;
+            color: #0066BD;
+        }
+        h2 {
+            color: #0066BD;
+            font-size: 17px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #008800;
+            font-size: 15px;
+            margin-top: 30px;
+        }
+        p {
+            font-family: arial,helvetica,sans-serif;
+            font-size: 13px;
+        }
+        a {
+            color: #C27603;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        code.string {
+            color: blue !important;
+        }
+
+        .description {
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 30px;
+            margin-top: 30px;
+        }
+
+        ul li {
+            margin: 10px 0;
+        }
+        div.example {
+            width: 90%;
+        }
+
+        td.tableHeadline {
+            color: #0066BD;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        td {
+            padding-right: 30px;
+            border-bottom: 1px dotted #000000;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#example_default").tagHandler();
+
+            $("#example_jqueryui").tagHandler({jqueryTheme: true})
+
+            $("#example_autocomplete").tagHandler({
+                assignedTags: [ 'C', 'Perl', 'PHP' ],
+                availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                autocomplete: true
+            });
+
+            $("#example_ajaxinit").tagHandler({
+                getData: { id: 'user123', type: 'user' },
+                getURL: '/ajaxtest/get',
+                autocomplete: true
+            });
+
+            $("#example_ajax_with_save").tagHandler({
+                getData: { id: 'user234', type: 'user' },
+                getURL: '/ajaxtest/get',
+                updateData: { id: 'user234', type: 'user' },
+                updateURL: '/ajaxtest/update',
+                autocomplete: true
+            });
+
+            $("#example_ajax_with_auto_update").tagHandler({
+                getData: { id: 'user234', type: 'user' },
+                getURL: '/ajaxtest/get',
+                updateData: { id: 'user234', type: 'user' },
+                updateURL: '/ajaxtest/update',
+                autocomplete: true,
+                autoUpdate: true
+            });
+
+            $("#example_ajax_on_demand").tagHandler({
+                getData: { id: 'user345', type: 'user' },
+                getURL: '/ajaxtest/search',
+                autocomplete: true,
+                initLoad: false,
+                minChars: 2
+            });
+
+            $("#example_prevent_add_new").tagHandler({
+                assignedTags: [ 'C', 'Perl', 'PHP' ],
+                availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                autocomplete: true,
+                allowAdd: false
+            });
+
+            $("#example_with_callbacks").tagHandler({
+                assignedTags: [ 'C', 'Perl', 'PHP' ],
+                availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                autocomplete: true,
+                onAdd: function(tag) { alert('Added tag: ' + tag); },
+                onDelete: function(tag) { alert('Deleted tag: ' + tag); }
+            });
+
+            $("#example_with_custom_validator").tagHandler({
+                onIsValid: function(newTag) {
+                    if (/^[0-9]+$/.test(newTag)) {
+                        alert("Tag Passed!");
+                        return true;
+                    }
+                    alert("This new tag is not a valid number entered: "+newTag);
+                    return false;
+                }
+            });
+
+            $("#example_with_maximum").tagHandler({
+                assignedTags: [ 'Perl' ],
+                availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                autocomplete: true,
+                maxTags:5
+            });
+
+            $(".methodExample").tagHandler({
+                assignedTags: [ 'C', 'Perl', 'PHP' ],
+                availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+                autocomplete: true
+            });
+
+
+
+            prettyPrint();
+        })
+    </script>
+</head>
+<body>
+
+<h1>
+    <a href="http://github.com/ioncache/Tag-Handler">Tag Handler</a>
+    <span class="small">
+        by
+        <a href="http://github.com/ioncache">ioncache</a>
+    </span>
+</h1>
+
+<div class="description">
+    Tag Handler is a
+    <a href="http://jquery.com/">jQuery</a>
+    plugin used for managing tag-type metadata.
+</div>
+
+<h2>Basic Usage Instructions</h2>
+<ul>
+    <li>Tag Handler must be attached to one or more &lt;ul&gt; tags in your HTML.</li>
+    <li>To add a tag, click on the tag box, type in a name, and hit enter or comma.</li>
+    <li>Tags may be removed from the tag box by hitting backspace inside the box or by clicking on the tag.</li>
+    <li>
+        The list of tags may be initialized in 1 of 3 ways:
+        <br>
+        <ol>
+            <li>By passing arrays of tag names as options to the plugin ("availableTags" and "assignedTags"); or, </li>
+            <li>
+                By supplying a "getURL" for the tags to be retrieved via AJAX. <br />
+                When using this method, the server must supply a JSON formatted array named "availableTags" and
+                optionally an additional array named "assignedTags".
+            </li>
+            <li>
+                By supplying a "getURL" and initLoad: false. <br />
+                When using this method, it will get the "assignedTags" from the array as in method 1. When the user
+                writes a tag, it will query the server passing the typed in text to the server which can then return
+                the related results as availableTags.
+            </li>
+        </ol>
+            Using any of the initialization methods, the information from these 3 methods will be used in the following manner:
+            <br>
+            <br>
+            availableTags: each item in this array will populate the autocomplete drop-down list
+            <br>
+            <br>
+            assignedTags: each item in this array will become a tag in the tag box <br /><br />
+        </ol>
+    </li>
+    <li>
+        Tags may be sent back to the server by supplying an "updateURL". In this case, an array will be sent back to
+        the server named "tags".
+    </li>
+    <li>A sample CSS file is included that can be used to help with formatting tags.</li>
+</ul>
+
+<h2>Plugin Setup and Usage Examples</h2>
+<p>Note: the ajax examples are using mockjax (http://github.com/appendto/jquery-mockjax) as the backend rather than a live server.</p>
+
+<p>&nbsp;</p>
+
+<div class="example">
+    <h3>Default Usage</h3>
+    <p>The Tag Handler will be initialized with no options and no default tags:</p>
+
+    <pre class="prettyprint">
+    $("#array_tag_handler").tagHandler();
+    </pre>
+
+    <ul id="example_default"></ul>
+</div>
+
+<div class="example">
+    <h3>Jquery UI Theme Usage</h3>
+    <p>The Tag Handler will be initialized to use the JQuery UI Theme.  Loaded theme: Smoothness</p>
+
+    <pre class="prettyprint">
+    $("#array_tag_handler").tagHandler({jqueryTheme: true});
+    </pre>
+
+    <ul id="example_jqueryui"></ul>
+</div>
+
+<div class="example">
+    <h3>Auto-complete</h3>
+    <p>The Tag Handler will be initialized with preset tags from the assignedTags and availableTags arrays, and autocomplete witll be turned on:</p>
+
+    <pre class="prettyprint">
+    $("#example_autocomplete").tagHandler({
+        assignedTags: [ 'C', 'Perl', 'PHP' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+        autocomplete: true
+    });
+    </pre>
+
+    <ul id="example_autocomplete"></ul>
+</div>
+
+<div class="example">
+    <h3>Ajax</h3>
+    <p>The Tag Handler will be initialized and pull data via ajax, also sending some data to the server:</p>
+
+    <pre class="prettyprint">
+    $("#example_ajaxinit").tagHandler({
+        getData: { id: 'user123', type: 'user' },
+        getURL: '/ajaxtest/get',
+        autocomplete: true
+    });
+    </pre>
+
+    <ul id="example_ajaxinit"></ul>
+</div>
+
+<div class="example">
+    <h3>Ajax with Save</h3>
+    <p> Same as the example above, but a different user is set in the getData/UpdateData options and now the tags will save when clicking the save button</p>
+
+    <pre class="prettyprint">
+    $("#example_ajax_with_save").tagHandler({
+        getData: { id: 'user234', type: 'user' },
+        getURL: '/ajaxtest/get',
+        updateData: { id: 'user234', type: 'user' },
+        updateURL: '/ajaxtest/update',
+        autocomplete: true
+    });
+    </pre>
+
+    <ul id="example_ajax_with_save"></ul>
+
+</div>
+
+<div class="example">
+    <h3>Ajax with Auto Update</h3>
+    <p> Same as the example above, but autoUpdate is true, tags will save automatically (no save button will be shown)</p>
+
+    <pre class="prettyprint">
+    $("#example_ajax_with_auto_update").tagHandler({
+        getData: { id: 'user234', type: 'user' },
+        getURL: '/ajaxtest/get',
+        updateData: { id: 'user234', type: 'user' },
+        updateURL: '/ajaxtest/update',
+        autocomplete: true,
+        autoUpdate: true
+    });
+    </pre>
+
+    <ul id="example_ajax_with_auto_update"></ul>
+</div>
+
+<div class="example">
+    <h3>Ajax load tags on demand</h3>
+    <p>
+        The Tag Handler will be initialized but it will request the tag list when the user writes more than 2 chars
+        (try typing in a mixed drink name for this example):
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_ajax_on_demand").tagHandler({
+        getData: { id: 'user345', type: 'user' },
+        getURL: '/ajaxtest/search',
+        autocomplete: true,
+        initLoad: false,
+        minChars: 2
+    });
+    </pre>
+
+    <ul id="example_ajax_on_demand"></ul>
+</div>
+
+<div class="example">
+    <h3>Prevent Adding New Tags</h3>
+    <p>
+        Adding allowAdd: false will prevent the user from being able to add new tags.
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_prevent_add_new").tagHandler({
+        assignedTags: [ 'C', 'Perl', 'PHP' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+        autocomplete: true,
+        allowAdd: false
+    });
+    </pre>
+
+    <ul id="example_prevent_add_new"></ul>
+</div>
+
+<div class="example">
+    <h3>Using Add and Delete Callbacks</h3>
+    <p>
+        The following example shows how to use add and delete callbacks.  A call back returning false will stop
+        the default process.
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_with_callbacks").tagHandler({
+        assignedTags: [ 'C', 'Perl', 'PHP' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+        autocomplete: true,
+        onAdd: function(tag) { alert('Added tag: ' + tag); },
+        onDelete: function(tag) { alert('Deleted tag: ' + tag); }
+    });
+    </pre>
+
+    <ul id="example_with_callbacks"></ul>
+</div>
+
+<div class="example">
+    <h3>Using a custom tag validator</h3>
+    <p>
+        The following example shows how to can pass in your own validation checks.  This check is a callback that
+        must return true if the tag is valid, or false if the tag fails inspection.
+
+        The validator in this example uses regex to validate that only numbers are added to the tags.
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_with_custom_validator").tagHandler({
+        onIsValid: function(newTag) {
+            if (/^[0-9]+$/.test(newTag)) {
+                alert("Tag Passed!");
+                return true;
+            }
+            alert("This new tag is not a valid number entered: "+newTag);
+            return false;
+        }
+    });
+    </pre>
+
+    <ul id="example_with_custom_validator"></ul>
+</div>
+
+<div class="example">
+    <h3>Using the afterLoad Call Handler</h3>
+    <p>
+        The following example shows how to can pass in your own init callback.  This call will be called after
+        the tagHandler is loaded.
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_with_after_load_callback").tagHandler({
+        afterLoad : function() { alert("TagHandeler Loaded!") }
+    });
+    </pre>
+
+    <ul id="example_with_after_load_callback"></ul>
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='$(this).hide(); $("#example_with_after_load_callback").tagHandler({ afterLoad : function() { alert("TagHandeler Loaded!") } });'>
+        <span class="ui-button-text">Initized Tag Handler</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>Setting maximum number of tags</h3>
+    <p>
+        The following example shows how to set the maximum number of allowed tags
+    </p>
+
+    <pre class="prettyprint">
+    $("#example_with_maximum").tagHandler({
+        assignedTags: [ 'Perl' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+        autocomplete: true,
+        maxTags:5
+    });
+    </pre>
+
+    <ul id="example_with_maximum"></ul>
+</div>
+
+<h2>Plugin Methods</h2>
+
+<p>These are convenience methods for dealing with the Tag-Handler.</p>
+<p>Note: clicking the example buttons will show any output as an alert and in the console.log.</p>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('getTags')
+    </h3>
+    <p>Click on the button "Get Tags" to show an alert of active tags</p>
+
+    <pre class="prettyprint">
+    var tags = $("#some_selector).tagHandler('getTags');
+
+    /* Do something with tags array */
+    alert(tags.join(,));
+    </pre>
+
+    <ul id="example_get_tags" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='alert($("#example_get_tags").tagHandler("getTags").join(","));'>
+        <span class="ui-button-text">Get Tags</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('getSerializedTags')
+    </h3>
+    <p>Click on the button "Get Serialized Tags" to show an alert of active tags</p>
+
+    <pre class="prettyprint">
+    var tags = $("#some_selector).tagHandler('getSerializedTags');
+
+    /* Do something with tags array */
+    alert(tags);
+    </pre>
+
+    <ul id="example_get_serialized_tags" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='alert($("#example_get_serialized_tags").tagHandler("getSerializedTags"));'>
+        <span class="ui-button-text">Get Serialized Tags</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('getOptions')
+    </h3>
+    <p>Click on the button "Get Options" to show an alert of all tags available</p>
+
+    <pre class="prettyprint">
+    var tags = $("#some_selector).tagHandler('getOptions');
+
+    /* Do something with tags array */
+    alert(tags.join(,));
+    </pre>
+
+    <ul id="example_get_options" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='alert($("#example_get_options").tagHandler("getOptions").join(","));'>
+        <span class="ui-button-text">Get Options</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('getSerializedOptions')
+    </h3>
+    <p>Click on the button "Get Serialized Options" to show an alert of all tags available</p>
+
+    <pre class="prettyprint">
+    var tags = $("#some_selector).tagHandler('getSerializedOptions');
+
+    /* Do something with tags array */
+    alert(tags);
+    </pre>
+
+    <ul id="example_get_serialized_options" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='alert($("#example_get_serialized_options").tagHandler("getSerializedOptions"));'>
+        <span class="ui-button-text">Get Serialized Options</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('addTag', 'New Tag')
+    </h3>
+    <p>Click on the button "Add Tag" to add a tag to the tag handler</p>
+
+    <pre class="prettyprint">
+    $("#some_selector).tagHandler('addTag', 'New Tag');
+    </pre>
+
+    <ul id="example_add_tag" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='var tagCount = $("#example_add_tag").tagHandler("getTags").length+1; $("#example_add_tag").tagHandler("addTag", "New Tag #"+tagCount);'>
+        <span class="ui-button-text">Add Tag</span>
+    </button>
+</div>
+
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('addOption', 'New Tag')
+    </h3>
+    <p>Click on the button "Add Option" to add a tag to the list of available tags</p>
+
+    <pre class="prettyprint">
+    $("#some_selector).tagHandler('addOption', 'New Tag');
+    </pre>
+
+    <ul id="example_add_option" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+        onclick='var tagCount = $("#example_add_option").tagHandler("getOptions").length+1; $("#example_add_option").tagHandler("addOption", "New Option #"+tagCount); $("#example_add_option").find(".tagInputField").trigger("focus");'>
+        <span class="ui-button-text">Add Option</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('destroy')
+    </h3>
+    <p>Destroy an active tag handler and return it to its original state</p>
+
+    <pre class="prettyprint">
+    $("#some_selector).tagHandler('addOption', 'New Tag');
+    </pre>
+
+    <ul id="example_destroy" class="methodExample">
+        <li>Initial State</li>
+    </ul>
+
+    <button id="destroy_button" class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='$("#example_destroy").tagHandler("destroy"); $("#destroy_button").hide(); $("#readd_button").show();'>
+        <span class="ui-button-text">Destroy Tag Handler</span>
+    </button>
+
+    <button id="readd_button" class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="display: none;"
+            onclick='$("#example_destroy").tagHandler({assignedTags: [ "C", "Perl", "PHP" ], availableTags: [ "C", "C++","C#","Java", "Perl", "PHP", "Python" ], autocomplete: true}); $("#destroy_button").show(); $("#readd_button").hide();'>
+        <span class="ui-button-text">Restart Tag Handler</span>
+    </button>
+</div>
+
+<div class="example">
+    <h3>
+        $("#some_selector).tagHandler('reload')
+    </h3>
+    <p>Restart the tag handler.  Make some changes and hit the Reload button to restore to it's original state.
+        This function will also make the ajax calls to re-initialize the tag handler as well.
+        Note: All unsaved changes will be lost!</p>
+
+    <pre class="prettyprint">
+    $("#some_selector).tagHandler('reload');
+    </pre>
+
+    <ul id="example_reload" class="methodExample"></ul>
+
+    <button class="methodButton ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+            onclick='$("#example_reload").tagHandler("reload");'>
+        <span class="ui-button-text">Reload</span>
+    </button>
+</div>
+
+
+<h2>Plugin Options</h2>
+
+
+
+<table>
+    <tr>
+        <td colspan="3"><h3>Tag data specific options:</h3></td>
+    </tr>
+    <tr>
+        <td class="tableHeadline">Option</td>
+        <td class="tableHeadline">Description</td>
+        <td class="tableHeadline">Default Value</td>
+    </tr>
+    <tr>
+        <td>assignedTags</td>
+        <td>array to pass a list of already assigned tags</td>
+        <td>[]</td>
+    </tr>
+    <tr>
+        <td>availableTags</td>
+        <td>array to pass a list of all available tags</td>
+        <td>[]</td>
+    </tr>
+    <tr>
+        <td>getData</td>
+        <td>data field with additional info for getURL</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>getURL</td>
+        <td>URL for retrieving tag lists via ajax</td>
+        <td>&quote;&quote;</td>
+    </tr>
+    <tr>
+        <td>initLoad</td>
+        <td>indicates if all tags should be loaded on init</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>updateData</td>
+        <td>data field with additional info for updtateURL</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>updateURL</td>
+        <td>URL for saving tags via ajax </td>
+        <td>&quote;&quote;</td>
+    </tr>
+
+
+    <tr>
+        <td colspan="3"><h3>Callback options:</h3></td>
+    </tr>
+    <tr>
+        <td class="tableHeadline">Option</td>
+        <td class="tableHeadline">Description</td>
+        <td class="tableHeadline">Default Value</td>
+    </tr>
+    <tr>
+        <td>afterAdd</td>
+        <td>function to be called after a new tag is added</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>afterDelete</td>
+        <td>function to be called after a tag is deleted</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>onAdd</td>
+        <td>function to be called when a new tag is added -- if a false value is returned, the add will fail</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>onDelete</td>
+        <td>function to be called when a tag is deleted</td>
+        <td>{}</td>
+    </tr>
+    <tr>
+        <td>onIsValid</td>
+        <td>function to be called for custom validation of tags.  Must return true if tag passes inspection
+            or false if it fails.
+        </td>
+        <td>{}</td>
+    </tr>
+
+
+    <tr>
+        <td colspan="3"><h3>Miscellaneous options</h3></td>
+    </tr>
+    <tr>
+        <td class="tableHeadline">Option</td>
+        <td class="tableHeadline">Description</td>
+        <td class="tableHeadline">Default Value</td>
+    </tr>
+    <tr>
+        <td>allowAdd</td>
+        <td>indicates whether the user can add new tags</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>allowEdit</td>
+        <td>indicates whether the tag list is editable</td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>autocomplete</td>
+        <td>activates autocomplete dropdown functionality for tag name - requires jqueryui autocomplete plugin</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>autoUpdate</td>
+        <td>indicates whether updating occurs automatically whenever a tag is added/deleted - if set true, the save button will not be shown</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>className</td>
+        <td>base class name that will be added to the tag container</td>
+        <td>tagHandler</td>
+    </tr>
+    <tr>
+        <td>debug</td>
+        <td>will turn on some console logging debug information</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>delimiter</td>
+        <td>extra delimiter to use to separate tags - note 'enter', 'comma', and 'tab' are always allowed</td>
+        <td>false</td>
+    </tr>
+    <tr>
+        <td>maxTags</td>
+        <td>sets a limit to the number of allowed tags, set to 0 to allow unlimited</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>minChars</td>
+        <td>minimum number of chars to type before starting autocomplete</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>msgError</td>
+        <td>message shown when there is an error loading the tags</td>
+        <td>There was an error getting the tag list. </td>
+    </tr>
+    <tr>
+        <td>msgNoNewTag</td>
+        <td>message shown when the user cannot add a new tag</td>
+        <td>You don't have permission to create a new tag. </td>
+    </tr>
+    <tr>
+        <td>msgMaxTags</td>
+        <td>message shown when the user has reached the maximum amount of tags allowed</td>
+        <td>Maximum tags allowed:</td>
+    </tr>
+    <tr>
+        <td>queryname</td>
+        <td>query term used to send user typed data to the server </td>
+        <td>q</td>
+    </tr>
+    <tr>
+        <td>sortTags</td>
+        <td>sets sorting of tag names alphabetically </td>
+        <td>true</td>
+    </tr>
+    <tr>
+        <td>jqueryTheme</td>
+        <td>Use the Jquiry UI Theme instead of default</td>
+        <td>false</td>
+    </tr>
+
+
+    <tr>
+        <td colspan="3"><h3>Plugin Methods</h3></td>
+    </tr>
+    <tr>
+        <td class="tableHeadline">Method</td>
+        <td class="tableHeadline">Description</td>
+        <td class="tableHeadline">Usage</td>
+    </tr>
+    <tr>
+        <td>getSerializedTags</td>
+        <td>Will return a comma separated string of the currently assigned tags for the object.</td>
+        <td>.tagHandler("getSerializedTags")</td>
+    </tr>
+    <tr>
+        <td>getTags</td>
+        <td>Will return an array of the currently assigned tags for the object.</td>
+        <td>.tagHandler("getTags")</td>
+    </tr>
+    <tr>
+        <td>getSerializedOptions</td>
+        <td>Will return a comma separated string of all available options.  Includes the current selected tags well.</td>
+        <td>.tagHandler("getSerializedOptions")</td>
+    </tr>
+    <tr>
+        <td>getOptions</td>
+        <td>Will return an array of all available options.  Includes the current selected tags well.</td>
+        <td>.tagHandler("getTags")</td>
+    </tr>
+    <tr>
+        <td>addTag</td>
+        <td>Will add a new tag to the list of assigned tags.</td>
+        <td>.tagHandler("addTag", "New Tag")</td>
+    </tr>
+    <tr>
+        <td>removeTag</td>
+        <td>Will remove a tag from the list of assigned tags and move it to the available tags instead.</td>
+        <td>.tagHandler("removeTag", "Tag To Remove")</td>
+    </tr>
+    <tr>
+        <td>addOption</td>
+        <td>Will add a tag to the list of available tags.</td>
+        <td>.tagHandler("addOption", "New Option")</td>
+    </tr>
+    <tr>
+        <td>saveTags</td>
+        <td>Will force a save of current tags.  Only works if updateURL is passed in</td>
+        <td>.tagHandler("saveTags")</td>
+    </tr>
+    <tr>
+        <td>destroy</td>
+        <td>Destory a current taghandler and restore the selector to it's initial state</td>
+        <td>.tagHandler("destroy")</td>
+    </tr>
+    <tr>
+        <td>reload</td>
+        <td>Return the tagHandler to it's inital state.  See example above for more details</td>
+        <td>.tagHandler("reload")</td>
+    </tr>
+    <tr>
+        <td>version</td>
+        <td>Returns the version of the TagHandler </td>
+        <td>.tagHandler("version")</td>
+    </tr>
+
+</table>
+
+</body>
+
+
+</html>
