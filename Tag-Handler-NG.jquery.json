@@ -1,7 +1,7 @@
 {
   "name": "Tag-Handler-NG",
   "description": "Tag Handler is a jQuery plugin used for managing tag-type metadata. This plugin is a fork and rewrite of Mark Jubenville original Tag-Handler.",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "title": "Tag Handler NG",
   "keywords": [
     "Tag",
@@ -12,9 +12,9 @@
     "AJAX"
   ],
   "author": {
-            "name": "Mark Jubenville",
-            "email": "ioncache@gmail.com",
-            "web": "http://github.com/ioncache"
+      "name": "Westin Shafer",
+      "email": "shafer_w2002@yahoo.com",
+      "web": "http://wshafer.github.io/Tag-Handler"
   },
   "maintainers": [
     {
