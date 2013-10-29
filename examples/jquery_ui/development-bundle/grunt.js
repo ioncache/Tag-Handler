@@ -116,7 +116,7 @@ function createBanner( files ) {
 }
 
 grunt.initConfig({
-	pkg: "<json:package.json>",
+	pkg: "<json:Tag-Handler-NG.jquery.json>",
 	files: {
 		dist: "<%= pkg.name %>-<%= pkg.version %>",
 		cdn: "<%= pkg.name %>-<%= pkg.version %>-cdn",
@@ -159,7 +159,7 @@ grunt.initConfig({
 				"MIT-LICENSE.txt",
 				"README.md",
 				"grunt.js",
-				"package.json",
+				"Tag-Handler-NG.jquery.json",
 				"*.jquery.json",
 				"ui/**/*",
 				"ui/.jshintrc",
@@ -203,7 +203,7 @@ grunt.initConfig({
 				"AUTHORS.txt",
 				"MIT-LICENSE.txt",
 				"ui/*.js",
-				"package.json"
+				"Tag-Handler-NG.jquery.json"
 			],
 			renames: {
 				"dist/jquery-ui.js": "jquery-ui.js",
@@ -244,7 +244,7 @@ grunt.initConfig({
 			src: [
 				"AUTHORS.txt",
 				"MIT-LICENSE.txt",
-				"package.json"
+				"Tag-Handler-NG.jquery.json"
 			],
 			dest: "dist/<%= files.themes %>"
 		}
