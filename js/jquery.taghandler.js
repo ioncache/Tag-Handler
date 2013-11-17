@@ -29,6 +29,16 @@ http://www.famfamfam.com/lab/icons/silk/
 Loader image created at:
 Preloaders.net
 http://preloaders.net/
+
+Updates from Inducido 
+if I type "postgressql" & in my avaliable list I have "PostgresSQL" (or type "java" vs "Java"), 
+I want the autocomplete to add the latter.
+I also added a foolproof behavior (that I got) where "PostgresSQL" is actually "PostgresSQL " 
+int the available list (with a space)
+
+another update : on top of the "ignorecase" feature, I added a feature like UpdateURL but 
+"updateField" instead --> it is meant to automatically update an hidden field using the result 
+of getSerializedTags()
     
 ------------------------------------------------------------------------------
 Description 
@@ -118,6 +128,7 @@ getURL          URL for retrieving tag lists via ajax           {}
 initLoad        indicates if all tags should be loaded on init  true
 updateData      data field with additional info for updtateURL  {}
 updateURL       URL for saving tags via ajax                    ''
+updateField     URL for saving tags                             ''
 
 Callback options:
 -----------------
@@ -185,6 +196,25 @@ You should have received a copy of the Lesser GNU General Public License
 along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
 */
+
+
+if(String.prototype.alltrim==null)
+String.prototype.alltrim = function()
+{
+    //return this.replace(/(^\s*)|(\s*$)/g,'');
+    //bizzarement \s ne remplacais pas les \n en debut de chain alors que 
+    // \s veut dire espace et \r ou \n en regexp-->balec, je fait bourrin
+    //je viens de comprendre: chorme a un trim natif
+    return this.replace(/(^[\n\s\r]*)|([\n\s\r]*$)/g,'');
+}
+
+if(String.prototype.equalsIgnoreCase==null)
+String.prototype.equalsIgnoreCase=myEqualsIgnoreCase;
+
+function myEqualsIgnoreCase(arg)
+{               
+        return (new String(this.toLowerCase())==(new String(arg)).toLowerCase());
+}
 
 (function ($) {
 
@@ -260,6 +290,88 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         }).appendTo(tagContainerObject.parent());
                     }
                     $("<div />").attr({ id: tagContainer.id + "_loader", title: "Saving Tags" }).addClass("tagLoader").appendTo(tagContainerObject.parent());
+                }
+
+                // adds autocomplete functionality for the tag names
+                if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
+                    $(inputField).autocomplete({
+                        source: tags.availableTags,
+                        select: function (event, ui) {
+                            var $el = $(this);
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                }
+                                else {
+                                    var newTag = $.trim(ui.item.value);
+                                    var rc = 1;
+                                    if (typeof(opts.onAdd) == "function") {
+                                        rc = opts.onAdd.call(this, newTag);
+                                    }
+                                    if (rc || typeof(rc) == "undefined") {
+                                        tags = addTag(this, newTag, tags, opts.sortTags);
+                                        if (opts.updateURL !== '' && opts.autoUpdate) {
+                                            saveTags(tags, opts, tagContainer.id);
+                                        }
+                                            if (opts.updateField !== '') {
+                                                saveTagsToField(tags, opts, tagContainer.id);
+                                            }
+                                        $(inputField).autocomplete("option", "source", tags.availableTags);
+                                        if (typeof(opts.afterAdd) == "function") {
+                                            opts.afterAdd.call(this, newTag);
+                                        }
+                                    }
+                                }
+                                $el.focus();
+                            }
+                            $el.val("");
+                            return false;
+                        },
+                        minLength: opts.minChars
+                    });
+                }
+                // Make an AJAX request to get the list of tags based on typed data
+                else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
+                    $(inputField).autocomplete({
+                        source: function (request, response) {
+                            opts.getData[opts.queryname] = request.term;
+                            var lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
+                                response(data.availableTags);
+                            });
+                        },
+                        select: function (event, ui) {
+                            var $el = $(this);
+                            if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
+                                    alert('Maximum tags allowed: ' + opts.maxTags);
+                                }
+                                else {
+                                    var newTag = $.trim(ui.item.value);
+                                    var rc = 1;
+                                    if (typeof(opts.onAdd) == "function") {
+                                        opts.onAdd.call(this, newTag);
+                                    }
+                                    if (rc || typeof(rc) == "undefined") {
+                                        tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
+                                        if (opts.updateURL !== '' && opts.autoUpdate) {
+                                            saveTags(tags, opts, tagContainer.id);
+                                        }
+                                            if (opts.updateField !== '') {
+                                                saveTagsToField(tags, opts, tagContainer.id);
+                                            }
+                                        if (typeof(opts.afterAdd) == "function") {
+                                            opts.afterAdd.call(this, newTag);
+                                        }
+                                    }
+                                }
+                                $el.focus();
+                            }
+                            $el.val('');
+                            return false;
+                        },
+                        minLength: opts.minChars
+                    });
+ 
                 }
 
                 // initializes the tag lists
@@ -349,6 +461,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
+                            if (opts.updateField !== '') {
+                                saveTagsToField(tags, opts, tagContainer.id);
+                            }
+                            
                         }
 
                         if (typeof(opts.afterDelete) == "function") {
@@ -392,6 +508,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                         if (opts.updateURL !== '' && opts.autoUpdate) {
                                             saveTags(tags, opts, tagContainer.id);
                                         }
+                                        if (opts.updateField !== '') {
+                                            saveTagsToField(tags, opts, tagContainer.id);
+                                        }
                                         if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initload) {
                                             $(inputField).autocomplete("option", "source", tags.availableTags);
                                         }
@@ -419,6 +538,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
+                            if (opts.updateField !== '') {
+                                saveTagsToField(tags, opts, tagContainer.id);
+                            }
                             if (typeof(opts.afterDelete) == "function") {
                                 opts.afterDelete.call(this, $.trim(deleted_tag));
                             }
@@ -428,81 +550,6 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             $el.focus();
                         }
                     });
-
-                    // adds autocomplete functionality for the tag names
-                    if (opts.autocomplete && typeof($.fn.autocomplete) == 'function' && opts.initLoad) {
-                        $(inputField).autocomplete({
-                            source: tags.availableTags,
-                            select: function (event, ui) {
-                                var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                    if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                                        alert('Maximum tags allowed: ' + opts.maxTags);
-                                    }
-                                    else {
-                                        var newTag = $.trim(ui.item.value);
-                                        var rc = 1;
-                                        if (typeof(opts.onAdd) == "function") {
-                                            rc = opts.onAdd.call(this, newTag);
-                                        }
-                                        if (rc || typeof(rc) == "undefined") {
-                                            tags = addTag(this, newTag, tags, opts.sortTags);
-                                            if (opts.updateURL !== '' && opts.autoUpdate) {
-                                                saveTags(tags, opts, tagContainer.id);
-                                            }
-                                            $(inputField).autocomplete("option", "source", tags.availableTags);
-                                            if (typeof(opts.afterAdd) == "function") {
-                                                opts.afterAdd.call(this, newTag);
-                                            }
-                                        }
-                                    }
-                                    $el.focus();
-                                }
-                                $el.val("");
-                                return false;
-                            },
-                            minLength: opts.minChars
-                        });
-                    }
-                    // Make an AJAX request to get the list of tags based on typed data
-                    else if (opts.autocomplete && typeof($.fn.autocomplete) == 'function') {
-                        $(inputField).autocomplete({
-                            source: function (request, response) {
-                                opts.getData[opts.queryname] = request.term;
-                                var lastXhr = $.getJSON(opts.getURL, opts.getData, function (data, status, xhr) {
-                                    response(data.availableTags);
-                                });
-                            },
-                            select: function (event, ui) {
-                                var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
-                                    if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
-                                        alert('Maximum tags allowed: ' + opts.maxTags);
-                                    }
-                                    else {
-                                        var newTag = $.trim(ui.item.value);
-                                        var rc = 1;
-                                        if (typeof(opts.onAdd) == "function") {
-                                            opts.onAdd.call(this, newTag);
-                                        }
-                                        if (rc || typeof(rc) == "undefined") {
-                                            tags = addTag(this, $.trim(ui.item.value), tags, opts.sortTags);
-                                            if (opts.updateURL !== '' && opts.autoUpdate) {
-                                                saveTags(tags, opts, tagContainer.id);
-                                            }
-                                            if (typeof(opts.afterAdd) == "function") {
-                                                opts.afterAdd.call(this, newTag);
-                                            }
-                                        }
-                                    }
-                                    $el.focus();
-                                }
-                                $el.val('');
-                                return false;
-                            },
-                            minLength: opts.minChars
-                        });
-                    }
 
                     // sets the input field to show the autocomplete list on focus
                     // when there is no value
@@ -555,15 +602,22 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
         queryname: 'q',
         sortTags: true,
         updateData: {},
-        updateURL: ''
+        updateURL: '',
+        updateField: ''
     };
 
     // checks to to see if a tag is already found in a list of tags
+    // now return the correected value
     function checkTag(value, tags) {
         var check = false;
         jQuery.each(tags, function (i, e) {
-            if (e === value) {
-                check = true;
+
+//alltrim to handle when there's space in the tag list by mistake
+            if (e && e.alltrim().equalsIgnoreCase(value)) {
+//            if ((new String(e.toString())).toLowercase() === (new String(value.toString())).toString().toLowercase()) {
+//            if (e === value) {
+//                check = true;
+                check = e.alltrim();
                 return false;
             }
         });
@@ -574,7 +628,18 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
     // removes a tag from a tag list
     function removeTagFromList(value, tags) {
         jQuery.each(tags, function (i, e) {
-            if (e === value) {
+              
+            //if (e === value) {
+            //added the ignorecase fonctionality
+//"2G".toLowercase()
+//TypeError: Object 2G has no method 'toLowercase'  -- d'ou le new String
+//            var se=(new String(e.toString())).toLowercase();
+//            var sv=(new String(value.toString())).toLowercase();
+             //alltrim to handle when there's space in the tag list by mistake
+            if (e && e.alltrim().equalsIgnoreCase(value)) {
+//            if ((new String(e.toString())).toLowercase() === (new String(value.toString())).toString().toLowercase()) {
+//            if (se.toLowercase() === sv.toLowercase()) {
+//            if (se === sv) {
                 tags.splice(i, 1);
             }
         });
@@ -584,6 +649,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
     // adds a tag to the tag box and the assignedTags list
     function addTag(tagField, value, tags, sort) {
+        newvalue=checkTag($.trim(value), tags.availableTags);
+        if(newvalue)
+        value=newvalue;
+        
         tags.assignedTags.push(value);
         tags.availableTags = removeTagFromList(value, tags.availableTags);
         $("<li />").addClass("tagItem").text(value).insertBefore($(tagField).parent());
@@ -616,6 +685,17 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
         tags.originalTags = tags.originalTags.sort();
 
         return tags;
+    }
+
+    // saves the tags to a field 
+    function saveTagsToField(tags, opts, tcID) {
+        var sendData = {
+            tags: tags.assignedTags
+        };
+	test= $('#'+tcID).tagHandler("getSerializedTags");
+//        test=getSerializedTags();
+        $(opts.updateField).val(test);
+
     }
 
     // saves the tags to the server via ajax
