@@ -21,7 +21,7 @@
     "http://ioncache.github.com/Tag-Handler/#examples"
   ],
   "dependencies": {
-    "jQuery": ">1.4.4"
+    "jQuery": ">=1.4.4"
   },
   "bugs": {
     "web": "https://github.com/ioncache/Tag-Handler/issues?sort=created&direction=desc&state=open"
