@@ -157,6 +157,7 @@ create a new
 tag.'
 queryname       query term used to send user typed data         'q'
 sortTags        sets sorting of tag names alphabetically        true
+tagOnBlur       allow create a tag on onblur event              true
 
 Methods
 ----------------------
@@ -362,9 +363,9 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
 
                     // checks the keypress event for enter or comma, and adds a new tag
                     // when either of those keys are pressed
-                    $(inputField).keypress(function (e) {
+                    $(inputField).on('keypress' + (opts.tagOnBlur ? ' blur' : ''), function (e) {
                         var $el = $(this);
-                        if (e.which === 13 || e.which === 44 || e.which === opts.delimiter.charCodeAt(0)) {
+                        if (e.type === 'blur' || e.which === 13 || e.which === 44 || e.which === opts.delimiter.charCodeAt(0)) {
                             e.preventDefault();
                             if ($el.val() !== "" && !checkTag($.trim($el.val()), tags.assignedTags)) {
 
@@ -401,7 +402,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                                     }
                                 }
                                 $el.val("");
-                                $el.focus();
+                                if (e.type !== 'blur') $el.focus();
                             }
                         }
                     });
@@ -541,6 +542,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
         className: 'tagHandler',
         debug: false,
         delimiter: '',
+        tagOnBlur: true,
         getData: {},
         getURL: '',
         initLoad: true,
