@@ -205,7 +205,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
             return currentTags;
         },
         version: function () {
-            return "1.3.0";
+            return "1.3.1";
         }
     };
 
