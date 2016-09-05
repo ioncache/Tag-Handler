@@ -1,7 +1,10 @@
 Revision history for jQuery Tag-Handler plugin
 
+1.3.2 2016-09-05
+    - case sensitive option added
+    
 1.3.1 2012-09-10
-    - fixed issue with autoUpdate when the tag didn't exist before
+    - fixed issue with autoUpdate when the tag didn't exist before    
 
 1.3.0 2012-05-05
     - added afterAdd and afterDelete callbacks -- pull request from liddellj
