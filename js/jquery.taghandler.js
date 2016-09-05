@@ -205,7 +205,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
             return currentTags;
         },
         version: function () {
-            return "1.3.1";
+            return "1.3.2";
         }
     };
 
@@ -345,7 +345,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         }
 
                         if (rc) {
-                            tags = removeTag($el, tags, opts.sortTags);
+                            tags = removeTag($el, tags, opts.sortTags, opts.caseSensitive);
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
@@ -366,10 +366,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                         var $el = $(this);
                         if (e.which === 13 || e.which === 44 || e.which === opts.delimiter.charCodeAt(0)) {
                             e.preventDefault();
-                            if ($el.val() !== "" && !checkTag($.trim($el.val()), tags.assignedTags)) {
+                            if ($el.val() !== "" && !checkTag($.trim($el.val()), tags.assignedTags, opts.caseSensitive)) {
 
                                 // check if the tag is in availableTags
-                                if (!opts.allowAdd && !checkTag($.trim($el.val()), tags.availableTags)) {
+                                if (!opts.allowAdd && !checkTag($.trim($el.val()), tags.availableTags, opts.caseSensitive)) {
                                     alert(opts.msgNoNewTag);
                                     return;
                                 }
@@ -415,7 +415,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             if (typeof(opts.onDelete) == "function") {
                                 opts.onDelete.call(this, $.trim(deleted_tag));
                             }
-                            tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags);
+                            tags = removeTag(tagContainerObject.find(".tagItem:last"), tags, opts.sortTags, opts.caseSensitive);
                             if (opts.updateURL !== '' && opts.autoUpdate) {
                                 saveTags(tags, opts, tagContainer.id);
                             }
@@ -435,7 +435,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             source: tags.availableTags,
                             select: function (event, ui) {
                                 var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (!checkTag($.trim(ui.item.value), tags.assignedTags, opts.caseSensitive)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
                                     }
@@ -475,7 +475,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
                             },
                             select: function (event, ui) {
                                 var $el = $(this);
-                                if (!checkTag($.trim(ui.item.value), tags.assignedTags)) {
+                                if (!checkTag($.trim(ui.item.value), tags.assignedTags, opts.caseSensitive)) {
                                     if (opts.maxTags > 0 && tags.assignedTags.length >= opts.maxTags) {
                                         alert('Maximum tags allowed: ' + opts.maxTags);
                                     }
@@ -538,6 +538,7 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
         autocomplete: false,
         autoUpdate: false,
         availableTags: [],
+        caseSensitive: true,
         className: 'tagHandler',
         debug: false,
         delimiter: '',
@@ -559,9 +560,13 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
     };
 
     // checks to to see if a tag is already found in a list of tags
-    function checkTag(value, tags) {
+    function checkTag(value, tags, caseSensitive) {
         var check = false;
         jQuery.each(tags, function (i, e) {
+            if (!caseSensitive) {
+        	e = e.toLowerCase();
+        	value = value.toLowerCase();
+            }
             if (e === value) {
                 check = true;
                 return false;
@@ -595,10 +600,10 @@ along with this program.  If not, see < http://www.gnu.org/licenses/ >.
     }
 
     // removes a tag from the tag box and the assignedTags list
-    function removeTag(tag, tags, sort) {
+    function removeTag(tag, tags, sort, caseSensitive) {
         var value = $(tag).text();
         tags.assignedTags = removeTagFromList(value, tags.assignedTags);
-        if (checkTag(value, tags.originalTags)) {
+        if (checkTag(value, tags.originalTags, caseSensitive)) {
             tags.availableTags.push(value);
         }
         $(tag).remove();
