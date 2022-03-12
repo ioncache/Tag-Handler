@@ -96,10 +96,10 @@ assignedTags and availableTags arrays, and autocomplete witll be
 turned on:
     
 ```javascript
-    $("#array_tag_handler").tagHandler({
-assignedTags: [ 'Perl' ],
-availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
-autocomplete: true
+$("#array_tag_handler").tagHandler({
+    assignedTags: [ 'Perl' ],
+    availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+    autocomplete: true
 });
 ```
     
