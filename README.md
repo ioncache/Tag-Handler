@@ -48,18 +48,18 @@ by clicking on the tag.
     
 * The list of tags may be initialized in 1 of 3 ways:
     
-1. By passing arrays of tag names as options to the plugin
+  1. By passing arrays of tag names as options to the plugin
 ("availableTags" and "assignedTags"); or,
     
-2. By supplying a "getURL" for the tags to be retrieved via AJAX.
+  2. By supplying a "getURL" for the tags to be retrieved via AJAX.
     
-When using this method, the server must supply a JSON formatted array
+     When using this method, the server must supply a JSON formatted array
 named "availableTags" and optionally an additional array named
 "assignedTags".
 
-3. By supplying a "getURL" and initLoad: false.
+  3. By supplying a "getURL" and initLoad: false.
     
-When using this method, it will get the "assignedTags" from the array as in 
+     When using this method, it will get the "assignedTags" from the array as in 
 method 1. When the user writes a tag, it will query the server searching for
 similar tags.        
 
