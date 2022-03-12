@@ -87,20 +87,25 @@ Plugin Examples
 Example 1: The Tag Handler will be initialized with no options and no default
 tags:
     
+```javascript
 $("#basic_tag_handler").tagHandler();
+```
     
 Example 2: The Tag Handler will be initialized with preset tags from the
 assignedTags and availableTags arrays, and autocomplete witll be
 turned on:
     
-$("#array_tag_handler").tagHandler({
+```javascript
+    $("#array_tag_handler").tagHandler({
 assignedTags: [ 'Perl' ],
 availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
 autocomplete: true
 });
+```
     
 See https://ioncache.github.io/Tag-Handler/ for more examples
-    
+ 
+```
 ------------------------------------------------------------------------------
 Plugin Options
 ------------------------------------------------------------------------------
@@ -182,3 +187,4 @@ Lesser GNU General Public License for more details.
     
 You should have received a copy of the Lesser GNU General Public License
 along with this program.  If not, see < http://www.gnu.org/licenses/ >.
+```
