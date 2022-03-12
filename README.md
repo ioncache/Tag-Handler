@@ -99,7 +99,7 @@ availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
 autocomplete: true
 });
     
-See http://ioncache.github.com/Tag-Handler for more examples
+See https://ioncache.github.io/Tag-Handler/ for more examples
     
 ------------------------------------------------------------------------------
 Plugin Options
